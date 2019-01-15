@@ -5,7 +5,7 @@ import numpy as np
 class Node(DomainComponent):
 
     def __init__(self, tag, ndof, *Crd):
-        super().__init__()
+        super().__init__(tag)
         self.numberDOF = ndof          # number of dof at Node
         self.theDOF_Group = None    # pointer to associated DOF_Group
 
@@ -81,7 +81,7 @@ class Node(DomainComponent):
     # public methods dealing with the commited state of the node
     def commitState(self):
         # check disp exists, if does set commit = trial, incr = 0.0
-        if self.trialDisp != None:
+        if self.trialDisp is not None:
             for i in range(0, self.numberDOF):
                 self.disp[i+self.numberDOF] = self.disp[i]
                 self.disp[i+2*self.numberDOF] = 0.0
@@ -92,7 +92,7 @@ class Node(DomainComponent):
 
     def revertToLastCommit(self):
         # check disp exists, if does set trial = last commit, incr = 0
-        if(self.disp!=[]):
+        if self.disp!=[]:
             for i in range(0,self.numberDOF):
                 self.disp[i] = self.disp[i+self.numberDOF]
                 self.disp[i+2*self.numberDOF] = 0.0

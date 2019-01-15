@@ -1,7 +1,8 @@
-
-class DomainComponent():
+from TaggedObject import TaggedObject
+class DomainComponent(TaggedObject):
     
-    def __init__(self):
+    def __init__(self, tag):
+        super().__init__(tag)
         self.theDomain = None
     
     def setDomain(self, model):
