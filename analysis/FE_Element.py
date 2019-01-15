@@ -1,6 +1,6 @@
-from SRC.tagged.TaggedObject import TaggedObject
+from TaggedObject import TaggedObject
 import numpy as np
-from SRC.matrix.Vector import Vector
+
 
 class FE_Element(TaggedObject):
     # static variables - single copy for all objects of the class	
@@ -12,10 +12,8 @@ class FE_Element(TaggedObject):
 
     def __init__(self, tag, ele):
         super().__init__(tag)
-        # protected variables - a copy for each object of the class  
         self.myDOF_Groups = np.size(ele.getExternalNodes().Size())
         self.myID = np.zeros((ele.getNumDOF(),), dtype=int)
-        # private variables - a copy for each object of the class  
         self.numDOF = ele.getNumDOF()
         self.theModel = None
         self.myEle = ele
@@ -28,7 +26,7 @@ class FE_Element(TaggedObject):
         
         # get element domain and check if it is valid
         theDomain = ele.getDomain()
-        if(theDomain==None):
+        if theDomain is None:
             print('FE_Element::FE_Element() - element has no domain')
         
         numGroup = ele.getNumExternalNodes()
@@ -46,14 +44,14 @@ class FE_Element(TaggedObject):
 
     def setID(self):
         current = 0
-        if self.theModel == None:
+        if self.theModel is None:
             print('WARNING FE_Element::setID() - no AnalysisModel set.\n')
             return -1
         numGrps = self.myDOF_Groups.Size()
         for i in range(0, numGrps):
             tag = self.myDOF_Groups[i]
             dof = self.theModel.getDOF_Group(tag)
-            if dof == None:
+            if dof is None:
                 print('WARNING FE_Element::setID: 0 DOF_Group Pointer.\n')
                 return -2
             theDOFid = dof.getID()
@@ -69,11 +67,10 @@ class FE_Element(TaggedObject):
     # methods to form and obtain the tangent and residual
     def getTangent(self, theNewIntegrator): # subdomain 未编
         self.theIntegrator = theNewIntegrator
-        if self.myEle == None:
+        if self.myEle is None:
             print('FATAL FE_Element::getTangent() - no Element *given.\n')
-            exit(self, -1)
         if self.myEle.isSubdomain() == False:
-            if theNewIntegrator != None:
+            if theNewIntegrator is not None:
                 theNewIntegrator.formEleTangent(self)
                 return self.theTangent
         else:
@@ -243,15 +240,15 @@ class FE_Element(TaggedObject):
 
 
 
-    def getC_Force(self, x, fact=1.0):
-        pass
-    def getM_Force(self, x, fact=1.0):
-        pass
-
-    def addM_Force(self, accel, fact=1.0):
-        pass
-    def addD_Force(self, vel, fact=1.0):
-        pass
+    # def getC_Force(self, x, fact=1.0):
+    #     pass
+    # def getM_Force(self, x, fact=1.0):
+    #     pass
+    #
+    # def addM_Force(self, accel, fact=1.0):
+    #     pass
+    # def addD_Force(self, vel, fact=1.0):
+    #     pass
 
     def addK_Force(self, disp, fact=1.0):
         if self.myEle != None:
@@ -286,7 +283,7 @@ class FE_Element(TaggedObject):
             print('WARNING FE_Element::addKg_Force() - no Element *given.\n')
     
     def updateElement(self):
-        if self.myEle!=None:
+        if self.myEle is not None:
             return self.myEle.update()
         # else: =None 不用 print 吗？
         return 0
@@ -311,10 +308,10 @@ class FE_Element(TaggedObject):
         return self.myEle
     
     # protected:
-    def addLocalM_Force(self, accel, fact=1.0):
-        pass
-    def addLocalD_Force(self, vel, fact=1.0):
-        pass
+    # def addLocalM_Force(self, accel, fact=1.0):
+    #     pass
+    # def addLocalD_Force(self, vel, fact=1.0):
+    #     pass
         
 
     
