@@ -11,9 +11,9 @@ class PlainNumberer(DOF_Numberer):
         # get a pointer to the model & check its not null
         theModel = self.getAnalysisModel()
         theDomain = None
-        if theModel != None:
+        if theModel is not None:
             theDomain = theModel.getDomain()
-        if theModel == None or theDomain == None:
+        if theModel is None or theDomain is None:
             print('WARNING PlainNumberer::numberDOF(int) - - no AnalysisModel - has setLinks() been invoked?\n')
             return -1
         if lastDOF!=-1:
