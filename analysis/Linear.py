@@ -1,5 +1,6 @@
 from analysis.EquiSolnAlgo import EquiSolnAlgo
 
+
 class Linear(EquiSolnAlgo):
     CURRENT_TANGENT = 0
 

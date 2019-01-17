@@ -1,12 +1,4 @@
-from analysis.system_of_eqn import LinearSOE
-# LinearSOE:
-# storing linear system of equations of form Ax = b
-# abstract base class, subclasses are:
-# BandSPDLinearSOE
-# SparseSPDLinearSOE
-# BandGeneralLinearSOE
-# EleByEleLinearSOE
-# subclass do not actually store the components of the system, for example the A matrix
+from analysis.system_of_eqn.LinearSOE import LinearSOE
 
 
 class FullGenLinSOE(LinearSOE):

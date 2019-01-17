@@ -136,7 +136,7 @@ class FE_Element(TaggedObject):
             if fact == 0.0:
                 return 
             else:
-                self.theTangent.addMatrix(1.0, self.myEle.getTangentStiff(), fact)
+                self.theTangent += self.myEle.getTangentStiff() * fact
 
     def addKiToTang(self, fact=1.0):
         if self.myEle is not None:
@@ -144,7 +144,7 @@ class FE_Element(TaggedObject):
             if fact == 0.0:
                 return 
             else:
-                self.theTangent.addMatrix(1.0, self.myEle.getInitialStiff(), fact)
+                self.theTangent += self.myEle.getInitialStiff() * fact
 
     def addKgToTang(self, fact=1.0):
         if self.myEle is not None:
@@ -152,7 +152,7 @@ class FE_Element(TaggedObject):
             if fact == 0.0:
                 return 
             else:
-                self.theTangent.addMatrix(1.0, self.myEle.getGeometricTangentStiff(), fact)
+                self.theTangent += self.myEle.getGeometricTangentStiff() * fact
 
     # def addCtoTang(self, fact=1.0):
     #     pass
@@ -166,8 +166,8 @@ class FE_Element(TaggedObject):
                 return 
             else:
                 thePrevMat = self.myEle.getPreviousK(numP)
-                if thePrevMat != None:
-                    self.theTangent.addMatrix(1.0, thePrevMat, fact)
+                if thePrevMat is not None:
+                    self.theTangent += thePrevMat * fact
 
     def storePreviousK(self, numP):
         res = None
@@ -178,34 +178,34 @@ class FE_Element(TaggedObject):
     # methods to allow integrator to build residual
     def zeroResidual(self):
         if self.myEle is not None:
-                self.theResidual.Zero()
+                self.theResidual[:] = 0.0
         else:
             print('FATAL FE_Element::zeroResidual() - no Element *given.\n')
 
     def addRtoResidual(self, fact=1.0):
-        if self.myEle != None:
+        if self.myEle is not None:
             # check for a quick return 
             if fact == 0.0:
                 return 
             eleResisting = self.myEle.getResistingForce()
-            self.theResidual.addVector(1.0, eleResisting, -fact)
+            self.theResidual += (eleResisting * -1.0)
         else:
             print('FATAL FE_Element::addRtoResidual() - no Element *given.\n')
 
 
-    def addRIncInertiaToResidual(self, fact=1.0):
-        pass
+    # def addRIncInertiaToResidual(self, fact=1.0):
+    #     pass
     
     # methods for ele-by-ele strategies
     def getTangForce(self, disp, fact=1.0):
         if self.myEle is not None:
             # zero out the force vector
-            self.theResidual.Zero()
+            self.theResidual[:] = 0.0
             # check for a quick return
             if fact == 0.0:
                 return self.theResidual
             # get the component we need out of the vector and place in a temporary vector
-            tmp = Vector(self.numDOF)
+            tmp = np.zeros(self.numDOF)
             for i in range(0, self.numDOF):
                 dof = self.myID[i]
                 if dof >= 0:
@@ -214,8 +214,7 @@ class FE_Element(TaggedObject):
                     tmp[i] = 0.0
             # form the tangent again and then add the force
             self.theIntegrator.formEleTangent(self)
-            if self.theResidual.addMatrixVector(1.0, self.theTangent, tmp, fact) < 0:
-                print('WARNING FE_Element::getTangForce() - addMatrixVector returned error.\n')
+            self.theResidual += self.theTangent @ tmp * fact
             return self.theResidual
         else:
             print('WARNING FE_Element::addTangForce() - no Element *given.\n')
@@ -223,18 +222,17 @@ class FE_Element(TaggedObject):
 
     def getK_Force(self, disp, fact=1.0):
         if self.myEle is not None:
-            self.theResidual.Zero()
+            self.theResidual[:] = 0.0
             if fact == 0.0:
                 return self.theResidual
-            tmp = Vector(self.numDOF)
+            tmp = np.zeros(self.numDOF)
             for i in range(0, self.numDOF):
                 dof = self.myID[i]
                 if dof >= 0:
                     tmp[i] = disp[dof]
                 else:
                     tmp[i] = 0.0
-            if self.theResidual.addMatrixVector(1.0, self.myEle.getTangentStiff(), tmp, fact) < 0:
-                print('WARNING FE_Element::getKForce() - addMatrixVector returned error.\n')
+            self.theResidual += self.myEle.getTangentStiff() @ tmp * fact
             return self.theResidual
         else:
             print('WARNING FE_Element::getKForce() - no Element *given.\n')
@@ -242,18 +240,17 @@ class FE_Element(TaggedObject):
 
     def getKi_Force(self, disp, fact=1.0):
         if self.myEle is not None:
-            self.theResidual.Zero()
+            self.theResidual[:] = 0.0
             if fact == 0.0:
                 return self.theResidual
-            tmp = Vector(self.numDOF)
+            tmp = np.zeros(self.numDOF)
             for i in range(0, self.numDOF):
                 dof = self.myID[i]
                 if dof >= 0:
                     tmp[i] = disp[dof]
                 else:
                     tmp[i] = 0.0
-            if self.theResidual.addMatrixVector(1.0, self.myEle.getInitialStiff(), tmp, fact) < 0:
-                print('WARNING FE_Element::getKForce() - addMatrixVector returned error.\n')
+            self.theResidual += self.myEle.getInitialStiff() @ tmp * fact
             return self.theResidual
         else:
             print('WARNING FE_Element::getKForce() - no Element *given.\n')
@@ -275,15 +272,14 @@ class FE_Element(TaggedObject):
         if self.myEle is not None:
             if fact == 0.0:
                 return
-            tmp = Vector(self.numDOF)
+            tmp = np.zeros(self.numDOF)
             for i in range(0, self.numDOF):
                 loc = self.myID[i]
                 if loc >= 0:
                     tmp[i] = disp[loc]
                 else:
                     tmp[i] = 0.0
-            if self.theResidual.addMatrixVector(1.0, self.myEle.getTangentStiff(), tmp, fact) < 0:
-                print('WARNING FE_Element::addK_Force() - addMatrixVector returned error.\n')
+            self.theResidual += self.myEle.getTangentStiff() @ tmp * fact
         else:
             print('WARNING FE_Element::addK_Force() - no Element *given.\n')
 
@@ -291,15 +287,14 @@ class FE_Element(TaggedObject):
         if self.myEle is not None:
             if fact == 0.0:
                 return
-            tmp = Vector(self.numDOF)
+            tmp = np.zeros(self.numDOF)
             for i in range(0, self.numDOF):
                 loc = self.myID[i]
                 if loc >= 0:
                     tmp[i] = disp[loc]
                 else:
                     tmp[i] = 0.0
-            if self.theResidual.addMatrixVector(1.0, self.myEle.getGeometricTangentStiff(), tmp, fact) < 0:
-                print('WARNING FE_Element::addKg_Force() - addMatrixVector returned error.\n')
+            self.theResidual += self.myEle.getGeometricTangentStiff() @ tmp * fact
         else:
             print('WARNING FE_Element::addKg_Force() - no Element *given.\n')
     
@@ -318,7 +313,7 @@ class FE_Element(TaggedObject):
                 if self.theIntegrator.getLastResponse(self.theResidual, self.myID) < 0:
                     print('WARNING FE_Element::getLastResponse(void) - the Integrator had problems with getLastResponse().\n')
             else:
-                self.theResidual.Zero()
+                self.theResidual[:] = 0.0
                 print('WARNING  FE_Element::getLastResponse() - No Integrator yet passed.\n')
             return self.theResidual
         else:

@@ -4,10 +4,10 @@ import numpy as np
 
 class Truss(Element):
 
-    trussM2 = np.zeros(2, 2)
-    trussM4 = np.zeros(4, 4)
-    trussM6 = np.zeros(6, 6)
-    trussM12 = np.zeros(12, 12)
+    trussM2 = np.zeros((2, 2))
+    trussM4 = np.zeros((4, 4))
+    trussM6 = np.zeros((6, 6))
+    trussM12 = np.zeros((12, 12))
     trussV2 = np.zeros(2)
     trussV4 = np.zeros(4)
     trussV6 = np.zeros(6)

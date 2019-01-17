@@ -1,22 +1,19 @@
-import analysis.algorithm.Linear
-from analysis.analysis.StaticAnalysis import StaticAnalysis
-from analysis.numberer.DOF_Numberer import DOF_Numberer
-from analysis.handler.PenaltyConstraintHandler import \
-    PenaltyConstraintHandler
-from analysis.integrator.LoadControl import LoadControl
-from analysis.model.AnalysisModel import AnalysisModel
-from domain.domain.Domain import Domain
+from analysis.Linear import Linear
+from analysis.StaticAnalysis import StaticAnalysis
+from analysis.PlainNumberer import PlainNumberer
+from analysis.PlainHandler import PlainHandler
+from analysis.LoadControl import LoadControl
+from analysis.AnalysisModel import AnalysisModel
+from domain.Domain import Domain
 from domain.LoadPattern import LoadPattern
 from domain.NodalLoad import NodalLoad
 from domain.Node import Node
 from domain.SP_Constraint import SP_Constraint
-from domain.timeSeries.LinearSeries import LinearSeries
+from domain.LinearSeries import LinearSeries
 from element.Truss import Truss
-from graph.RCM import RCM
 from material.ElasticMaterial import ElasticMaterial
-from system_of_eqn.LinearSOE.bandSPD.BandSPDLinLapackSolver import \
-    BandSPDLinLapackSolver
-from system_of_eqn.LinearSOE.bandSPD.BandSPDLinSOE import BandSPDLinSOE
+from analysis.system_of_eqn.FullGenLinSolver import FullGenLinSolver
+from analysis.system_of_eqn.FullGenLinSOE import FullGenLinSOE
 
 theDomain = Domain()
 
@@ -64,13 +61,12 @@ theLoad = NodalLoad(1, 4, theLoadValues)
 theDomain.addNodalLoad(theLoad, 1)
 
 theModel = AnalysisModel()
-theSolnAlgo = analysis.algorithm.Linear.Linear()
+theSolnAlgo = Linear()
 theIntegrator = LoadControl(1.0, 1, 1.0, 1.0)
-theHandler = PenaltyConstraintHandler(1.0e8, 1.0e8)
-theRCM = RCM()
-theNumberer = DOF_Numberer(theRCM)
-theSolver = BandSPDLinLapackSolver()
-theSOE = BandSPDLinSOE(theSolver)
+theHandler = PlainHandler()
+theNumberer = PlainNumberer()
+theSolver = FullGenLinSolver()
+theSOE = FullGenLinSOE(theSolver)
 
 theAnalysis = StaticAnalysis(theDomain, theHandler, theNumberer, theModel, theSolnAlgo, theSOE, theIntegrator)
 
