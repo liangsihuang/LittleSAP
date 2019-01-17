@@ -12,8 +12,8 @@ class FE_Element(TaggedObject):
 
     def __init__(self, tag, ele):
         super().__init__(tag)
-        self.myDOF_Groups = np.size(ele.getExternalNodes().Size())
-        self.myID = np.zeros((ele.getNumDOF(),), dtype=int)
+        self.myDOF_Groups = np.size(len(ele.getExternalNodes()))
+        self.myID = np.zeros(ele.getNumDOF(), dtype=int)
         self.numDOF = ele.getNumDOF()
         self.theModel = None
         self.myEle = ele
@@ -21,16 +21,18 @@ class FE_Element(TaggedObject):
         self.theTangent = None # matrix
         self.theIntegrator = None # needed for subdomain???
 
-        if(self.numDOF<=0):
+        if self.numDOF<=0:
             print('FE_Element::FE_Element() - element must have 1 dof')
         
         # get element domain and check if it is valid
         theDomain = ele.getDomain()
         if theDomain is None:
             print('FE_Element::FE_Element() - element has no domain')
-        
+        # keep a pointer to all DOF_Groups
         numGroup = ele.getNumExternalNodes()
         nodes = ele.getExternalNodes()  # ID
+        
+
 
     # public methods for setting/obtaining mapping information
     def getDOFtags(self):

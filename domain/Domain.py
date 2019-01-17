@@ -23,41 +23,37 @@ class Domain(object):
     # methods to populate a domain (add components to a domain)
     def addNode(self, node):
         nodTag = node.getTag()
-        other = self.theNodes[nodTag]
-        if other != None:
+        other = self.theNodes.get(nodTag)
+        if other is not None:
             print('node with tag '+str(nodTag)+' already exist in domain./n' )
             return False
         
-        result = self.theNodes.addComponent(node)
-        if result == True:
-            node.setDomain(self)
-            self.domainChange()
-            # see if the physical bounds are changed 
-            # note this assumes 0,0,0,0,0,0 as startup min,max values
-            crds = node.getCrds()
-            dim = crds.Size()
-            if dim >= 1:
-                x = crds[0]
-                if x < self.theBounds[0]:
-                    self.theBounds[0] = x
-                if x > self.theBounds[3]:
-                    self.theBounds[3] = x
-            if dim >= 2:
-                y = crds[1]
-                if y < self.theBounds[1]:
-                    self.theBounds[1] = y
-                if y > self.theBounds[4]:
-                    self.theBounds[4] = y
-            if dim >= 3:
-                z = crds[2]
-                if z < self.theBounds[2]:
-                    self.theBounds[2] = z
-                if z > self.theBounds[5]:
-                    self.theBounds[5] = z
-        else:
-            print('Domain::addNode - node with tag '+str(nodTag)+' could not be added to container.\n')
+        self.theNodes[nodTag] = node
+        node.setDomain(self)
+        self.domainChange()
+        # see if the physical bounds are changed
+        # note this assumes 0,0,0,0,0,0 as startup min,max values
+        crds = node.getCrds()
+        dim = crds.Size()
+        if dim >= 1:
+            x = crds[0]
+            if x < self.theBounds[0]:
+                self.theBounds[0] = x
+            if x > self.theBounds[3]:
+                self.theBounds[3] = x
+        if dim >= 2:
+            y = crds[1]
+            if y < self.theBounds[1]:
+                self.theBounds[1] = y
+            if y > self.theBounds[4]:
+                self.theBounds[4] = y
+        if dim >= 3:
+            z = crds[2]
+            if z < self.theBounds[2]:
+                self.theBounds[2] = z
+            if z > self.theBounds[5]:
+                self.theBounds[5] = z
 
-        return result
 
     def addElement(self, element):
         eleTag = element.getTag()
@@ -67,38 +63,36 @@ class Domain(object):
         for i in range(0, nodes.Size()):
             nodeTag = nodes[i]
             node = self.getNode(nodeTag)
-            if node == None:
+            if node is None:
                 print('WARNING Domain::addElement - In element '+str(eleTag))
                 print('\n no Node '+str(nodes[i])+' exists in the domain.\n')
                 return False
             numDOF += node.getNumberDOF()
         # check if an Element with a similar tag already exists in the Domain
-        other = self.theElements[eleTag)
-        if other != None:
+        other = self.theElements.get(eleTag)
+        if other is not None:
             print('Domain::addElement - element with tag '+str(eleTag)+' already exist in domain./n')
             return False
         # add
-        result = self.theElements.addComponent(element)
-        if result == True:
-            element.setDomain(self)
-            element.update()
-            # finally check the ele has correct number of dof
-            if numDOF != element.getNumDOF():
-                print('Domain::addElement - element '+str(eleTag)+' - #DOF does not match with number at nodes.\n')
-                self.theElements.removeComponent(eleTag)
-                return False
-            # mark the Domain as having been changed
-            self.domainChange()
-        else:
-            print('Domain::addElement - element '+str(eleTag)+' could not be added to container.\n')
-        return result
+        self.theElements[eleTag] = element
+
+        element.setDomain(self)
+        element.update()
+        # finally check the ele has correct number of dof
+        if numDOF != element.getNumDOF():
+            print('Domain::addElement - element '+str(eleTag)+' - #DOF does not match with number at nodes.\n')
+            self.theElements.pop(eleTag)
+            return False
+        # mark the Domain as having been changed
+        self.domainChange()
+
 
     def addSP_Constraint(self, spConstraint):
         nodeTag = spConstraint.getNodeTag()
         dof = spConstraint.getDOF_Number()
 
         # check node exists in the domain
-        if self.theNodes[nodeTag) == None:
+        if self.theNodes[nodeTag] is None:
             print('Domain::addSP_Constraint - cannot add as node with tag ')
             print(str(nodeTag)+' dose not exist in the domain.\n')
 
@@ -112,39 +106,35 @@ class Domain(object):
         # check if an exsiting SP_Constraint exists for that dof at the node
         found = False
         for tag in self.theSPs:
-            sp = self.theSPs[tag)
+            sp = self.theSPs[tag]
             spNodeTag = sp.getNodeTag()
             spDof = sp.getDOF_Number()
             if(nodeTag == spNodeTag & dof == spDof):
                 found = True
-        if(found == True):
+        if found == True:
             print('Domain::addSP_Constraint - cannot add as node already constrained in that dof by existing SP_Constraint.\n')
             
         # check that no other object with similar tag exists in model
         tag = spConstraint.getTag()
-        if self.theSPs[tag) != None:
+        if self.theSPs.get(tag) is not None:
             print('Domain::addSP_Constraint - cannot add as constraint with tag ')
             print(str(tag)+' already exists in the domain.\n')
         else:
-            self.theSPs.addComponent(spConstraint)
+            self.theSPs[tag] = spConstraint
             spConstraint.setDomain(self)
 
 
-    def addLoadPattern(self, LoadPattern):
+    def addLoadPattern(self, loadpattern):
         # first check if a load pattern with a similar tag exists in model
-        tag = LoadPattern.getTag()
-        other = self.theLoadPatterns[tag]
+        tag = loadpattern.getTag()
+        other = self.theLoadPatterns.get(tag)
         if other is not None:
             print('Domain::addLoadPattern - cannot add as LoadPattern with tag'+str(tag)+' already exists in model.\n')
             return False
         # now we add the load pattern to the container for load pattrens
-        result = self.theLoadPatterns.addComponent(LoadPattern)
-        if result == True:
-            LoadPattern.setDomain(self)
-            self.domainChange()
-        else:
-            print('Domain::addLoadPattern - cannot add LoadPattern with tag'+str(tag)+'to the container.\n')
-        return result
+        self.theLoadPatterns[tag] = loadpattern
+        loadpattern.setDomain(self)
+        self.domainChange()
 
     # methods to add components to a LoadPattern object
     def addNodalLoad(self, load, pattern):
@@ -155,7 +145,7 @@ class Domain(object):
             print('Domain::addNodalLoad() - no node with tag '+str(nodTag)+' exists in the model.')
             print('Not adding the nodal load.')
         # now add it to the pattern
-        thePattern = self.theLoadPatterns[pattern)
+        thePattern = self.theLoadPatterns[pattern]
         if thePattern is None:
             print('Domain::addNodalLoad() - no pattern with tag '+str(pattern)+' exists in the model.')
             print('Not adding the nodal load.')
@@ -179,31 +169,31 @@ class Domain(object):
     def getDomainAndLoadPatternSPs(self):
         allSPs = []
         for tag in self.theSPs:
-            sp = self.theSPs[tag)
+            sp = self.theSPs[tag]
             allSPs.append(sp)
 
         for key in self.theLoadPatterns:
-            lp = self.theLoadPatterns[key)
+            lp = self.theLoadPatterns[key]
             theSPs = lp.getSPs()
             for tag in theSPs:
-                sp = theSPs[tag)
+                sp = theSPs[tag]
                 allSPs.append(sp)
         return allSPs
 
     # def getParameters():
     #     pass
     def getElement(self, tag):
-        return self.theElements[tag)
+        return self.theElements[tag]
     def getNode(self, tag):
         return self.theNodes[tag]
     def getSP_Constraint(self, tag):
-        return self.theSPs[tag)
-    def getPressure_Constraint(self, tag):
-        pass
-    def getMP_Constraint(self, tag):
-        pass
+        return self.theSPs[tag]
+    # def getPressure_Constraint(self, tag):
+    #     pass
+    # def getMP_Constraint(self, tag):
+    #     pass
     def getLoadPattern(self, tag):
-        return self.theLoadPatterns[tag)
+        return self.theLoadPatterns[tag]
 
     # methods to query the state of the domain
     def getCurrentTime(self):
@@ -261,18 +251,18 @@ class Domain(object):
             node = self.theNodes[tag]
             node.zeroUnbalancedLoad()
         for tag in self.theElements:
-            ele = self.theElements[tag)
+            ele = self.theElements[tag]
             if(ele.isSubdomain()==False):
                 ele.zeroLoad()
         # now loop over load patterns, invoking applyLoad on them
         for tag in self.theLoadPatterns:
-            loadPat = self.theLoadPatterns[tag)
+            loadPat = self.theLoadPatterns[tag]
             loadPat.applyLoad(timeStep)
         # finally loop over the MP_Constraints and SP_Constraints of the domain
         # for tag, theMP in self._theMPs:
             # theMP.applyConstraint(timeStep)
         for tag in self.theSPs:
-            theSP = self.theSPs[tag)
+            theSP = self.theSPs[tag]
             theSP.applyConstraint(timeStep)
     
     def setLoadConstant(self):

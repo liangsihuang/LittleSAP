@@ -4,7 +4,7 @@ import numpy as np
 class DOF_Group(TaggedObject):
     # static variables - single copy for all objects of the class
     numDOFs = 0
-    errVect = Vector(1)
+    errVect = np.zeros(1)
 
     def __init__(self, tag, node):
         super().__init__(tag) # tag 从0开始
@@ -43,11 +43,11 @@ class DOF_Group(TaggedObject):
     def getID(self):
         return self.myID
 
-    def doneID(self):
-        return 0 # 有鬼用
+    # def doneID(self):
+    #     return 0 # 有鬼用
     
     def getNodeTag(self):
-        if self.myNode != None:
+        if self.myNode is not None:
             return self.myNode.getTag()
         else:
             return -1
@@ -85,7 +85,7 @@ class DOF_Group(TaggedObject):
     
     # methods to form the unbalance
     def getUnbalance(self, theIntegrator):
-        if theIntegrator != None:
+        if theIntegrator is not None:
             theIntegrator.formNodUnbalance(self)
         return self.unbalance # is Vector
 
@@ -93,47 +93,47 @@ class DOF_Group(TaggedObject):
         self.unbalance.Zero()
 
     def addPtoUnbalance(self, fact = 1.0):
-        if self.myNode != None:
+        if self.myNode is not None:
             if self.unbalance.addVector(1.0, self.myNode.getUnbalancedLoad(), fact) < 0 :
                 print('DOF_Group::addPIncInertiaToUnbalance() - invoking addVector() on the unbalance failed.\n')
         else:
             print('DOF_Group::addPtoUnbalance() - no Node associated. Subclass should provide the method.\n')
 
-    def addPIncInertiaToUnbalance(self, fact = 1.0):
-        pass
-    def addM_Force(self, udotdot, fact = 1.0):
-        pass
+    # def addPIncInertiaToUnbalance(self, fact = 1.0):
+    #     pass
+    # def addM_Force(self, udotdot, fact = 1.0):
+    #     pass
     
     def getTangForce(self, x, fact=1.0):
         pass
-    def getC_Force(self, x, fact=1.0):
-        pass
-    def getM_Force(self, x, fact=1.0):
-        pass
+    # def getC_Force(self, x, fact=1.0):
+    #     pass
+    # def getM_Force(self, x, fact=1.0):
+    #     pass
 
     # methods to obtain committed responses from the nodes
     def getCommittedDisp(self):
-        if self.myNode == None:
+        if self.myNode is None:
             print('DOF_Group::getCommittedDisp: no associated Node, returning the error Vector.\n')
             return DOF_Group.errVect
         return self.myNode.getDisp()
 
-    def getCommittedVel(self):
-        if self.myNode == None:
-            print('DOF_Group::getCommittedVel: no associated Node, returning the error Vector.\n')
-            return DOF_Group.errVect
-        return self.myNode.getVel()
-
-    def getCommittedAccel(self):
-        if self.myNode == None:
-            print('DOF_Group::getCommittedAccel: no associated Node, returning the error Vector.\n')
-            return DOF_Group.errVect
-        return self.myNode.getAccel()
+    # def getCommittedVel(self):
+    #     if self.myNode == None:
+    #         print('DOF_Group::getCommittedVel: no associated Node, returning the error Vector.\n')
+    #         return DOF_Group.errVect
+    #     return self.myNode.getVel()
+    #
+    # def getCommittedAccel(self):
+    #     if self.myNode == None:
+    #         print('DOF_Group::getCommittedAccel: no associated Node, returning the error Vector.\n')
+    #         return DOF_Group.errVect
+    #     return self.myNode.getAccel()
     
     # methods to update the trial response at the nodes
     def setNodeDisp(self, u):
         # u is Vector
-        if self.myNode == None:
+        if self.myNode is None:
             print('DOF_Group::setNodeDisp: no associated Node.\n')
             return
         disp = self.unbalance       # ????
@@ -145,46 +145,46 @@ class DOF_Group(TaggedObject):
                 disp[i] = u[loc]
         self.myNode.setTrialDisp(disp)
 
-    def setNodeVel(self, udot):
-        if self.myNode == None:
-            print('DOF_Group::setNodeVel: no associated Node.\n')
-            return
-        vel = self.unbalance       # ????
-        vel = self.myNode.getTrialVel() # ????
-        # get vel for my dof out of vector u
-        for i in range(0, self.numDOF):
-            loc = self.myID[i]
-            if loc >= 0:
-                vel[i] = udot[loc]
-        self.myNode.setTrialVel(vel)
+    # def setNodeVel(self, udot):
+    #     if self.myNode == None:
+    #         print('DOF_Group::setNodeVel: no associated Node.\n')
+    #         return
+    #     vel = self.unbalance       # ????
+    #     vel = self.myNode.getTrialVel() # ????
+    #     # get vel for my dof out of vector u
+    #     for i in range(0, self.numDOF):
+    #         loc = self.myID[i]
+    #         if loc >= 0:
+    #             vel[i] = udot[loc]
+    #     self.myNode.setTrialVel(vel)
 
-    def setNodeAccel(self, udotdot):
-        if self.myNode == None:
-            print('DOF_Group::setNodeAccel: no associated Node.\n')
-            return
-        accel = self.unbalance       # ????
-        accel = self.myNode.getTrialAccel() # ????
-        # get accel for my dof out of vector u
-        for i in range(0, self.numDOF):
-            loc = self.myID[i]
-            if loc >= 0:
-                accel[i] = udotdot[loc]
-        self.myNode.setTrialAccel(accel)
+    # def setNodeAccel(self, udotdot):
+    #     if self.myNode == None:
+    #         print('DOF_Group::setNodeAccel: no associated Node.\n')
+    #         return
+    #     accel = self.unbalance       # ????
+    #     accel = self.myNode.getTrialAccel() # ????
+    #     # get accel for my dof out of vector u
+    #     for i in range(0, self.numDOF):
+    #         loc = self.myID[i]
+    #         if loc >= 0:
+    #             accel[i] = udotdot[loc]
+    #     self.myNode.setTrialAccel(accel)
     
     def incrNodeDisp(self, u):  # 有问题
         # u 是 Vector
-        if self.myNode == None:
+        if self.myNode is None:
             print('DOF_Group::incrNodeDisp: 0 Node Pointer.\n')
         
         disp = self.unbalance
         # disp 是 Vector
-        if disp.Size() == 0:
+        if disp.Size() is 0:
             print('DOF_Group::setNodeIncrDisp - out of space.\n')
             return
         
         # get disp for my dof out of vector u
         for i in range(0, self.numDOF):
-            loc = self.myID(i)
+            loc = self.myID[i]
             if loc >= 0:
                 disp[i] = u[loc]
             else:
@@ -192,10 +192,10 @@ class DOF_Group(TaggedObject):
         
         self.myNode.incrTrialDisp(disp)
     
-    def incrNodeVel(self, udot):
-        pass
-    def incrNodeAccel(self, udotdot):
-        pass
+    # def incrNodeVel(self, udot):
+    #     pass
+    # def incrNodeAccel(self, udotdot):
+    #     pass
 
     # methods to set the eigen vectors
     # methods added for TransformationDOF_Groups
@@ -203,8 +203,8 @@ class DOF_Group(TaggedObject):
         pass
 
     # protected:
-    def addLocalM_Force(self, udotdot, fact=1.0):
-        pass
+    # def addLocalM_Force(self, udotdot, fact=1.0):
+    #     pass
     
         
         

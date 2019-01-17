@@ -41,7 +41,10 @@ class SP_Constraint(DomainComponent):
         pass
     
     def isHomogeneous(self):
-        pass
+        if self.valueR == 0.0:
+            return  True
+        else:
+            return False
     
     def setLoadPatternTag(self, loadPatternTag):
         pass
