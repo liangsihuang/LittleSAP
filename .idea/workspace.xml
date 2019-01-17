@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8c569cbd-2799-4cfb-857d-003ddf2be142" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis/DOF_Group.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/DOF_Group.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/analysis/FE_Element.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/FE_Element.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis/PlainHandler.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/PlainHandler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/Domain.py" beforeDir="false" afterPath="$PROJECT_DIR$/domain/Domain.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/SP_Constraint.py" beforeDir="false" afterPath="$PROJECT_DIR$/domain/SP_Constraint.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -50,8 +45,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/analysis/FE_Element.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
-              <caret line="33" column="8" lean-forward="true" selection-start-line="33" selection-start-column="8" selection-end-line="33" selection-end-column="8" />
+            <state relative-caret-position="338">
+              <caret line="55" selection-start-line="55" selection-end-line="55" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
                 <element signature="e#1306#1330#0" />
@@ -122,7 +117,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/element/Truss.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="208">
+            <state relative-caret-position="-416">
               <caret line="19" column="49" lean-forward="true" selection-start-line="19" selection-start-column="49" selection-end-line="19" selection-end-column="49" />
             </state>
           </provider>
@@ -189,7 +184,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-7" />
     <option name="width" value="647" />
     <option name="height" value="735" />
@@ -576,15 +571,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/element/Truss.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
+        <state relative-caret-position="-416">
           <caret line="19" column="49" lean-forward="true" selection-start-line="19" selection-start-column="49" selection-end-line="19" selection-end-column="49" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/analysis/FE_Element.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="33" column="8" lean-forward="true" selection-start-line="33" selection-start-column="8" selection-end-line="33" selection-end-column="8" />
+        <state relative-caret-position="338">
+          <caret line="55" selection-start-line="55" selection-end-line="55" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
             <element signature="e#1306#1330#0" />

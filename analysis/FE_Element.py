@@ -1,6 +1,7 @@
 from TaggedObject import TaggedObject
 import numpy as np
 
+MAX_NUM_DOF = 64
 
 class FE_Element(TaggedObject):
     # static variables - single copy for all objects of the class	
@@ -12,7 +13,7 @@ class FE_Element(TaggedObject):
 
     def __init__(self, tag, ele):
         super().__init__(tag)
-        self.myDOF_Groups = np.size(len(ele.getExternalNodes()))
+        self.myDOF_Groups = np.zeros(len(ele.getExternalNodes()), dtype=int)
         self.myID = np.zeros(ele.getNumDOF(), dtype=int)
         self.numDOF = ele.getNumDOF()
         self.theModel = None
@@ -29,9 +30,30 @@ class FE_Element(TaggedObject):
         if theDomain is None:
             print('FE_Element::FE_Element() - element has no domain')
         # keep a pointer to all DOF_Groups
-        numGroup = ele.getNumExternalNodes()
-        nodes = ele.getExternalNodes()  # ID
-        
+        numGroup = ele.getNumExternalNodes() # int
+        nodes = ele.getExternalNodes()  # int's list
+        for i in range(0, numGroup):
+            node = theDomain.getNode(nodes[i])
+            if node is None:
+                print('FATAL FE_Element::FE_Element() - Node: '+str(nodes[i]))
+                print('does not exist in the Domain\n')
+            dofGrp = node.getDOF_Group()
+            if dofGrp is not None:
+                self.myDOF_Groups[i] = dofGrp.getTag()
+            else:
+                print('FATAL FE_Element::FE_Element() - Node: ')
+                print(' has no DOF_Group associated with it\n')
+
+        # if this is the first FE_Element we now
+        # create the arrays used to store pointers to class wide
+        # matrix and vector objects used to return tangent and residual
+        if FE_Element.numFEs == 0:
+            FE_Element.theMatrices = np.zeros((MAX_NUM_DOF+1, MAX_NUM_DOF+1))
+            FE_Element.theVectors = np.zeros(MAX_NUM_DOF+1)
+
+        # if Elements are not subdomains, set up pointers to
+        # objects to return tangent Matrix and residual Vector.
+
 
 
     # public methods for setting/obtaining mapping information
