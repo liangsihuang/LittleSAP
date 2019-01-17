@@ -7,8 +7,8 @@ class FE_Element(TaggedObject):
     # static variables - single copy for all objects of the class	
     errMatrix = None # matrix
     errVector = None # vector
-    theMatrices = None # array of pointers to class wide matrices
-    theVectors = None # array of pointers to class wide vectors
+    theMatrices = None # array of pointers to 'class wide matrices'/ rank-2 narray
+    theVectors = None # array of pointers to 'class wide vectors'/ narray
     numFEs = 0  # number of objects
 
     def __init__(self, tag, ele):
@@ -22,7 +22,7 @@ class FE_Element(TaggedObject):
         self.theTangent = None # matrix
         self.theIntegrator = None # needed for subdomain???
 
-        if self.numDOF<=0:
+        if self.numDOF <= 0:
             print('FE_Element::FE_Element() - element must have 1 dof')
         
         # get element domain and check if it is valid
@@ -48,13 +48,29 @@ class FE_Element(TaggedObject):
         # create the arrays used to store pointers to class wide
         # matrix and vector objects used to return tangent and residual
         if FE_Element.numFEs == 0:
-            FE_Element.theMatrices = np.zeros((MAX_NUM_DOF+1, MAX_NUM_DOF+1))
-            FE_Element.theVectors = np.zeros(MAX_NUM_DOF+1)
-
+            FE_Element.theMatrices = []
+            FE_Element.theVectors = []
+        for i in range(0, MAX_NUM_DOF+1):
+            FE_Element.theMatrices.append(None)
+            FE_Element.theVectors.append(None)
         # if Elements are not subdomains, set up pointers to
         # objects to return tangent Matrix and residual Vector.
+        if self.numDOF <= MAX_NUM_DOF:
+            # use class wide objects
+            if FE_Element.theVectors[self.numDOF] is None:
+                FE_Element.theVectors[self.numDOF] = np.zeros(self.numDOF)
+                FE_Element.theMatrices[self.numDOF] = np.zeros((self.numDOF,self.numDOF))
+                self.theResidual = FE_Element.theVectors[self.numDOF]
+                self.theTangent = FE_Element.theMatrices[self.numDOF]
+            else:
+                self.theResidual = FE_Element.theVectors[self.numDOF]
+                self.theTangent = FE_Element.theMatrices[self.numDOF]
+        else:
+            # create matrices and vectors for each object instance
+            self.theResidual = np.zeros(self.numDOF)
+            self.theTangent = np.zeros((self.numDOF, self.numDOF))
 
-
+        FE_Element.numFEs += 1
 
     # public methods for setting/obtaining mapping information
     def getDOFtags(self):
@@ -71,7 +87,7 @@ class FE_Element(TaggedObject):
         if self.theModel is None:
             print('WARNING FE_Element::setID() - no AnalysisModel set.\n')
             return -1
-        numGrps = self.myDOF_Groups.Size()
+        numGrps = len(self.myDOF_Groups)
         for i in range(0, numGrps):
             tag = self.myDOF_Groups[i]
             dof = self.theModel.getDOF_Group(tag)
@@ -89,99 +105,80 @@ class FE_Element(TaggedObject):
         return 0
     
     # methods to form and obtain the tangent and residual
-    def getTangent(self, theNewIntegrator): # subdomain 未编
+    def getTangent(self, theNewIntegrator):
         self.theIntegrator = theNewIntegrator
         if self.myEle is None:
             print('FATAL FE_Element::getTangent() - no Element *given.\n')
-        if self.myEle.isSubdomain() == False:
-            if theNewIntegrator is not None:
-                theNewIntegrator.formEleTangent(self)
-                return self.theTangent
-        else:
-            pass
+
+        if theNewIntegrator is not None:
+            theNewIntegrator.formEleTangent(self)
+            return self.theTangent
+
 
     def getResidual(self, theNewIntegrator):
         self.theIntegrator = theNewIntegrator
-        if self.theIntegrator == None:
+        if self.theIntegrator is None:
             return self.theResidual
-        if self.myEle == None:
+        if self.myEle is None:
             print('FATAL FE_Element::getTangent() - no Element *given.\n')
-            exit(self, -1)
-        if self.myEle.isSubdomain() == False:
-            theNewIntegrator.formEleResidual(self)
-            return self.theResidual
-        else:
-            pass
+        theNewIntegrator.formEleResidual(self)
+        return self.theResidual
+
     
     # methods to allow integrator to build tangent
-    def zeroTangent(self):
-        if self.myEle != None:
-            if self.myEle.isSubdomain() == False:
-                self.theTangent.Zero()
-            else:
-                print('WARNING FE_Element::zeroTangent() - this should not be called on a Subdomain!\n')
+    # def zeroTangent(self):
+    #     if self.myEle is not None:
+    #         self.theTangent.Zero()
 
     def addKtToTang(self, fact=1.0):
-        if self.myEle != None:
+        if self.myEle is not None:
             # check for a quick return	
             if fact == 0.0:
                 return 
-            elif self.myEle.isSubdomain() == False:
-                self.theTangent.addMatrix(1.0, self.myEle.getTangentStiff(), fact)
             else:
-                print('WARNING FE_Element::addKToTang() -this should not be called on a Subdomain!\n')
+                self.theTangent.addMatrix(1.0, self.myEle.getTangentStiff(), fact)
 
     def addKiToTang(self, fact=1.0):
-        if self.myEle != None:
+        if self.myEle is not None:
             # check for a quick return 
             if fact == 0.0:
                 return 
-            elif self.myEle.isSubdomain() == False:
-                self.theTangent.addMatrix(1.0, self.myEle.getInitialStiff(), fact)
             else:
-                print('WARNING FE_Element::addKiToTang() - this should not be called on a Subdomain!\n')
+                self.theTangent.addMatrix(1.0, self.myEle.getInitialStiff(), fact)
 
     def addKgToTang(self, fact=1.0):
-        if self.myEle != None:
+        if self.myEle is not None:
             # check for a quick return 
             if fact == 0.0:
                 return 
-            elif self.myEle.isSubdomain() == False:
-                self.theTangent.addMatrix(1.0, self.myEle.getGeometricTangentStiff(), fact)
             else:
-                print('WARNING FE_Element::addKgToTang() - this should not be called on a Subdomain!\n')
+                self.theTangent.addMatrix(1.0, self.myEle.getGeometricTangentStiff(), fact)
 
-
-    def addCtoTang(self, fact=1.0):
-        pass
-    def addMtoTang(self, fact=1.0):
-        pass
+    # def addCtoTang(self, fact=1.0):
+    #     pass
+    # def addMtoTang(self, fact=1.0):
+    #     pass
 
     def addKpToTang(self, fact=1.0, numP=0):
-        if self.myEle != None:
+        if self.myEle is not None:
             # check for a quick return 
             if fact == 0.0:
                 return 
-            elif self.myEle.isSubdomain() == False:
+            else:
                 thePrevMat = self.myEle.getPreviousK(numP)
                 if thePrevMat != None:
                     self.theTangent.addMatrix(1.0, thePrevMat, fact)
-            else:
-                print('WARNING FE_Element::addKpToTang() - this should not be called on a Subdomain!\n')
 
     def storePreviousK(self, numP):
         res = None
-        if self.myEle != None:
+        if self.myEle is not None:
             res = self.myEle.storePreviousK(numP)
         return res
     
     # methods to allow integrator to build residual
     def zeroResidual(self):
-        if self.myEle != None:
-            if self.myEle.isSubdomain() == False:
+        if self.myEle is not None:
                 self.theResidual.Zero()
-            else:
-                print('WARNING FE_Element::zeroResidual() - this should not be called on a Subdomain!\n')
         else:
             print('FATAL FE_Element::zeroResidual() - no Element *given.\n')
 
@@ -201,7 +198,7 @@ class FE_Element(TaggedObject):
     
     # methods for ele-by-ele strategies
     def getTangForce(self, disp, fact=1.0):
-        if self.myEle != None:
+        if self.myEle is not None:
             # zero out the force vector
             self.theResidual.Zero()
             # check for a quick return
@@ -225,7 +222,7 @@ class FE_Element(TaggedObject):
             return FE_Element.errVector
 
     def getK_Force(self, disp, fact=1.0):
-        if self.myEle != None:
+        if self.myEle is not None:
             self.theResidual.Zero()
             if fact == 0.0:
                 return self.theResidual
@@ -244,7 +241,7 @@ class FE_Element(TaggedObject):
             return FE_Element.errVector
 
     def getKi_Force(self, disp, fact=1.0):
-        if self.myEle != None:
+        if self.myEle is not None:
             self.theResidual.Zero()
             if fact == 0.0:
                 return self.theResidual
@@ -275,7 +272,7 @@ class FE_Element(TaggedObject):
     #     pass
 
     def addK_Force(self, disp, fact=1.0):
-        if self.myEle != None:
+        if self.myEle is not None:
             if fact == 0.0:
                 return
             tmp = Vector(self.numDOF)
@@ -291,7 +288,7 @@ class FE_Element(TaggedObject):
             print('WARNING FE_Element::addK_Force() - no Element *given.\n')
 
     def addKg_Force(self, disp, fact=1.0):
-        if self.myEle != None:
+        if self.myEle is not None:
             if fact == 0.0:
                 return
             tmp = Vector(self.numDOF)
@@ -316,8 +313,8 @@ class FE_Element(TaggedObject):
         return self.theIntegrator
 
     def getLastResponse(self):
-        if self.myEle!=None:
-            if self.theIntegrator!=None:
+        if self.myEle is not None:
+            if self.theIntegrator is not None:
                 if self.theIntegrator.getLastResponse(self.theResidual, self.myID) < 0:
                     print('WARNING FE_Element::getLastResponse(void) - the Integrator had problems with getLastResponse().\n')
             else:
