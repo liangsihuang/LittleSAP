@@ -40,9 +40,13 @@ class Vertex(TaggedObject):
         # don't allow itself to be added
         if otherTag==self.getTag():
             return 0
-        # check the otherVertex has not already been added??? 在 ID::insert 内部自动check
-        return self.myAdjacency.append(otherTag)
-
+        # check the otherVertex has not already been added
+        for i in range(0, len(self.myAdjacency)):
+            if self.myAdjacency[i] == otherTag:
+                print('Vertex.addEdge(): already exists. return!')
+                return 0
+        self.myAdjacency.append(otherTag)
+        return 0
 
 
 

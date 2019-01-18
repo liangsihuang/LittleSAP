@@ -26,7 +26,7 @@ class Graph(object):
         # get pointers to the vertices, if one does not exist return
         vertex1 = self.getVertex(vertexTag)
         vertex2 = self.getVertex(otherVertexTag)
-        if vertex1==None or vertex2==None:
+        if vertex1 is None or vertex2 is None:
             print('WARNING Graph::addEdge() - one or both of the vertices '+str(vertexTag)+' '+str(otherVertexTag)+' not in Graph.\n')
             return -1
         # add an edge to each vertex
@@ -48,7 +48,7 @@ class Graph(object):
         return result
 
     def getVertex(self, vertexTag):
-        res = self.myVertices.getComponent(vertexTag)
+        res = self.myVertices.get(vertexTag)
         return res
     
     def getVertices(self):
