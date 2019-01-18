@@ -38,3 +38,6 @@ class ConstraintHandler():
         for tag in theNodes:
             theNod = theNodes[tag]
             theNod.setDOF_Group(None)
+
+    def applyLoad(self):
+        return 0 # 有需要的子类会重写，但并不是所有子类都有

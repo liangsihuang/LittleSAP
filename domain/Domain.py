@@ -252,8 +252,8 @@ class Domain(object):
             node.zeroUnbalancedLoad()
         for tag in self.theElements:
             ele = self.theElements[tag]
-            if(ele.isSubdomain()==False):
-                ele.zeroLoad()
+            # if(ele.isSubdomain()==False):
+            ele.zeroLoad()
         # now loop over load patterns, invoking applyLoad on them
         for tag in self.theLoadPatterns:
             loadPat = self.theLoadPatterns[tag]
@@ -278,15 +278,32 @@ class Domain(object):
         pass
     def revertToLastCommit(self):
         # first invoke revertToLastCommit on all nodes and elements in the domain
-        for tag, node in self.theNodes:
+        for tag in self.theNodes:
+            node = self.theNodes[tag]
             node.revertToLastCommit()
-        for tag, ele in self.theElements:
+        for tag in self.theElements:
+            ele = self.theElements[tag]
             ele.revertToLastCommit()
         # set the current time and load factor in the domain to last commited
+        self.currentTime = self.committedTime
+        self.dT = 0.0
+        # apply load for the last committed time
+        self.applyLoad(self.currentTime)
+        return self.update()
+
+
     def revertToStart(self):
         pass
     def update(self):
-        pass
+        ok = 0
+        # invoke update on all the ele's
+        theEles = self.getElements()
+        for tag in theEles:
+            ele = theEles[tag]
+            ok += ele.update()
+        if ok != 0:
+            print('Domain::update - domain failed in update\n')
+        return ok
     
 
     def analysisStep(self, dT):

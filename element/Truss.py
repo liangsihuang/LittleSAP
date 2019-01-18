@@ -243,7 +243,7 @@ class Truss(Element):
     #     pass
     
     def zeroLoad(self):
-        self.theLoad.Zero()
+        self.theLoad[:] = 0.0
 
     def addLoad(self, theLoad, loadFactor): # Truss 单元没有分布力
         print('Truss::addLoad - load type unknown for truss with tag: '+str(self.getTag())+'.\n')

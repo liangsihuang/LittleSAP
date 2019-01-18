@@ -132,12 +132,12 @@ class AnalysisModel():
         return self.myDOFGraph
  
     def getDOFGroupGraph(self): # 和 getDOFGraph() 有什么区别？
-        if self.myGroupGraph == None:
+        if self.myGroupGraph is None:
             numVertex = self.getNumDOF_Groups()
             if numVertex == 0:
                 print('WARNING AnalysisMode::getDOFGroupGraph - 0 vertices, has the Domain been populated?\n')
                 # exit(self, -1)
-            graphStorage = MapOfTaggedObjects()
+            graphStorage = {}
             self.myGroupGraph = Graph(graphStorage) # 重点！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
             # now create the vertices with a reference equal to the DOF_Group number.
             # and a tag which ranges from 0 through numVertex-1
@@ -178,15 +178,15 @@ class AnalysisModel():
         for dof in theDOFGrps:
             dof.setNodeDisp(disp)
 
-    def setVel(self, vel):
-        theDOFGrps = self.getDOFs()
-        for dof in theDOFGrps:
-            dof.setNodeVel(vel)
-
-    def setAccel(self, accel):
-        theDOFGrps = self.getDOFs()
-        for dof in theDOFGrps:
-            dof.setNodeAccel(accel)
+    # def setVel(self, vel):
+    #     theDOFGrps = self.getDOFs()
+    #     for dof in theDOFGrps:
+    #         dof.setNodeVel(vel)
+    #
+    # def setAccel(self, accel):
+    #     theDOFGrps = self.getDOFs()
+    #     for dof in theDOFGrps:
+    #         dof.setNodeAccel(accel)
 
     def incrDisp(self, disp):
         # disp 是 Vector
@@ -194,29 +194,29 @@ class AnalysisModel():
         for dof in theDOFGrps:
             dof.incrNodeDisp(disp)
 
-    def incrVel(self, vel):
-        theDOFGrps = self.getDOFs()
-        for dof in theDOFGrps:
-            dof.incrNodeVel(vel)
-
-    def incrAccel(self, accel):
-        theDOFGrps = self.getDOFs()
-        for dof in theDOFGrps:
-            dof.incrNodeAccel(accel)
+    # def incrVel(self, vel):
+    #     theDOFGrps = self.getDOFs()
+    #     for dof in theDOFGrps:
+    #         dof.incrNodeVel(vel)
+    #
+    # def incrAccel(self, accel):
+    #     theDOFGrps = self.getDOFs()
+    #     for dof in theDOFGrps:
+    #         dof.incrNodeAccel(accel)
     
     # methods added to store the eigenvalues and vectors in the domain
-    def setNumEigenvectors(self, numEigenvectors):
-        pass
-    def setEigenvector(self, mode, eigenvalue):
-        pass
-    def setEigenvalues(self, eigenvalue):
-        pass
-    def getEigenvalues(self):
-        pass
-    def getModelDampingFactors(self):
-        pass
-    def inclModalDampingMatrix(self):
-        pass
+    # def setNumEigenvectors(self, numEigenvectors):
+    #     pass
+    # def setEigenvector(self, mode, eigenvalue):
+    #     pass
+    # def setEigenvalues(self, eigenvalue):
+    #     pass
+    # def getEigenvalues(self):
+    #     pass
+    # def getModelDampingFactors(self):
+    #     pass
+    # def inclModalDampingMatrix(self):
+    #     pass
     
     # methods which trigger operations in the Domain
     def setLinks(self, theDomain, theHandler):
@@ -254,8 +254,8 @@ class AnalysisModel():
         # invoke the method
         return self.myDomain.analysisStep(dT)
 
-    def eigenAnalysis(self, numMode, generalized, findSmallest):
-        pass
+    # def eigenAnalysis(self, numMode, generalized, findSmallest):
+    #     pass
 
     def commitDomain(self):
         # check to see there is a Domain linked to the Model

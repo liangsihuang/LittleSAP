@@ -1,23 +1,23 @@
 from analysis.system_of_eqn.LinearSOE import LinearSOE
-
+import numpy as np
 
 class FullGenLinSOE(LinearSOE):
 
     def __init__(self, theSolvr):
         super().__init__(theSolvr)
         self.size = 0
-        # numpy array
+        # 普通 array，本来是用来构造Vector的？现在好像没有存在的意义？统一用narray
         self.A = None  # 以rank-2 array A来储存矩阵A
         self.B = None
         self.X = None
 
-        # Vector
+        # Vector/narray
         self.vectX = None
         self.vectB = None
         self.matA = None
 
         self.Asize = 0  # 矩阵A的行数×列数
-        self.Bsize = 0  # size 和 Bize 有什么区别？
+        self.Bsize = 0  # size 和 Bize 有什么区别？没区别，两者相等
         self.factored = False
 
         theSolvr.setLinearSOE(self)
@@ -40,3 +40,30 @@ class FullGenLinSOE(LinearSOE):
             for j in range(0, idSize):
                 col = id1[j]
                 self.A[row, col] += m[j, i] * fact
+
+
+    def setSize(self, graph):
+        result = 0
+        oldSize = self.size
+        self.size = graph.getNumVertex()
+
+        if self.size*self.size > self.Asize:
+            A = np.zeros((self.size, self.size))
+            self.Asize = self.size * self.size
+        self.factored = False
+
+        if self.size > self.Bsize:
+            self.B = np.zeros(self.size)
+            self.X = np.zeros(self.size)
+            self.Bsize = self.size
+
+        # create new Vectors/narray
+        if self.size != oldSize:
+            self.vectX = np.zeros(self.size)
+            self.vectB = np.zeros(self.size)
+            self.matA = np.zeros((self.size, self.size))
+
+        # invoke setSize() on the Solver， 没必要了
+        # theSolvr = self.getSolver()
+
+        return result

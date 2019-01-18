@@ -55,9 +55,8 @@ class Node(DomainComponent):
             print('WARNING Node::incrTrialDisp() - incompatable sizes.\n')
             return -2
         # create a copy if no trial exists andd add committed
-        if self.trialDisp == None:
-            if self.createDisp() < 0:
-                print('FATAL Node::incrTrialDisp() - ran out of memory.\n')
+        if self.trialDisp is None:
+            self.createDisp()
             for i in range(0, self.numberDOF):
                 incrDispI = incrDispl(i)
                 self.disp[i] = incrDispI
@@ -73,10 +72,10 @@ class Node(DomainComponent):
         return 0
 
     # public methods for adding and obtaining load information
-    # def zeroUnbalancedLoad(self):
-    #     if(self.unbalLoad!=[]):
-    #         for i in range(0,len(self.unbalLoad)):
-    #             self.unbalLoad[i] = 0.0
+    def zeroUnbalancedLoad(self):
+        if self.unbalLoad is not None:
+            for i in range(0,len(self.unbalLoad)):
+                self.unbalLoad[i] = 0.0
 
     # public methods dealing with the commited state of the node
     def commitState(self):

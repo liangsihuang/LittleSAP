@@ -20,8 +20,8 @@ class StaticAnalysis(Analysis):
         self.theDOF_Numberer.setLinks(theModel)
         self.theIntegrator.setLinks(theModel, theLinSOE, theConvergenceTest)
     
-    def clearAll(self):
-        pass
+    # def clearAll(self):
+    #     pass
 
     def analyze(self, numSteps):
         result = 0
@@ -73,10 +73,10 @@ class StaticAnalysis(Analysis):
 
 
 
-    def eigen(self):
-        pass
-    def initialize(self):
-        pass
+    # def eigen(self):
+    #     pass
+    # def initialize(self):
+    #     pass
 
     def domainChanged(self):
         result = 0
@@ -128,25 +128,25 @@ class StaticAnalysis(Analysis):
         return 0
         
 
-    def setNumberer(self, theNumberer):
-        pass
-    def setAlgorithm(self, theAlgorithm):
-        pass
-    def setIntegrator(self, theIntegrator):
-        pass
-    def setLinearSOE(self, theSOE):
-        pass
-    def setConvergenceTest(self, theTest):
-        pass
-    def setEigenSOE(self, theSOE):
-        pass
-    
-    def getAlgorithm(self):
-        pass
-    def getIntegrator(self):
-        pass
-    def getConvergenceTest(self):
-        pass
+    # def setNumberer(self, theNumberer):
+    #     pass
+    # def setAlgorithm(self, theAlgorithm):
+    #     pass
+    # def setIntegrator(self, theIntegrator):
+    #     pass
+    # def setLinearSOE(self, theSOE):
+    #     pass
+    # def setConvergenceTest(self, theTest):
+    #     pass
+    # def setEigenSOE(self, theSOE):
+    #     pass
+    #
+    # def getAlgorithm(self):
+    #     pass
+    # def getIntegrator(self):
+    #     pass
+    # def getConvergenceTest(self):
+    #     pass
     
     
 

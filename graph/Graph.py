@@ -55,7 +55,7 @@ class Graph(object):
         return self.myVertices
     
     def getNumVertex(self):
-        return self.myVertices.getNumComponents()
+        return len(self.myVertices)
     
     def getNumEdge(self):
         return self.numEdge
@@ -64,7 +64,7 @@ class Graph(object):
         return self.nextFreeTag
 
     def removeVertex(self, tag, removeEdgeFlag = True):
-        result = self.myVertices.removeComponent(tag)
+        result = self.myVertices.pop(tag)
         if result == 0:
             return 0
         if removeEdgeFlag == True:
@@ -72,9 +72,9 @@ class Graph(object):
             print('Graph::removeVertex(int tag, bool flag = true) - no code to remove edges yet.\n')
         return result
     
-    def merge(self, other):
-        # other is Graph
-        pass
+    # def merge(self, other):
+    #     # other is Graph
+    #     pass
     
     
 
