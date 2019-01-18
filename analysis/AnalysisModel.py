@@ -9,8 +9,8 @@ class AnalysisModel():
 
     def __init__(self):
 
-        self.theFEs = []
-        self.theDOFs = []
+        self.theFEs = {}
+        self.theDOFs = {}
         
         self.myDomain = None
         self.myHandler = None
@@ -25,46 +25,40 @@ class AnalysisModel():
     # methods to populate/depopulate the AnalysisModel
     def addFE_Element(self, theFE_Ele):
         # check we don't add a null pointer or this is a subclass trying to use this method when it should'nt
-        if theFE_Ele == None or self.getFEs == None:
+        if theFE_Ele is None or self.getFEs == {}:
             return False
         # check if an Element with a similar tag already exists in the Domain
         tag = theFE_Ele.getTag()
-        other = self.theFEs.getComponent(tag)
-        if other!=None:
+        other = self.theFEs.get(tag)
+        if other is not None:
             print('AnalysisModel::addFE_Element - fe_element with tag '+str(tag)+' already exists in model.\n')
             return False
         # add 
-        result = self.theFEs.addComponent(theFE_Ele)
-        if result == True:
-            theFE_Ele.setAnalysisModel(self)
-            self.numFE_Ele += 1
-            return True
-        else:
-            return False
+        self.theFEs[tag] = theFE_Ele
+        theFE_Ele.setAnalysisModel(self)
+        self.numFE_Ele += 1
+        return True
 
     def addDOF_Group(self, theDOF_Grp):
         # check we don't add a null pointer or this is a subclass trying to use a method it should'nt be using
-        if theDOF_Grp == None or self.theDOFs == None:
+        if theDOF_Grp is None or self.theDOFs == {}:
             return False
         
         # check if a DOF_Group with a similar tag already exists in the Model
         tag = theDOF_Grp.getTag()
-        other = self.theDOFs.getComponent(tag)
-        if other!=None:
+        other = self.theDOFs.get(tag)
+        if other is not None:
             print('AnalysisModel::addDOF_Group - dof_group with tag '+str(tag)+' already exists in model.\n')
             return False
-        
         # add
-        result = self.theDOFs.addComponent(theDOF_Grp)
-        if result == True:
-            self.numDOF_Grp += 1
-            return True
-        else:
-            return False
+        self.theDOFs[tag] = theDOF_Grp
+        self.numDOF_Grp += 1
+        return True
+
 
     def clearAll(self):
-        self.theFEs.clearAll()
-        self.theDOFs.clearAll()
+        self.theFEs = {}
+        self.theDOFs = {}
 
         self.myDOFGraph = None
         self.myGroupGraph = None
@@ -84,7 +78,7 @@ class AnalysisModel():
         return self.numDOF_Grp
 
     def getDOF_Group(self, tag):
-        return self.theDOFs.getComponent(tag)
+        return self.theDOFs.get(tag)
 
     def getFEs(self):
         return self.theFEs
@@ -96,12 +90,12 @@ class AnalysisModel():
         self.numEqn = theNumEqn
 
     def getNumEqn(self):
-        self.numEqn
+        return self.numEqn
 
     def getDOFGraph(self):
-        if self.myDOFGraph == None:
+        if self.myDOFGraph is None:
             numVertex = self.getNumDOF_Groups()
-            graphStorage = MapOfTaggedObjects() 
+            graphStorage = {}
             self.myDOFGraph = Graph(graphStorage)
 
             # create a vertex for each dof
@@ -113,18 +107,19 @@ class AnalysisModel():
                     dofTag = id1[i]
                     if dofTag >= AnalysisModel.START_EQN_NUM:
                         vertex = self.myDOFGraph.getVertex(dofTag)
-                        if vertex == None: 
-                            vertex = Vertex(dofTag, dofTag) 
+                        if vertex is None:
+                            vertex = Vertex(dofTag, dofTag)
                             if self.myDOFGraph.addVertex(vertex, False) == False:
                                 print('WARNING AnalysisModel::getDOFGraph - error adding vertex.\n')
                                 return self.myDOFGraph
             # now add the edges, by looping over the FE_elements, getting their IDs and adding edges between DOFs for equation numbers >= START_EQN_NUM
             theFEs = self.getFEs()
             cnt = 0
-            for ele in theFEs:
+            for tag in theFEs:
+                ele = theFEs[tag]
                 id1 = ele.getID()
                 cnt += 1
-                size = id1.Size()
+                size = len(id1)
                 for i in range(0, size):
                     eqn1 = id1[i]
                     # if eqnNum of DOF is a valid eqn number add an edge to all other DOFs with valid eqn numbers.
@@ -132,7 +127,7 @@ class AnalysisModel():
                         for j in range(i+1, size):
                             eqn2 = id1[j]
                             if eqn2 >= AnalysisModel.START_EQN_NUM:
-                                self.myDOFGraph.addEdge(eqn1 - AnalysisModel.START_EQN_NUM + AnalysisModel.START_VERTEX_NUM, 
+                                self.myDOFGraph.addEdge(eqn1 - AnalysisModel.START_EQN_NUM + AnalysisModel.START_VERTEX_NUM,
                                 eqn2 - AnalysisModel.START_EQN_NUM + AnalysisModel.START_VERTEX_NUM)
         return self.myDOFGraph
  
@@ -145,7 +140,7 @@ class AnalysisModel():
             graphStorage = MapOfTaggedObjects()
             self.myGroupGraph = Graph(graphStorage) # 重点！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
             # now create the vertices with a reference equal to the DOF_Group number.
-            # and a tag which ranges from 0 through numVertex-1 
+            # and a tag which ranges from 0 through numVertex-1
             theDOFs = self.getDOFs()
             count = AnalysisModel.START_VERTEX_NUM
             for dof in theDOFs:
@@ -157,7 +152,7 @@ class AnalysisModel():
             # now add the edges, by looping over the Elements, getting their
             # IDs and adding edges between DOFs for equation numbers >= START_EQN_NUM
             theFEs = self.getFEs()
-            for ele in theFEs: 
+            for ele in theFEs:
                 id1 = ele.getDOFtags()
                 size = id1.Size()
                 for i in range(0, size):
@@ -230,7 +225,7 @@ class AnalysisModel():
 
     def applyLoadDomain(self, pseudoTime):
         # check to see there is a Domain linked to the Model
-        if self.myDomain == None:
+        if self.myDomain is None:
             print('WARNING: AnalysisModel::applyLoadDomain - No Domain linked.\n')
             return None
         
@@ -239,7 +234,7 @@ class AnalysisModel():
 
     def updateDomain(self): # 有重载
         # check to see there is a Domain linked to the Model
-        if self.myDomain == None:
+        if self.myDomain is None:
             print('WARNING: AnalysisModel::updateDomain. No Domain linked.\n')
             return -1
         
@@ -264,7 +259,7 @@ class AnalysisModel():
 
     def commitDomain(self):
         # check to see there is a Domain linked to the Model
-        if self.myDomain == 0:
+        if self.myDomain is None:
             print('WARNING: AnalysisModel::commitDomain. No Domain linked.\n')
             return -1
         # invoke the method
@@ -274,7 +269,7 @@ class AnalysisModel():
         return 0
 
     def revertDomainToLastCommit(self):
-        if self.myDomain == None:
+        if self.myDomain is None:
             print('WARNING: AnalysisModel::revertDomainToLastCommit. No Domain linked.\n')
             return -1
         if self.myDomain.revertToLastCommit() < 0:
@@ -284,13 +279,13 @@ class AnalysisModel():
 
     def getCurrentDomainTime(self):
         # check to see there is a Domain linked to the Model
-        if self.myDomain == None:
+        if self.myDomain is None:
             print('WARNING: AnalysisModel::getCurrentDomainTime - No Domain linked.\n')
             return None
         return self.myDomain.getCurrentTime()
 
     def setCurrentDomainTime(self, newTime):
-        if self.myDomain == None:
+        if self.myDomain is None:
             print('WARNING: AnalysisModel::getCurrentDomainTime. No Domain linked.\n')
             return -1
         return self.myDomain.getCurrentTime()

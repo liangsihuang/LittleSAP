@@ -16,8 +16,10 @@ class ConstraintHandler():
     
     def doneNumberingDOF(self):
         # iterate through the FE_Element getting them to set their IDs
-        for theEle in self.theAnalysisModel.getFEs():
-            theEle.setID()
+        theEles = self.theAnalysisModel.getFEs()
+        for tag in theEles:
+            ele = theEles[tag]
+            ele.setID()
         return 0
     
     def getDomain(self):
@@ -34,5 +36,5 @@ class ConstraintHandler():
             return
         theNodes = theDomain.getNodes()
         for tag in theNodes:
-            theNod = theNodes.getComponent(tag)
+            theNod = theNodes[tag]
             theNod.setDOF_Group(None)

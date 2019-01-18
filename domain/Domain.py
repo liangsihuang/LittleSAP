@@ -34,7 +34,7 @@ class Domain(object):
         # see if the physical bounds are changed
         # note this assumes 0,0,0,0,0,0 as startup min,max values
         crds = node.getCrds()
-        dim = crds.Size()
+        dim = len(crds)
         if dim >= 1:
             x = crds[0]
             if x < self.theBounds[0]:
@@ -60,7 +60,7 @@ class Domain(object):
         # check all the element nodes exists in the domain
         nodes = element.getExternalNodes()
         numDOF = 0
-        for i in range(0, nodes.Size()):
+        for i in range(0, len(nodes)):
             nodeTag = nodes[i]
             node = self.getNode(nodeTag)
             if node is None:

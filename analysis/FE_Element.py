@@ -95,7 +95,7 @@ class FE_Element(TaggedObject):
                 print('WARNING FE_Element::setID: 0 DOF_Group Pointer.\n')
                 return -2
             theDOFid = dof.getID()
-            for j in range(0, theDOFid.Size()):
+            for j in range(0, len(theDOFid)):
                 if current < self.numDOF:
                     self.myID[current] = theDOFid[j]
                     current += 1

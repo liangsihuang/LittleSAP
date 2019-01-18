@@ -35,7 +35,7 @@ class DOF_Group(TaggedObject):
         
         
     def setID(self, index, value): # 有重载，复制函数
-        if index >= 0 and index <= self.numDOF:
+        if index >= 0 and index < self.numDOF:
             self.myID[index] = value
         else:
             print('WARNING DOF_Group::setID - invalid location '+str(index)+' in ID of size '+str(self.numDOF)+'.\n')

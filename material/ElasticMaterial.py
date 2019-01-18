@@ -12,9 +12,10 @@ class ElasticMaterial(UniaxialMaterial):
         self.committedStrain = 0.0
         self.committedStrainRate = 0.0
     
-    def setTrialStrain(self, strain, strainRate):
+    # def setTrialStrain(self, strain, strainRate):
+    def setTrialStrain(self, strain):
         self.trialStrain = strain
-        self.trialStrainRate = strainRate
+        # self.trialStrainRate = strainRate
         return 0
     
     def setTrial(self, strain, stress, tangent, strainRate=0.0):

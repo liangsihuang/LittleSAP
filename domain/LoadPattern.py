@@ -37,7 +37,7 @@ class LoadPattern(DomainComponent):
     # methods to add loads
     def addNodalLoad(self, load):
         theDomain = self.getDomain()
-        self.theNodalLoads.addComponent(load)
+        self.theNodalLoads[load.getTag()] = load
         if theDomain is not None:
             load.setDomain(theDomain)
         load.setLoadPatternTag(self.getTag())

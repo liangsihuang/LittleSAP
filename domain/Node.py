@@ -38,12 +38,12 @@ class Node(DomainComponent):
 
     # public methods for obtaining committed and trial response quantities of the node
     def getDisp(self):
-        if self.commitDisp == None:
+        if self.commitDisp is None:
             self.createDisp()
         return self.commitDisp
     
     def getTrialDisp(self):
-        if self.trialDisp == None:
+        if self.trialDisp is None:
             self.createDisp()
         return self.trialDisp
 
@@ -127,11 +127,10 @@ class Node(DomainComponent):
         # trial , committed, incr = (committed-trial)
         self.disp = np.zeros(4*self.numberDOF)
         # 按照储存顺序
-        self.trialDisp = Vector(self.numberDOF, self.disp[0:self.numberDOF])
-        self.commitDisp = Vector(self.numberDOF, self.disp[self.numberDOF:2*self.numberDOF])
-        self.incrDisp = Vector(self.numberDOF, self.disp[2*self.numberDOF:3*self.numberDOF])
-        self.incrDeltaDisp = Vector(self.numberDOF, self.disp[3*self.numberDOF:-1])
-        return 0
+        self.trialDisp = self.disp[0:self.numberDOF]
+        self.commitDisp = self.disp[self.numberDOF:2*self.numberDOF]
+        self.incrDisp = self.disp[2*self.numberDOF:3*self.numberDOF]
+        self.incrDeltaDisp = self.disp[3*self.numberDOF:-1]
 
 
 

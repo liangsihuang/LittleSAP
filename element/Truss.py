@@ -194,8 +194,9 @@ class Truss(Element):
     def update(self):
         # determine the current strain given trial displacements at nodes
         strain = self.computeCurrentStrain()
-        rate = self.computeCurrentStrainRate()
-        return self.theMaterial.setTrialStrain(strain, rate)
+        # rate = self.computeCurrentStrainRate()
+        # return self.theMaterial.setTrialStrain(strain, rate)
+        return self.theMaterial.setTrialStrain(strain)
 
     # public methods to obtain stiffness, mass, damping and residual information
     def getKi(self):

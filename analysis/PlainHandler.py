@@ -33,8 +33,9 @@ class PlainHandler(ConstraintHandler):
         numDOF = 0
         count3 = 0
         countDOF = 0
-        for node in theNod:
+        for tag in theNod:
             numDOF += 1
+            node = theNod[tag]
             dof = DOF_Group(numDOF, node)
             # initially set all the ID value to -2
             id1 = dof.getID()
@@ -44,11 +45,12 @@ class PlainHandler(ConstraintHandler):
             # loop through the SP_Constraints to see if any of the
             # DOFs are constrained, if so set initial ID value to -1
             nodeID = node.getTag()
-            for sp in allSPs:
+            for tag in allSPs:
+                sp = allSPs[tag]
                 id1 = dof.getID()
                 dofnumber = sp.getDOF_Number()
-                if id1[dofnumber] == -2:
-                    dof.setID(dofnumber, -1)
+                if id1[dofnumber-1] == -2:
+                    dof.setID(dofnumber-1, -1)
                     countDOF -= 1
                 else:
                     print('WARNING PlainHandler::handle() - multiple single pointconstraints at DOF ')
@@ -69,7 +71,8 @@ class PlainHandler(ConstraintHandler):
         # initialise the FE_Elements and add to the AnalysisModel.
         theEles = theDomain.getElements()
         numFe = 0
-        for ele in theEles:
+        for tag in theEles:
+            ele = theEles[tag]
             # just a regular element .. create an FE_Element for it & add to AnalysisModel
             numFe += 1
             fe = FE_Element(numFe, ele)
