@@ -53,8 +53,8 @@ class PlainHandler(ConstraintHandler):
                     dof.setID(dofnumber-1, -1)
                     countDOF -= 1
                 else:
-                    print('WARNING PlainHandler::handle() - multiple single pointconstraints at DOF ')
-                    print(str(dofnumber) + 'for node' + str(sp.getNodeTag()))
+                    print('WARNING PlainHandler::handle() - multiple single point constraints at DOF')
+                    print(str(dofnumber) + ' for node' + str(sp.getNodeTag()))
 
             # MP 略 -4
             node.setDOF_Group(dof)

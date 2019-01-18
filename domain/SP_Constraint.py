@@ -30,7 +30,7 @@ class SP_Constraint(DomainComponent):
     
     def applyConstraint(self, loadFactor):
         # as SP_Constraint objects are time invariant nothing is done
-        if (self.isConstant == False):
+        if self.isConstant == False:
             self.valueC = loadFactor*self.valueR
         return 0
     # 还有：

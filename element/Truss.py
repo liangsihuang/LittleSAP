@@ -280,7 +280,7 @@ class Truss(Element):
         disp1 = self.theNodes[0].getTrialDisp() # Vector
         disp2 = self.theNodes[1].getTrialDisp()
         dLength = 0.0
-        if self.initialDisp == None:
+        if self.initialDisp is None:
             for i in range(0, self.dimension):
                 dLength += (disp2[i] - disp1[i]) * self.cosX[i]
         else:

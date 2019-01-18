@@ -198,49 +198,49 @@ class Domain(object):
     # methods to query the state of the domain
     def getCurrentTime(self):
         return self.currentTime
-    def getCommitTag(self):
-        pass
-    def getNumElements(self):
-        pass
-    def getNumNodes(self):
-        pass
-    def getNumSPs(self):
-        pass
-    def getNumPCs(self):
-        pass
-    def getNumMPs(self):
-        pass
-    def getNumLoadPatterns(self):
-        pass
+    # def getCommitTag(self):
+    #     pass
+    # def getNumElements(self):
+    #     pass
+    # def getNumNodes(self):
+    #     pass
+    # def getNumSPs(self):
+    #     pass
+    # def getNumPCs(self):
+    #     pass
+    # def getNumMPs(self):
+    #     pass
+    # def getNumLoadPatterns(self):
+    #     pass
     
-    def getPysicalBounds(self):
-        pass
-        # vector
-    def getNodeResponse(self, nodeTag):
-        pass
-        # vector
-    def getElementResponse(self, eleTag):
-        pass
+    # def getPysicalBounds(self):
+    #     pass
+    #     # vector
+    # def getNodeResponse(self, nodeTag):
+    #     pass
+    #     # vector
+    # def getElementResponse(self, eleTag):
+    #     pass
         # vector
     
 
     # methods to get element and node graph
-    def getElmentGraph(self):
-        pass
-    def getNodeGraph(self):
-        pass
-    def clearElementGraph(self):
-        pass
-    def clearNodeGraph(self):
-        pass
+    # def getElmentGraph(self):
+    #     pass
+    # def getNodeGraph(self):
+    #     pass
+    # def clearElementGraph(self):
+    #     pass
+    # def clearNodeGraph(self):
+    #     pass
     
     # methods to update the domain
-    def setCommitTag(self, newTag):
-        pass
-    def setCurrentTime(self, newTime):
-        pass
-    def setCommittedTime(self, newTime):
-        pass
+    # def setCommitTag(self, newTag):
+    #     pass
+    # def setCurrentTime(self, newTime):
+    #     pass
+    # def setCommittedTime(self, newTime):
+    #     pass
         
     def applyLoad(self, timeStep):
         # set the pseudo time in the domain to be newTime
@@ -265,35 +265,35 @@ class Domain(object):
             theSP = self.theSPs[tag]
             theSP.applyConstraint(timeStep)
     
-    def setLoadConstant(self):
-        pass
-    def unsetLoadConstant(self):
-        pass
-    def initialize(self):
-        pass
-    def setRayleighDampingFactors(self, alphaM, betaK, betaK0, betaKc):
-        pass
+    # def setLoadConstant(self):
+    #     pass
+    # def unsetLoadConstant(self):
+    #     pass
+    # def initialize(self):
+    #     pass
+    # def setRayleighDampingFactors(self, alphaM, betaK, betaK0, betaKc):
+    #     pass
     
-    def commit(self):
-        pass
-    def revertToLastCommit(self):
-        # first invoke revertToLastCommit on all nodes and elements in the domain
-        for tag in self.theNodes:
-            node = self.theNodes[tag]
-            node.revertToLastCommit()
-        for tag in self.theElements:
-            ele = self.theElements[tag]
-            ele.revertToLastCommit()
-        # set the current time and load factor in the domain to last commited
-        self.currentTime = self.committedTime
-        self.dT = 0.0
-        # apply load for the last committed time
-        self.applyLoad(self.currentTime)
-        return self.update()
+    # def commit(self):
+    #     pass
+    # def revertToLastCommit(self):
+    #     # first invoke revertToLastCommit on all nodes and elements in the domain
+    #     for tag in self.theNodes:
+    #         node = self.theNodes[tag]
+    #         node.revertToLastCommit()
+    #     for tag in self.theElements:
+    #         ele = self.theElements[tag]
+    #         ele.revertToLastCommit()
+    #     # set the current time and load factor in the domain to last commited
+    #     self.currentTime = self.committedTime
+    #     self.dT = 0.0
+    #     # apply load for the last committed time
+    #     self.applyLoad(self.currentTime)
+    #     return self.update()
 
 
-    def revertToStart(self):
-        pass
+    # def revertToStart(self):
+    #     pass
     def update(self):
         ok = 0
         # invoke update on all the ele's
@@ -305,12 +305,12 @@ class Domain(object):
             print('Domain::update - domain failed in update\n')
         return ok
     
-
-    def analysisStep(self, dT):
+    #
+    def analysisStep(self, dT): # ???
         return 0
-
-    def eigenAnalysis(self, numMode, generalized, findSmallest):
-        pass
+    #
+    # def eigenAnalysis(self, numMode, generalized, findSmallest):
+    #     pass
         
     # methods for eigenvalue analysis
     # methods for other objects to determine if model has changed

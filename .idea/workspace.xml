@@ -2,16 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8c569cbd-2799-4cfb-857d-003ddf2be142" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/analysis/AnalysisModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/AnalysisModel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis/ConstraintHandler.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/ConstraintHandler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis/StaticAnalysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/StaticAnalysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis/system_of_eqn/FullGenLinSOE.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/system_of_eqn/FullGenLinSOE.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis/system_of_eqn/FullGenLinSolver.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/system_of_eqn/FullGenLinSolver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/PlainHandler.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/PlainHandler.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/Domain.py" beforeDir="false" afterPath="$PROJECT_DIR$/domain/Domain.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/Node.py" beforeDir="false" afterPath="$PROJECT_DIR$/domain/Node.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/element/Element.py" beforeDir="false" afterPath="$PROJECT_DIR$/element/Element.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/SP_Constraint.py" beforeDir="false" afterPath="$PROJECT_DIR$/domain/SP_Constraint.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/element/Truss.py" beforeDir="false" afterPath="$PROJECT_DIR$/element/Truss.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graph/Graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/graph/Graph.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,8 +21,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/TrussExample.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
-              <caret line="50" column="31" lean-forward="true" selection-start-line="50" selection-start-column="31" selection-end-line="50" selection-end-column="31" />
+            <state relative-caret-position="52">
+              <caret line="40" column="24" selection-start-line="40" selection-start-column="24" selection-end-line="40" selection-end-column="24" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
               </folding>
@@ -37,95 +31,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/analysis/StaticAnalysis.py">
+        <entry file="file://$PROJECT_DIR$/analysis/AnalysisModel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="123">
-              <caret line="56" selection-start-line="56" selection-end-line="56" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/domain/Domain.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="305" column="17" selection-start-line="305" selection-start-column="17" selection-end-line="305" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/element/Truss.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="49" column="26" lean-forward="true" selection-start-line="49" selection-start-column="26" selection-end-line="49" selection-end-column="26" />
+            <state relative-caret-position="-3">
+              <caret line="251" column="49" lean-forward="true" selection-start-line="251" selection-start-column="49" selection-end-line="251" selection-end-column="49" />
               <folding>
-                <element signature="e#424#1458#0" />
-                <element signature="e#1577#1585#0" />
-                <element signature="e#1626#1660#0" />
-                <element signature="e#1692#1712#0" />
-                <element signature="e#1746#1764#0" />
-                <element signature="e#1818#7571#0" />
-                <element signature="e#1935#2005#0" />
-                <element signature="e#2365#2877#0" />
-                <element signature="e#2553#2877#0" />
-                <element signature="e#3142#3465#0" />
-                <element signature="e#3682#3790#0" />
-                <element signature="e#3853#3961#0" />
-                <element signature="e#4024#4132#0" />
-                <element signature="e#4195#4303#0" />
-                <element signature="e#4366#4477#0" />
-                <element signature="e#4504#4759#0" />
-                <element signature="e#4979#5045#0" />
-                <element signature="e#5346#5836#0" />
-                <element signature="e#5432#5627#0" />
-                <element signature="e#5517#5627#0" />
-                <element signature="e#5697#5805#0" />
-                <element signature="e#5883#6601#0" />
-                <element signature="e#6010#6353#0" />
-                <element signature="e#6159#6353#0" />
-                <element signature="e#6429#6537#0" />
-                <element signature="e#6628#7571#0" />
-                <element signature="e#6796#7285#0" />
-                <element signature="e#7009#7285#0" />
-                <element signature="e#7367#7475#0" />
-                <element signature="e#7675#7813#0" />
-                <element signature="e#7823#7854#0" />
-                <element signature="e#7986#8263#0" />
-                <element signature="e#8105#8145#0" />
-                <element signature="e#8375#8379#0" />
-                <element signature="e#8419#9094#0" />
-                <element signature="e#8496#8551#0" />
-                <element signature="e#8804#9073#0" />
-                <element signature="e#8855#9073#0" />
-                <element signature="e#9135#9819#0" />
-                <element signature="e#9212#9267#0" />
-                <element signature="e#9529#9798#0" />
-                <element signature="e#9580#9798#0" />
-                <element signature="e#9825#9845#0" />
-                <element signature="e#9938#9959#0" />
-                <element signature="e#10029#10136#0" />
-                <element signature="e#10142#10187#0" />
-                <element signature="e#10245#10784#0" />
-                <element signature="e#10322#10377#0" />
-                <element signature="e#10395#10410#0" />
-                <element signature="e#10588#10698#0" />
-                <element signature="e#10789#10843#0" />
-                <element signature="e#10948#11532#0" />
-                <element signature="e#10948#10991#0" />
-                <element signature="e#11199#11297#0" />
-                <element signature="e#11324#11444#0" />
-                <element signature="e#11543#11580#0" />
+                <element signature="e#1#30#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/material/ElasticMaterial.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/domain/Domain.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="104">
-              <caret line="16" column="33" lean-forward="true" selection-start-line="16" selection-start-column="33" selection-end-line="16" selection-end-column="33" />
+            <state relative-caret-position="77">
+              <caret line="308" column="37" selection-start-line="308" selection-start-column="37" selection-end-line="308" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -170,13 +91,11 @@
         <option value="$PROJECT_DIR$/domain/LinearSeries.py" />
         <option value="$PROJECT_DIR$/analysis/system_of_eqn/LinearSOE.py" />
         <option value="$PROJECT_DIR$/analysis/DOF_Numberer.py" />
-        <option value="$PROJECT_DIR$/domain/SP_Constraint.py" />
         <option value="$PROJECT_DIR$/analysis/Linear.py" />
         <option value="$PROJECT_DIR$/TrussExample.py" />
         <option value="$PROJECT_DIR$/material/ElasticMaterial.py" />
         <option value="$PROJECT_DIR$/domain/LoadPattern.py" />
         <option value="$PROJECT_DIR$/analysis/DOF_Group.py" />
-        <option value="$PROJECT_DIR$/analysis/PlainHandler.py" />
         <option value="$PROJECT_DIR$/analysis/PlainNumberer.py" />
         <option value="$PROJECT_DIR$/analysis/FE_Element.py" />
         <option value="$PROJECT_DIR$/graph/Vertex.py" />
@@ -186,14 +105,16 @@
         <option value="$PROJECT_DIR$/analysis/system_of_eqn/FullGenLinSolver.py" />
         <option value="$PROJECT_DIR$/analysis/system_of_eqn/FullGenLinSOE.py" />
         <option value="$PROJECT_DIR$/domain/Node.py" />
-        <option value="$PROJECT_DIR$/element/Truss.py" />
         <option value="$PROJECT_DIR$/analysis/ConstraintHandler.py" />
         <option value="$PROJECT_DIR$/element/Element.py" />
+        <option value="$PROJECT_DIR$/element/Truss.py" />
+        <option value="$PROJECT_DIR$/analysis/PlainHandler.py" />
+        <option value="$PROJECT_DIR$/domain/SP_Constraint.py" />
         <option value="$PROJECT_DIR$/domain/Domain.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-7" />
     <option name="width" value="647" />
     <option name="height" value="735" />
@@ -203,6 +124,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -234,7 +156,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -305,13 +226,13 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4945355" visible="true" weight="0.1748512" />
-      <window_info id="Structure" order="1" sideWeight="0.5054645" side_tool="true" weight="0.1748512" />
-      <window_info id="Favorites" order="2" sideWeight="0.5054645" side_tool="true" weight="0.1748512" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49242425" visible="true" weight="0.1748512" />
+      <window_info id="Structure" order="1" sideWeight="0.50757575" side_tool="true" weight="0.1748512" />
+      <window_info id="Favorites" order="2" sideWeight="0.50757575" side_tool="true" weight="0.1748512" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3295082" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.3295082" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.35081968" />
+      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.5885246" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -326,6 +247,13 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/analysis/PlainHandler.py</url>
+          <line>51</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -488,13 +416,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/domain/SP_Constraint.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="650">
-          <caret line="28" column="29" lean-forward="true" selection-start-line="28" selection-start-column="29" selection-end-line="28" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/analysis/DOF_Group.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="910">
@@ -567,45 +488,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/analysis/AnalysisModel.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="123">
-          <caret line="232" selection-start-line="232" selection-end-line="232" />
-          <folding>
-            <element signature="e#1#30#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/analysis/PlainHandler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="332">
-          <caret line="83" lean-forward="true" selection-start-line="83" selection-end-line="83" />
-          <folding>
-            <element signature="e#0#57#0" expanded="true" />
-            <element signature="e#474#3118#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/analysis/ConstraintHandler.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
           <caret line="42" column="39" selection-start-line="42" selection-start-column="39" selection-end-line="42" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/material/ElasticMaterial.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="16" column="33" lean-forward="true" selection-start-line="16" selection-start-column="33" selection-end-line="16" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/analysis/StaticAnalysis.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="123">
-          <caret line="56" selection-start-line="56" selection-end-line="56" />
         </state>
       </provider>
     </entry>
@@ -616,34 +502,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/domain/Domain.py">
+    <entry file="file://$PROJECT_DIR$/material/ElasticMaterial.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="305" column="17" selection-start-line="305" selection-start-column="17" selection-end-line="305" selection-end-column="17" />
+        <state relative-caret-position="104">
+          <caret line="16" column="33" selection-start-line="16" selection-start-column="33" selection-end-line="16" selection-end-column="33" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/TrussExample.py">
+    <entry file="file://$PROJECT_DIR$/analysis/StaticAnalysis.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="50" column="31" lean-forward="true" selection-start-line="50" selection-start-column="31" selection-end-line="50" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="123">
+          <caret line="56" selection-start-line="56" selection-end-line="56" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/element/Truss.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="49" column="26" lean-forward="true" selection-start-line="49" selection-start-column="26" selection-end-line="49" selection-end-column="26" />
+        <state relative-caret-position="-979">
+          <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
           <folding>
-            <element signature="e#424#1458#0" />
             <element signature="e#1577#1585#0" />
             <element signature="e#1626#1660#0" />
             <element signature="e#1692#1712#0" />
             <element signature="e#1746#1764#0" />
-            <element signature="e#1818#7571#0" />
             <element signature="e#1935#2005#0" />
             <element signature="e#2365#2877#0" />
             <element signature="e#2553#2877#0" />
@@ -689,12 +570,52 @@
             <element signature="e#10395#10410#0" />
             <element signature="e#10588#10698#0" />
             <element signature="e#10789#10843#0" />
-            <element signature="e#10948#11532#0" />
-            <element signature="e#10948#10991#0" />
-            <element signature="e#11199#11297#0" />
-            <element signature="e#11324#11444#0" />
             <element signature="e#11543#11580#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/domain/SP_Constraint.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-306">
+          <caret line="33" column="34" selection-start-line="33" selection-start-column="34" selection-end-line="33" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis/PlainHandler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="245">
+          <caret line="50" column="19" lean-forward="true" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#57#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TrussExample.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="52">
+          <caret line="40" column="24" selection-start-line="40" selection-start-column="24" selection-end-line="40" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis/AnalysisModel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3">
+          <caret line="251" column="49" lean-forward="true" selection-start-line="251" selection-start-column="49" selection-end-line="251" selection-end-column="49" />
+          <folding>
+            <element signature="e#1#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/domain/Domain.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="77">
+          <caret line="308" column="37" selection-start-line="308" selection-start-column="37" selection-end-line="308" selection-end-column="37" />
         </state>
       </provider>
     </entry>
