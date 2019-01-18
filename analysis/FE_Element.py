@@ -42,7 +42,7 @@ class FE_Element(TaggedObject):
                 self.myDOF_Groups[i] = dofGrp.getTag()
             else:
                 print('FATAL FE_Element::FE_Element() - Node: ')
-                print(' has no DOF_Group associated with it\n')
+                print('has no DOF_Group associated with it\n')
 
         # if this is the first FE_Element we now
         # create the arrays used to store pointers to class wide
@@ -100,7 +100,7 @@ class FE_Element(TaggedObject):
                     self.myID[current] = theDOFid[j]
                     current += 1
                 else:
-                    print('WARNING FE_Element::setID() - numDOF and  number of dof at the DOF_Groups.\n')
+                    print('WARNING FE_Element::setID() - numDOF and number of dof at the DOF_Groups.\n')
                     return -3
         return 0
     

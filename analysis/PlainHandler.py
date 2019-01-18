@@ -19,13 +19,7 @@ class PlainHandler(ConstraintHandler):
             print('WARNING PlainHandler::handle() - setLinks() has not been called.\n')
             return -1
 
-        allSPs = {}
         theSPs = theDomain.getDomainAndLoadPatternSPs()
-        for sp in theSPs:
-            if sp.isHomogeneous() == False:
-                print('ARNING PlainHandler::handle() - non-homogeneos constraint')
-                print(' for node' + str(sp.getNodeTag()) + '.\n')
-            allSPs[sp.getNodeTag()] = sp
 
         # initialise the DOF_Groups and add them to the AnalysisModel.
         # must of course set the initial IDs
@@ -36,37 +30,36 @@ class PlainHandler(ConstraintHandler):
         for tag in theNod:
             numDOF += 1
             node = theNod[tag]
-            dof = DOF_Group(numDOF, node)
+            dof_group = DOF_Group(numDOF, node)
             # initially set all the ID value to -2
-            id1 = dof.getID()
+            id1 = dof_group.getID()
             for j in range(0, len(id1)):
-                dof.setID(j, -2)
+                dof_group.setID(j, -2)
                 countDOF += 1
             # loop through the SP_Constraints to see if any of the
             # DOFs are constrained, if so set initial ID value to -1
-            nodeID = node.getTag()
-            for tag in allSPs:
-                sp = allSPs[tag]
-                id1 = dof.getID()
-                dofnumber = sp.getDOF_Number()
-                if id1[dofnumber-1] == -2:
-                    dof.setID(dofnumber-1, -1)
-                    countDOF -= 1
-                else:
-                    print('WARNING PlainHandler::handle() - multiple single point constraints at DOF')
-                    print(str(dofnumber) + ' for node' + str(sp.getNodeTag()))
+            nodeTag = node.getTag()
+            for sp in theSPs:
+                if sp.getNodeTag() == nodeTag:
+                    dofnumber = sp.getDOF_Number()
+                    if id1[dofnumber-1] == -2:
+                        dof_group.setID(dofnumber-1, -1)
+                        countDOF -= 1
+                    else:
+                        print('WARNING PlainHandler::handle() - multiple single point constraints at DOF')
+                        print(str(dofnumber) + ' for node' + str(sp.getNodeTag()))
 
             # MP 略 -4
-            node.setDOF_Group(dof)
-            theModel.addDOF_Group(dof)
+            node.setDOF_Group(dof_group)
+            theModel.addDOF_Group(dof_group)
 
         # set the number of eqn in the model
         theModel.setNumEqn(countDOF)
 
         # now see if we have to set any of the dof's to -3
         # what is -3 ?
-        if nodesNumberedLast is not None:
-            pass
+        # if nodesNumberedLast is not None:
+        #     pass
 
         # initialise the FE_Elements and add to the AnalysisModel.
         theEles = theDomain.getElements()
