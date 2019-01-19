@@ -28,7 +28,7 @@ class IncrementalIntegrator(Integrator):
     def formTangent(self, statFlag = CURRENT_TANGENT):
         self.statusFlag = statFlag
 
-        if ((self.theAnalysisModel==None) or (self.theSOE==None)):
+        if self.theAnalysisModel is None or self.theSOE is None:
             print('WARNING IncrementalIntegrator::formTangent() - no AnalysisModel or LinearSOE have been set. \n')
             return -1
         
@@ -37,8 +37,9 @@ class IncrementalIntegrator(Integrator):
         
         # the loops to form and add the tangents are broken into two for efficiency when performing parallel computations - CHANGE
         # loop through the FE_Elements adding their contributions to the tangent
-        theEles2 = self.theAnalysisModel.getFEs()
-        for ele in theEles2:
+        theEles = self.theAnalysisModel.getFEs()
+        for tag in theEles:
+            ele = theEles[tag]
             result = self.theSOE.addA(ele.getTangent(self), ele.getID())
             if result < 0:
                 print('WARNING IncrementalIntegrator::formTangent - failed in addA for ID '+str(ele.getID())+' .\n')

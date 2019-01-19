@@ -7,14 +7,14 @@ class FullGenLinSOE(LinearSOE):
         super().__init__(theSolvr)
         self.size = 0
         # 普通 array，本来是用来构造Vector的？现在好像没有存在的意义？统一用narray
-        self.A = None  # 以rank-2 array A来储存矩阵A
-        self.B = None
-        self.X = None
+        self.A = np.zeros((self.size, self.size))  # 以rank-2 array A来储存矩阵A
+        self.B = np.zeros(self.size)
+        self.X = np.zeros(self.size)
 
         # Vector/narray
-        self.vectX = None
-        self.vectB = None
-        self.matA = None
+        self.vectX = np.zeros(self.size)
+        self.vectB = np.zeros(self.size)
+        self.matA = np.zeros((self.size, self.size))
 
         self.Asize = 0  # 矩阵A的行数×列数
         self.Bsize = 0  # size 和 Bize 有什么区别？没区别，两者相等

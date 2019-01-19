@@ -126,9 +126,9 @@ class FE_Element(TaggedObject):
 
     
     # methods to allow integrator to build tangent
-    # def zeroTangent(self):
-    #     if self.myEle is not None:
-    #         self.theTangent.Zero()
+    def zeroTangent(self):
+        if self.myEle is not None:
+            self.theTangent[:, :] = 0.0
 
     def addKtToTang(self, fact=1.0):
         if self.myEle is not None:

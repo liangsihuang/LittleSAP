@@ -208,7 +208,7 @@ class Truss(Element):
         E = self.theMaterial.getTangent()
         # come back later and redo this if too slow
         stiff = self.theMatrix
-        numDOF2 = self.numDOF / 2
+        numDOF2 = int(self.numDOF / 2)
         EAoverL = E * self.A / self.L
         for i in range(0, self.dimension):
             for j in range(0, self.dimension):
