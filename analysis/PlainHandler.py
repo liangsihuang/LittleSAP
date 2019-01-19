@@ -28,8 +28,8 @@ class PlainHandler(ConstraintHandler):
         count3 = 0
         countDOF = 0
         for tag in theNod:
-            numDOF += 1
             node = theNod[tag]
+            numDOF += 1
             dof_group = DOF_Group(numDOF, node)
             # initially set all the ID value to -2
             id1 = dof_group.getID()

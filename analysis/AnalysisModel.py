@@ -41,7 +41,7 @@ class AnalysisModel():
 
     def addDOF_Group(self, theDOF_Grp):
         # check we don't add a null pointer or this is a subclass trying to use a method it should'nt be using
-        if theDOF_Grp is None or self.theDOFs == {}:
+        if theDOF_Grp is None:
             return False
         
         # check if a DOF_Group with a similar tag already exists in the Model
@@ -100,9 +100,10 @@ class AnalysisModel():
 
             # create a vertex for each dof
             theDOFs = self.getDOFs()
-            for dof in theDOFs:
+            for tag in theDOFs:
+                dof = theDOFs[tag]
                 id1= dof.getID()
-                size = id1.Size()
+                size = len(id1)
                 for i in range(0, size):
                     dofTag = id1[i]
                     if dofTag >= AnalysisModel.START_EQN_NUM:

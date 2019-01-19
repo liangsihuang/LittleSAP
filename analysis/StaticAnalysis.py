@@ -27,7 +27,7 @@ class StaticAnalysis(Analysis):
         result = 0
         theDomain = self.getDomain()
         for i in range(0,numSteps):
-            result = self.theAnalysisModel.analysisStep()
+            result = self.theAnalysisModel.analysisStep() # 有什么意义？
             if(result<0):
                 print('StaticAnalysis::analyze() - the AnalysisModel failed at iteration: '+str(i))
                 print(' with domain at load factor '+str(theDomain.getCurrentTime())+'.\n')

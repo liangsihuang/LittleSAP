@@ -125,21 +125,21 @@ class Truss(Element):
 
         if self.dimension == 1:
             dx = end2Crd[0] - end1Crd[0]
-            if self.initialDisp == None:
+            if self.initialDisp is None:
                 iDisp = end2Disp[0] - end1Disp[0]
                 if iDisp != 0:
                     self.initialDisp = np.zeros(1)
                     self.initialDisp[0] = iDisp
                     dx += iDisp
-            L = sqrt(dx*dx)
-            if L == 0.0:
+            self.L = sqrt(dx*dx)
+            if self.L == 0.0:
                 print('WARNING Truss::setDomain() - truss '+str(self.getTag())+' has zero length.\n')
                 return
             self.cosX[0] = 1.0
         elif self.dimension == 2:
             dx = end2Crd[0] - end1Crd[0]
             dy = end2Crd[1] - end1Crd[1]
-            if self.initialDisp == None:
+            if self.initialDisp is None:
                 iDispX = end2Disp[0] - end1Disp[0]
                 iDispY = end2Disp[1] - end1Disp[1]
                 if iDispX!=0 or iDispY!=0:
@@ -148,17 +148,17 @@ class Truss(Element):
                     self.initialDisp[1] = iDispY
                     dx += iDispX
                     dy += iDispY
-            L = sqrt(dx*dx+dy*dy)
-            if L == 0.0:
+            self.L = sqrt(dx*dx+dy*dy)
+            if self.L == 0.0:
                 print('WARNING Truss::setDomain() - truss '+str(self.getTag())+' has zero length.\n')
                 return
-            self.cosX[0] = dx/L
-            self.cosX[1] = dy/L
+            self.cosX[0] = dx/self.L
+            self.cosX[1] = dy/self.L
         else:
             dx = end2Crd[0] - end1Crd[0]
             dy = end2Crd[1] - end1Crd[1]
             dz = end2Crd[2] - end1Crd[2]
-            if self.initialDisp == None:
+            if self.initialDisp is None:
                 iDispX = end2Disp[0] - end1Disp[0]
                 iDispY = end2Disp[1] - end1Disp[1]
                 iDispZ = end2Disp[2] - end1Disp[2]
@@ -170,13 +170,13 @@ class Truss(Element):
                     dx += iDispX
                     dy += iDispY
                     dz += iDispZ
-            L = sqrt(dx*dx+dy*dy+dz*dz)
-            if L == 0.0:
+            self.L = sqrt(dx*dx+dy*dy+dz*dz)
+            if self.L == 0.0:
                 print('WARNING Truss::setDomain() - truss '+str(self.getTag())+' has zero length.\n')
                 return
-            self.cosX[0] = dx/L
-            self.cosX[1] = dy/L
-            self.cosX[2] = dz/L
+            self.cosX[0] = dx/self.L
+            self.cosX[1] = dy/self.L
+            self.cosX[2] = dz/self.L
 
         
     
