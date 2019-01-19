@@ -1,7 +1,7 @@
 from analysis.Analysis import Analysis
 
 class StaticAnalysis(Analysis):
-    def __init__(self, theDomain, theHandler, theNumberer, theModel, theSolnAlgo, theLinSOE, theStaticIntegrator, theConvergenceTest=0):
+    def __init__(self, theDomain, theHandler, theNumberer, theModel, theSolnAlgo, theLinSOE, theStaticIntegrator, theConvergenceTest=None):
         super().__init__(theDomain)
         self.theConstraintHandler = theHandler
         self.theDOF_Numberer = theNumberer
@@ -19,6 +19,10 @@ class StaticAnalysis(Analysis):
         self.theConstraintHandler.setLinks(theDomain, theModel, theStaticIntegrator)
         self.theDOF_Numberer.setLinks(theModel)
         self.theIntegrator.setLinks(theModel, theLinSOE, theConvergenceTest)
+        self.theAlgorithm.setLinks(theModel, theStaticIntegrator, theLinSOE, theConvergenceTest)
+
+        if theConvergenceTest is not None:
+            self.theAlgorithm.setConvergenceTest(theConvergenceTest)
     
     # def clearAll(self):
     #     pass
@@ -28,14 +32,14 @@ class StaticAnalysis(Analysis):
         theDomain = self.getDomain()
         for i in range(0,numSteps):
             result = self.theAnalysisModel.analysisStep() # 有什么意义？
-            if(result<0):
+            if result<0 :
                 print('StaticAnalysis::analyze() - the AnalysisModel failed at iteration: '+str(i))
                 print(' with domain at load factor '+str(theDomain.getCurrentTime())+'.\n')
                 theDomain.revertToLastCommit()
                 return -2
             
             stamp = theDomain.hasDomainChanged()
-            if(self.domainStamp!=stamp): 
+            if self.domainStamp != stamp:
                 self.domainStamp = stamp
                 result = self.domainChanged()
                 if result < 0:

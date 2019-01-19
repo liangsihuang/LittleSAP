@@ -132,7 +132,10 @@ class AnalysisModel():
                                 eqn2 - AnalysisModel.START_EQN_NUM + AnalysisModel.START_VERTEX_NUM)
         return self.myDOFGraph
  
-    def getDOFGroupGraph(self): # 和 getDOFGraph() 有什么区别？
+    def getDOFGroupGraph(self):
+        # 和 getDOFGraph() 有什么区别？
+        # DOFGraph ：number后（去除约束后）的节点里面的自由度（DOF），变成Vertex
+        # DOFGroupGraph：所有节点（DOFGroup），变成Vertex
         if self.myGroupGraph is None:
             numVertex = self.getNumDOF_Groups()
             if numVertex == 0:

@@ -41,6 +41,9 @@ class FullGenLinSOE(LinearSOE):
                 col = id1[j]
                 self.A[row, col] += m[j, i] * fact
 
+    def zeroA(self):
+        self.A[:, :] = 0.0
+        self.factored = False
 
     def setSize(self, graph):
         result = 0

@@ -4,6 +4,8 @@ class Vertex(TaggedObject):
     def __init__(self, tag, ref, weight=0, color=0):
         super().__init__(tag)
         self.myRef = ref
+        # reference: 1. 如果是DOFGraph，则 ref = tag = dof tag
+        # 2. 如果是DOFGroupGraph，则 ref = DOF_Group相关的Node的tag
         self.myWeight = weight
         self.myColor = color
 

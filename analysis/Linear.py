@@ -1,8 +1,7 @@
 from analysis.EquiSolnAlgo import EquiSolnAlgo
 
-
+CURRENT_TANGENT = 0
 class Linear(EquiSolnAlgo):
-    CURRENT_TANGENT = 0
 
     def __init__(self, theTangent = CURRENT_TANGENT, fact = 0):
         super().__init__()
@@ -13,8 +12,8 @@ class Linear(EquiSolnAlgo):
         theAnalysisModel = self.getAnalysisModel()
         theSOE = self.getLinearSOE()
         theIncIntegrator = self.getIncrementalIntegrator()
-        if ((theAnalysisModel==None) or (theIncIntegrator==None) or (theSOE==None)):
-            print('WARNING Linear::solveCurrentStep() - setLinks() has not been called. \n')
+        if theAnalysisModel is None or theIncIntegrator is None or theSOE is None:
+            print('WARNING Linear::solveCurrentStep() - setLinks() has not been called.\n')
             return -5
         
         if self.factorOnce != 2:
