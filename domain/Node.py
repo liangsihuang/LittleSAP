@@ -51,31 +51,36 @@ class Node(DomainComponent):
     def incrTrialDisp(self, incrDispl):
         # incrDispl 是 Vector
         # check vector arg is of correct size
-        if incrDispl.Size() != self.numberDOF:
+        if len(incrDispl) != self.numberDOF:
             print('WARNING Node::incrTrialDisp() - incompatable sizes.\n')
             return -2
         # create a copy if no trial exists andd add committed
         if self.trialDisp is None:
             self.createDisp()
             for i in range(0, self.numberDOF):
-                incrDispI = incrDispl(i)
+                incrDispI = incrDispl[i]
                 self.disp[i] = incrDispI
                 self.disp[i+2*self.numberDOF] = incrDispI
                 self.disp[i+3*self.numberDOF] = incrDispI
             return 0
         # otherwise set trial = incr + trial
         for i in range(0, self.numberDOF):
-            incrDispI = incrDispl(i)
+            incrDispI = incrDispl[i]
             self.disp[i] += incrDispI
             self.disp[i+2*self.numberDOF] += incrDispI
             self.disp[i+3*self.numberDOF] = incrDispI
         return 0
 
     # public methods for adding and obtaining load information
+    def getUnbalancedLoad(self):
+        # make sure it was created before we return it
+        if self.unbalLoad is None:
+            self.unbalLoad = np.zeros(self.numberDOF)
+        return self.unbalLoad
+
     def zeroUnbalancedLoad(self):
         if self.unbalLoad is not None:
-            for i in range(0,len(self.unbalLoad)):
-                self.unbalLoad[i] = 0.0
+            self.unbalLoad[:] = 0.0
 
     # public methods dealing with the commited state of the node
     def commitState(self):

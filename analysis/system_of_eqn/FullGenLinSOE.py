@@ -91,3 +91,10 @@ class FullGenLinSOE(LinearSOE):
         # theSolvr = self.getSolver()
 
         return result
+
+    def getX(self):
+        return self.vectX
+
+    def setX(self, x):
+        if len(x)==self.size:
+            self.vectX = x

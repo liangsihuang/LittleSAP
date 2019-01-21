@@ -39,5 +39,9 @@ class ConstraintHandler():
             theNod = theNodes[tag]
             theNod.setDOF_Group(None)
 
+    # 以下方法：有需要的子类会重写，但并不是所有子类都有，为了程序的通用性
     def applyLoad(self):
-        return 0 # 有需要的子类会重写，但并不是所有子类都有
+        return 0
+
+    def update(self):
+        return 0

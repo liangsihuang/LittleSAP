@@ -9,6 +9,7 @@ class Domain(object):
         self.currentTime = 0.0     # current pseudo time
         self.committedTime = 0.0   # the committed pseudo time
         self.dT = 0.0              # difference between committed and current time
+        self.commitTag = 0
 
         self.currentGeoTag = 0                 # an integer used mark if domain has changed
         self.hasDomainChangedFlag = False      # a bool flag used to indicate if GeoTag needs to be ++
@@ -274,8 +275,28 @@ class Domain(object):
     # def setRayleighDampingFactors(self, alphaM, betaK, betaK0, betaKc):
     #     pass
     
-    # def commit(self):
-    #     pass
+    def commit(self):
+        # first invoke commit on all nodes and elements in the domain
+        theNodes = self.getNodes()
+        for tag in theNodes:
+            node = theNodes[tag]
+            node.commitState()
+
+        theEles = self.getElements()
+        for tag in theEles:
+            ele = theEles[tag]
+            ele.commitState()
+
+        # set the new committed time in the domain
+        self.committedTime = self.currentTime
+        self.dT = 0.0
+
+        # invoke record on all recorders
+        # update the commitTag
+        self.commitTag += 1
+        return 0
+
+
     # def revertToLastCommit(self):
     #     # first invoke revertToLastCommit on all nodes and elements in the domain
     #     for tag in self.theNodes:

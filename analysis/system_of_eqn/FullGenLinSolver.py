@@ -15,7 +15,7 @@ class FullGenLinSolver:
         A = self.theSOE.A
         B = self.theSOE.B
         self.theSOE.X = solve(A, B)
-
+        return 0
 
 
         

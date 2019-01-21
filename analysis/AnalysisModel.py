@@ -195,7 +195,8 @@ class AnalysisModel():
     def incrDisp(self, disp):
         # disp 是 Vector
         theDOFGrps = self.getDOFs()
-        for dof in theDOFGrps:
+        for tag in theDOFGrps:
+            dof = theDOFGrps[tag]
             dof.incrNodeDisp(disp)
 
     # def incrVel(self, vel):

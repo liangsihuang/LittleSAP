@@ -1,8 +1,6 @@
 from TaggedObject import TaggedObject
 import numpy as np
 
-MAX_NUM_DOF = 256
-
 class DOF_Group(TaggedObject):
     # static variables - single copy for all objects of the class
     numDOFs = 0
@@ -31,14 +29,9 @@ class DOF_Group(TaggedObject):
         # initially set all the IDs to be -2
         for i in range(0, numDOF):
             self.myID[i] = -2
-        
-        # if this is the first DOF_Group, we now create the arrays used to store pointers to 
-        # class wide matrix and vector objects used to return tangent and residual
-        if DOF_Group.numDOFs == 0:
-            pass
-
         # set the pointers for the tangent and residual
-
+        self.unbalance = np.zeros(self.numDOF)
+        self.tangent = np.zeros((self.numDOF, self.numDOF))
 
         DOF_Group.numDOFs += 1
         
@@ -179,17 +172,12 @@ class DOF_Group(TaggedObject):
     #             accel[i] = udotdot[loc]
     #     self.myNode.setTrialAccel(accel)
     
-    def incrNodeDisp(self, u):  # 有问题
+    def incrNodeDisp(self, u):
         # u 是 Vector
         if self.myNode is None:
             print('DOF_Group::incrNodeDisp: 0 Node Pointer.\n')
         
         disp = self.unbalance
-        # disp 是 Vector
-        if disp.Size() is 0:
-            print('DOF_Group::setNodeIncrDisp - out of space.\n')
-            return
-        
         # get disp for my dof out of vector u
         for i in range(0, self.numDOF):
             loc = self.myID[i]
