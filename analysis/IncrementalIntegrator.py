@@ -44,7 +44,6 @@ class IncrementalIntegrator(Integrator):
             if result < 0:
                 print('WARNING IncrementalIntegrator::formTangent - failed in addA for ID '+str(ele.getID())+' .\n')
                 return -3
-
         return 0
     
     def formUnbalance(self):
@@ -83,7 +82,8 @@ class IncrementalIntegrator(Integrator):
     def formElementResidual(self):
         # loop through the FE_Elements and add the residual
         theEles2 = self.theAnalysisModel.getFEs()
-        for ele in theEles2:
+        for tag in theEles2:
+            ele = theEles2[tag]
             result = self.theSOE.addB(ele.getResidual(self), ele.getID())
             if result < 0:
                 print('WARNING IncrementalIntegrator::formElementResidual - failed in addB for ID '+str(ele.getID())+'.\n')
@@ -94,7 +94,8 @@ class IncrementalIntegrator(Integrator):
     def formNodalUnbalance(self):
         # loop through the DOF_Groups and add the unbalance
         theDOFs = self.theAnalysisModel.getDOFs()
-        for dof in theDOFs:
+        for tag in theDOFs:
+            dof = theDOFs[tag]
             result = self.theSOE.addB(dof.getUnbalance(self), dof.getID())
             if result < 0:
                 print('WARNING IncrementalIntegrator::formNodalUnbalance - failed in addB for ID '+str(dof.getID())+'.\n')

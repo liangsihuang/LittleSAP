@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8c569cbd-2799-4cfb-857d-003ddf2be142" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/analysis/FE_Element.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/FE_Element.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/DOF_Group.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/DOF_Group.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/analysis/IncrementalIntegrator.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/IncrementalIntegrator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/analysis/system_of_eqn/FullGenLinSOE.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/system_of_eqn/FullGenLinSOE.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/element/Truss.py" beforeDir="false" afterPath="$PROJECT_DIR$/element/Truss.py" afterDir="false" />
@@ -19,10 +20,19 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/analysis/Linear.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="98">
+              <caret line="25" selection-start-line="25" selection-end-line="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/TrussExample.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="91">
-              <caret line="66" column="29" lean-forward="true" selection-start-line="66" selection-start-column="29" selection-end-line="66" selection-end-column="29" />
+            <state relative-caret-position="104">
+              <caret line="57" lean-forward="true" selection-start-line="57" selection-end-line="57" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
               </folding>
@@ -30,20 +40,23 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/analysis/StaticAnalysis.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/analysis/DOF_Group.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="56" selection-start-line="56" selection-end-line="56" />
+            <state relative-caret-position="78">
+              <caret line="33" column="8" lean-forward="true" selection-start-line="33" selection-start-column="8" selection-end-line="33" selection-end-column="8" />
+              <folding>
+                <element signature="e#0#37#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/analysis/system_of_eqn/FullGenLinSOE.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-448">
-              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+            <state relative-caret-position="216">
+              <caret line="60" selection-start-line="60" selection-end-line="60" />
               <folding>
                 <element signature="e#0#54#0" expanded="true" />
               </folding>
@@ -54,12 +67,60 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/element/Truss.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="211" column="37" lean-forward="true" selection-start-line="211" selection-start-column="37" selection-end-line="211" selection-end-column="37" />
+            <state relative-caret-position="176">
+              <caret line="263" column="42" lean-forward="true" selection-start-line="263" selection-start-column="42" selection-end-line="263" selection-end-column="42" />
               <folding>
+                <element signature="e#1577#1585#0" />
+                <element signature="e#1626#1660#0" />
                 <element signature="e#1692#1712#0" />
                 <element signature="e#1746#1764#0" />
                 <element signature="e#1818#7626#0" />
+                <element signature="e#1935#2005#0" />
+                <element signature="e#2365#2877#0" />
+                <element signature="e#2553#2877#0" />
+                <element signature="e#3142#3465#0" />
+                <element signature="e#3682#3790#0" />
+                <element signature="e#3853#3961#0" />
+                <element signature="e#4024#4132#0" />
+                <element signature="e#4195#4303#0" />
+                <element signature="e#4366#4477#0" />
+                <element signature="e#4504#4759#0" />
+                <element signature="e#4979#5045#0" />
+                <element signature="e#5346#5846#0" />
+                <element signature="e#5432#5627#0" />
+                <element signature="e#5517#5627#0" />
+                <element signature="e#5707#5815#0" />
+                <element signature="e#5893#6631#0" />
+                <element signature="e#6020#6363#0" />
+                <element signature="e#6169#6363#0" />
+                <element signature="e#6449#6557#0" />
+                <element signature="e#6658#7626#0" />
+                <element signature="e#6826#7315#0" />
+                <element signature="e#7039#7315#0" />
+                <element signature="e#7407#7515#0" />
+                <element signature="e#7730#7868#0" />
+                <element signature="e#7878#7909#0" />
+                <element signature="e#8041#8318#0" />
+                <element signature="e#8160#8200#0" />
+                <element signature="e#8430#8434#0" />
+                <element signature="e#8474#9154#0" />
+                <element signature="e#8551#8606#0" />
+                <element signature="e#8864#9133#0" />
+                <element signature="e#8915#9133#0" />
+                <element signature="e#9195#9879#0" />
+                <element signature="e#9272#9327#0" />
+                <element signature="e#9589#9858#0" />
+                <element signature="e#9640#9858#0" />
+                <element signature="e#9885#9905#0" />
+                <element signature="e#9998#10019#0" />
+                <element signature="e#10089#10196#0" />
+                <element signature="e#10202#10247#0" />
+                <element signature="e#10849#10903#0" />
+                <element signature="e#11008#11592#0" />
+                <element signature="e#11008#11051#0" />
+                <element signature="e#11259#11357#0" />
+                <element signature="e#11384#11504#0" />
+                <element signature="e#11603#11640#0" />
               </folding>
             </state>
           </provider>
@@ -68,22 +129,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/analysis/StaticIntegrator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="131">
-              <caret line="10" selection-start-line="10" selection-end-line="10" />
+            <state relative-caret-position="176">
+              <caret line="32" selection-start-line="32" selection-end-line="32" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/analysis/FE_Element.py">
+        <entry file="file://$PROJECT_DIR$/analysis/LoadControl.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="208">
-              <caret line="136" column="23" lean-forward="true" selection-start-line="136" selection-start-column="23" selection-end-line="136" selection-end-column="23" />
-              <folding>
-                <element signature="e#3519#4339#0" />
-                <element signature="e#4455#4725#0" />
-                <element signature="e#4781#5078#0" />
-              </folding>
+            <state relative-caret-position="-1456">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
             </state>
           </provider>
         </entry>
@@ -91,8 +147,30 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/analysis/IncrementalIntegrator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="41" column="30" lean-forward="true" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
+            <state relative-caret-position="124">
+              <caret line="98" column="30" selection-start-line="98" selection-start-column="30" selection-end-line="98" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/analysis/FE_Element.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="184">
+              <caret line="189" selection-start-line="189" selection-end-line="189" />
+              <folding>
+                <element signature="e#3519#4339#0" />
+                <element signature="e#4781#5078#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/element/Element.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="189">
+              <caret line="15" selection-start-line="15" selection-end-line="15" />
             </state>
           </provider>
         </entry>
@@ -138,7 +216,6 @@
         <option value="$PROJECT_DIR$/TrussExample.py" />
         <option value="$PROJECT_DIR$/material/ElasticMaterial.py" />
         <option value="$PROJECT_DIR$/domain/LoadPattern.py" />
-        <option value="$PROJECT_DIR$/analysis/DOF_Group.py" />
         <option value="$PROJECT_DIR$/analysis/PlainNumberer.py" />
         <option value="$PROJECT_DIR$/graph/Graph.py" />
         <option value="$PROJECT_DIR$/analysis/system_of_eqn/FullGenLinSolver.py" />
@@ -153,14 +230,15 @@
         <option value="$PROJECT_DIR$/graph/Vertex.py" />
         <option value="$PROJECT_DIR$/analysis/Linear.py" />
         <option value="$PROJECT_DIR$/analysis/StaticAnalysis.py" />
-        <option value="$PROJECT_DIR$/analysis/system_of_eqn/FullGenLinSOE.py" />
-        <option value="$PROJECT_DIR$/analysis/IncrementalIntegrator.py" />
         <option value="$PROJECT_DIR$/analysis/FE_Element.py" />
         <option value="$PROJECT_DIR$/element/Truss.py" />
+        <option value="$PROJECT_DIR$/analysis/system_of_eqn/FullGenLinSOE.py" />
+        <option value="$PROJECT_DIR$/analysis/IncrementalIntegrator.py" />
+        <option value="$PROJECT_DIR$/analysis/DOF_Group.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds">
     <option name="x" value="-7" />
     <option name="width" value="647" />
     <option name="height" value="735" />
@@ -170,7 +248,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -192,12 +269,18 @@
             <path>
               <item name="LittleSAP" type="b2602c69:ProjectViewProjectNode" />
               <item name="LittleSAP" type="462c0819:PsiDirectoryNode" />
+              <item name="element" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="LittleSAP" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LittleSAP" type="462c0819:PsiDirectoryNode" />
               <item name="material" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -265,16 +348,16 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-7" y="0" width="647" height="735" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49242425" visible="true" weight="0.1748512" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49242425" visible="true" weight="0.3858785" />
       <window_info id="Structure" order="1" sideWeight="0.50757575" side_tool="true" weight="0.1748512" />
       <window_info id="Favorites" order="2" sideWeight="0.50757575" side_tool="true" weight="0.1748512" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3295082" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.3295082" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.43606558" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.098169714" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -289,18 +372,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/analysis/StaticAnalysis.py</url>
-          <line>56</line>
-          <option name="timeStamp" value="71" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/analysis/system_of_eqn/FullGenLinSOE.py</url>
-          <line>41</line>
-          <option name="timeStamp" value="73" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -354,13 +425,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/analysis/LoadControl.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="26">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/analysis/system_of_eqn/LinearSOESolver.py" />
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -408,20 +472,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="130">
           <caret line="5" selection-start-line="5" selection-end-line="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/material/ElasticMaterial.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/element/Element.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
         </state>
       </provider>
     </entry>
@@ -487,13 +537,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/analysis/DOF_Group.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="43" selection-start-line="43" selection-end-line="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/analysis/ConstraintHandler.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="208">
@@ -529,13 +572,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/analysis/AnalysisModel.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="107">
-          <caret line="70" column="30" lean-forward="true" selection-start-line="70" selection-start-column="30" selection-end-line="70" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/analysis/Integrator.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="234">
@@ -550,65 +586,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/analysis/Linear.py">
+    <entry file="file://$PROJECT_DIR$/material/ElasticMaterial.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-182">
-          <caret line="8" column="30" lean-forward="true" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
+        <state relative-caret-position="1352">
+          <caret line="52" selection-start-line="52" selection-end-line="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis/AnalysisModel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2132">
+          <caret line="83" selection-start-line="83" selection-end-line="83" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/analysis/EquiSolnAlgo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="15" column="41" lean-forward="true" selection-start-line="15" selection-start-column="41" selection-end-line="15" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/analysis/IncrementalIntegrator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="41" column="30" lean-forward="true" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/analysis/StaticIntegrator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/analysis/FE_Element.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="136" column="23" lean-forward="true" selection-start-line="136" selection-start-column="23" selection-end-line="136" selection-end-column="23" />
-          <folding>
-            <element signature="e#3519#4339#0" />
-            <element signature="e#4455#4725#0" />
-            <element signature="e#4781#5078#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/element/Truss.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="211" column="37" lean-forward="true" selection-start-line="211" selection-start-column="37" selection-end-line="211" selection-end-column="37" />
-          <folding>
-            <element signature="e#1692#1712#0" />
-            <element signature="e#1746#1764#0" />
-            <element signature="e#1818#7626#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TrussExample.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="91">
-          <caret line="66" column="29" lean-forward="true" selection-start-line="66" selection-start-column="29" selection-end-line="66" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="222">
+          <caret line="33" selection-start-line="33" selection-end-line="33" />
         </state>
       </provider>
     </entry>
@@ -619,12 +614,138 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/analysis/Linear.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="98">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis/FE_Element.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="189" selection-start-line="189" selection-end-line="189" />
+          <folding>
+            <element signature="e#3519#4339#0" />
+            <element signature="e#4781#5078#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/element/Element.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/element/Truss.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="263" column="42" lean-forward="true" selection-start-line="263" selection-start-column="42" selection-end-line="263" selection-end-column="42" />
+          <folding>
+            <element signature="e#1577#1585#0" />
+            <element signature="e#1626#1660#0" />
+            <element signature="e#1692#1712#0" />
+            <element signature="e#1746#1764#0" />
+            <element signature="e#1818#7626#0" />
+            <element signature="e#1935#2005#0" />
+            <element signature="e#2365#2877#0" />
+            <element signature="e#2553#2877#0" />
+            <element signature="e#3142#3465#0" />
+            <element signature="e#3682#3790#0" />
+            <element signature="e#3853#3961#0" />
+            <element signature="e#4024#4132#0" />
+            <element signature="e#4195#4303#0" />
+            <element signature="e#4366#4477#0" />
+            <element signature="e#4504#4759#0" />
+            <element signature="e#4979#5045#0" />
+            <element signature="e#5346#5846#0" />
+            <element signature="e#5432#5627#0" />
+            <element signature="e#5517#5627#0" />
+            <element signature="e#5707#5815#0" />
+            <element signature="e#5893#6631#0" />
+            <element signature="e#6020#6363#0" />
+            <element signature="e#6169#6363#0" />
+            <element signature="e#6449#6557#0" />
+            <element signature="e#6658#7626#0" />
+            <element signature="e#6826#7315#0" />
+            <element signature="e#7039#7315#0" />
+            <element signature="e#7407#7515#0" />
+            <element signature="e#7730#7868#0" />
+            <element signature="e#7878#7909#0" />
+            <element signature="e#8041#8318#0" />
+            <element signature="e#8160#8200#0" />
+            <element signature="e#8430#8434#0" />
+            <element signature="e#8474#9154#0" />
+            <element signature="e#8551#8606#0" />
+            <element signature="e#8864#9133#0" />
+            <element signature="e#8915#9133#0" />
+            <element signature="e#9195#9879#0" />
+            <element signature="e#9272#9327#0" />
+            <element signature="e#9589#9858#0" />
+            <element signature="e#9640#9858#0" />
+            <element signature="e#9885#9905#0" />
+            <element signature="e#9998#10019#0" />
+            <element signature="e#10089#10196#0" />
+            <element signature="e#10202#10247#0" />
+            <element signature="e#10849#10903#0" />
+            <element signature="e#11008#11592#0" />
+            <element signature="e#11008#11051#0" />
+            <element signature="e#11259#11357#0" />
+            <element signature="e#11384#11504#0" />
+            <element signature="e#11603#11640#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/analysis/system_of_eqn/FullGenLinSOE.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-448">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+        <state relative-caret-position="216">
+          <caret line="60" selection-start-line="60" selection-end-line="60" />
           <folding>
             <element signature="e#0#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis/IncrementalIntegrator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="98" column="30" selection-start-line="98" selection-start-column="30" selection-end-line="98" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TrussExample.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="104">
+          <caret line="57" lean-forward="true" selection-start-line="57" selection-end-line="57" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis/LoadControl.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1456">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis/StaticIntegrator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="32" selection-start-line="32" selection-end-line="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis/DOF_Group.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="33" column="8" lean-forward="true" selection-start-line="33" selection-start-column="8" selection-end-line="33" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
           </folding>
         </state>
       </provider>

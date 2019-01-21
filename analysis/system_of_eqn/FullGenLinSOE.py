@@ -28,7 +28,7 @@ class FullGenLinSOE(LinearSOE):
         # id1 是 list? narray? , id是保留字，所以用id1，一个单元里所有节点的自由度=方程数，方程数从0开始
         # check for a quick return
         if fact == 0.0:
-            return
+            return 0
         # check that m and id are of similar size
         idSize = len(id1)
         if idSize != m.shape[0] and idSize != m.shape[1]:
@@ -37,13 +37,34 @@ class FullGenLinSOE(LinearSOE):
 
         for i in range(0, idSize):
             row = id1[i]
-            for j in range(0, idSize):
-                col = id1[j]
-                self.A[row, col] += m[j, i] * fact
+            if row >= 0 and row < self.size:
+                for j in range(0, idSize):
+                    col = id1[j]
+                    if col >= 0 and col < self.size:
+                        self.A[row, col] += m[j, i] * fact
+        return 0
+
+    def addB(self, v, id1, fact=1.0):
+        # check for a quick return
+        if fact == 0.0:
+            return 0
+        idSize = len(id1)
+        # check that v and id are of similar size
+        if idSize != len(v):
+            print('FullGenLinSOE::addB() - Vector and ID not of similar sizes\n')
+            return -1
+        for i in range(0, idSize):
+            pos = id1[i]
+            if pos >=0 and pos < self.size:
+                self.B[pos] += v[i]*fact
+        return 0
 
     def zeroA(self):
         self.A[:, :] = 0.0
         self.factored = False
+
+    def zeroB(self):
+        self.B[:] = 0.0
 
     def setSize(self, graph):
         result = 0
@@ -51,7 +72,7 @@ class FullGenLinSOE(LinearSOE):
         self.size = graph.getNumVertex()
 
         if self.size*self.size > self.Asize:
-            A = np.zeros((self.size, self.size))
+            self.A = np.zeros((self.size, self.size))
             self.Asize = self.size * self.size
         self.factored = False
 

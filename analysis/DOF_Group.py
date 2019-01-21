@@ -1,10 +1,15 @@
 from TaggedObject import TaggedObject
 import numpy as np
 
+MAX_NUM_DOF = 256
+
 class DOF_Group(TaggedObject):
     # static variables - single copy for all objects of the class
     numDOFs = 0
     errVect = np.zeros(1)
+    errMatrix = np.zeros((1,1))
+    theMatrices = []
+    theVectors = []
 
     def __init__(self, tag, node):
         super().__init__(tag) # tag 从0开始
@@ -20,9 +25,8 @@ class DOF_Group(TaggedObject):
 
         # get number of DOF & verify valid
         numDOF = node.getNumberDOF()
-        if(numDOF <= 0):
+        if numDOF <= 0:
             print('DOF_Group::DOF_Group() - node must have at least 1 dof. \n')
-        
         
         # initially set all the IDs to be -2
         for i in range(0, numDOF):
@@ -30,6 +34,11 @@ class DOF_Group(TaggedObject):
         
         # if this is the first DOF_Group, we now create the arrays used to store pointers to 
         # class wide matrix and vector objects used to return tangent and residual
+        if DOF_Group.numDOFs == 0:
+            pass
+
+        # set the pointers for the tangent and residual
+
 
         DOF_Group.numDOFs += 1
         
@@ -76,7 +85,7 @@ class DOF_Group(TaggedObject):
         return self.tangent # is Matrix
 
     def zeroTangent(self):
-        self.tangent.Zero()
+        self.tangent[:,:] = 0
 
     def addMtoTang(self, fact = 1.0):
         pass
@@ -90,12 +99,11 @@ class DOF_Group(TaggedObject):
         return self.unbalance # is Vector
 
     def zeroUnbalance(self):
-        self.unbalance.Zero()
+        self.unbalance[:] = 0
 
     def addPtoUnbalance(self, fact = 1.0):
         if self.myNode is not None:
-            if self.unbalance.addVector(1.0, self.myNode.getUnbalancedLoad(), fact) < 0 :
-                print('DOF_Group::addPIncInertiaToUnbalance() - invoking addVector() on the unbalance failed.\n')
+            self.unbalance += self.myNode.getUnbalancedLoad() * fact
         else:
             print('DOF_Group::addPtoUnbalance() - no Node associated. Subclass should provide the method.\n')
 

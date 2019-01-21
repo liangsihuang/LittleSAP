@@ -25,8 +25,8 @@ class Truss(Element):
         self.numDOF = 0        # number of dof for truss ??
 
         self.theLoad = None    # pointer to the load vector P
-        self.theMatrix = None  # pointer to objects matrix (a class wide Matrix) ??
-        self.theVector = None  # pointer to objects vector (a class wide Vector) ??
+        self.theMatrix = None  # pointer to objects matrix (a class wide Matrix)
+        self.theVector = None  # pointer to objects vector (a class wide Vector)
 
         self.L = 0.0       # length of truss based on undeformed configuration
         self.A = A         # area of truss
@@ -252,15 +252,15 @@ class Truss(Element):
     # def addInertiaLoadToUnbalance(self, accel):
     #     pass
 
-    def getresistingForce(self):
+    def getResistingForce(self):
         if self.L == 0.0: # - problem in setDomain() no further warnings
-            self.theVector.Zero()
+            self.theVector = None
             return self.theVector
         
         # R = Ku - Pext
         # Ku = F * transformation
         force = self.A * self.theMaterial.getStress()
-        numDOF2 = self.numDOF / 2
+        numDOF2 = int(self.numDOF / 2)
         for i in range(0, self.dimension):
             temp = self.cosX[i] * force
             self.theVector[i] = -temp
