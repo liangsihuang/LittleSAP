@@ -183,7 +183,7 @@ class Truss(Element):
     # public methods to set the state of the element
     def commitState(self):
         if self. Kc is not None:
-            Kc = self.getTangentStiff()    
+            self.Kc = self.getTangentStiff()
         retVal = self.theMaterial.commitState()
         return retVal
     
@@ -199,8 +199,9 @@ class Truss(Element):
         return self.theMaterial.setTrialStrain(strain)
 
     # public methods to obtain stiffness, mass, damping and residual information
-    def getKi(self):
-        pass
+    # def getKi(self):
+    #     pass
+
     def getTangentStiff(self):
         if self.L == 0.0: # - problem in setDomain() no further warnings
             self.theMatrix.Zero()

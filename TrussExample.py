@@ -72,3 +72,12 @@ theAnalysis = StaticAnalysis(theDomain, theHandler, theNumberer, theModel, theSo
 
 numSteps = 1
 theAnalysis.analyze(numSteps)
+
+d4 = node4.getDisp()
+print(d4)
+d3 = node3.getDisp()
+print(d3)
+d2 = node2.getDisp()
+print(d2)
+d1 = node1.getDisp()
+print(d1)

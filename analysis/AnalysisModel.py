@@ -70,8 +70,8 @@ class AnalysisModel():
     def clearDOFGraph(self):
         self.myDOFGraph = None
 
-    def clearDOFGroupGraph(self):
-        self.myGroupGraph = None
+    # def clearDOFGroupGraph(self):
+    #     self.myGroupGraph = None
 
     # methods to access the FE_Elements and DOF_Groups and their numbers
     def getNumDOF_Groups(self):
@@ -132,40 +132,40 @@ class AnalysisModel():
                                 eqn2 - AnalysisModel.START_EQN_NUM + AnalysisModel.START_VERTEX_NUM)
         return self.myDOFGraph
  
-    def getDOFGroupGraph(self):
-        # 和 getDOFGraph() 有什么区别？
-        # DOFGraph ：number后（去除约束后）的节点里面的自由度（DOF），变成Vertex
-        # DOFGroupGraph：所有节点（DOFGroup），变成Vertex
-        if self.myGroupGraph is None:
-            numVertex = self.getNumDOF_Groups()
-            if numVertex == 0:
-                print('WARNING AnalysisMode::getDOFGroupGraph - 0 vertices, has the Domain been populated?\n')
-                # exit(self, -1)
-            graphStorage = {}
-            self.myGroupGraph = Graph(graphStorage) # 重点！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
-            # now create the vertices with a reference equal to the DOF_Group number.
-            # and a tag which ranges from 0 through numVertex-1
-            theDOFs = self.getDOFs()
-            count = AnalysisModel.START_VERTEX_NUM
-            for dof in theDOFs:
-                DOF_GroupTag = dof.getTag()
-                DOF_GroupNodeTag = dof.getNodeTag()
-                numDOF = dof.getNumFreeDOF()
-                vertex = Vertex(DOF_GroupTag, DOF_GroupNodeTag, 0, numDOF)
-                self.myGroupGraph.addVertex(vertex)
-            # now add the edges, by looping over the Elements, getting their
-            # IDs and adding edges between DOFs for equation numbers >= START_EQN_NUM
-            theFEs = self.getFEs()
-            for ele in theFEs:
-                id1 = ele.getDOFtags()
-                size = id1.Size()
-                for i in range(0, size):
-                    dof1 = id1[i]
-                    for j in range(0, size):
-                        if i != j:
-                            dof2 = id1[j]
-                            self.myGroupGraph.addEdge(dof1, dof2)
-        return self.myGroupGraph
+    # def getDOFGroupGraph(self):
+    #     # 和 getDOFGraph() 有什么区别？
+    #     # DOFGraph ：number后（去除约束后）的节点里面的自由度（DOF），变成Vertex
+    #     # DOFGroupGraph：所有节点（DOFGroup），变成Vertex
+    #     if self.myGroupGraph is None:
+    #         numVertex = self.getNumDOF_Groups()
+    #         if numVertex == 0:
+    #             print('WARNING AnalysisMode::getDOFGroupGraph - 0 vertices, has the Domain been populated?\n')
+    #             # exit(self, -1)
+    #         graphStorage = {}
+    #         self.myGroupGraph = Graph(graphStorage) # 重点！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+    #         # now create the vertices with a reference equal to the DOF_Group number.
+    #         # and a tag which ranges from 0 through numVertex-1
+    #         theDOFs = self.getDOFs()
+    #         count = AnalysisModel.START_VERTEX_NUM
+    #         for dof in theDOFs:
+    #             DOF_GroupTag = dof.getTag()
+    #             DOF_GroupNodeTag = dof.getNodeTag()
+    #             numDOF = dof.getNumFreeDOF()
+    #             vertex = Vertex(DOF_GroupTag, DOF_GroupNodeTag, 0, numDOF)
+    #             self.myGroupGraph.addVertex(vertex)
+    #         # now add the edges, by looping over the Elements, getting their
+    #         # IDs and adding edges between DOFs for equation numbers >= START_EQN_NUM
+    #         theFEs = self.getFEs()
+    #         for ele in theFEs:
+    #             id1 = ele.getDOFtags()
+    #             size = id1.Size()
+    #             for i in range(0, size):
+    #                 dof1 = id1[i]
+    #                 for j in range(0, size):
+    #                     if i != j:
+    #                         dof2 = id1[j]
+    #                         self.myGroupGraph.addEdge(dof1, dof2)
+    #     return self.myGroupGraph
     
     # methods to update the response quantities at the DOF_Groups,
     # which in turn set the new nodal trial response quantities
