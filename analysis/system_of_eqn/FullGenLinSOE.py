@@ -11,10 +11,10 @@ class FullGenLinSOE(LinearSOE):
         self.B = np.zeros(self.size)
         self.X = np.zeros(self.size)
 
-        # Vector/narray
-        self.vectX = np.zeros(self.size)
-        self.vectB = np.zeros(self.size)
-        self.matA = np.zeros((self.size, self.size))
+        # # Vector/narray
+        # self.vectX = np.zeros(self.size)
+        # self.vectB = np.zeros(self.size)
+        # self.matA = np.zeros((self.size, self.size))
 
         self.Asize = 0  # 矩阵A的行数×列数
         self.Bsize = 0  # size 和 Bize 有什么区别？没区别，两者相等
@@ -82,10 +82,10 @@ class FullGenLinSOE(LinearSOE):
             self.Bsize = self.size
 
         # create new Vectors/narray
-        if self.size != oldSize:
-            self.vectX = np.zeros(self.size)
-            self.vectB = np.zeros(self.size)
-            self.matA = np.zeros((self.size, self.size))
+        # if self.size != oldSize:
+        #     self.vectX = np.zeros(self.size)
+        #     self.vectB = np.zeros(self.size)
+        #     self.matA = np.zeros((self.size, self.size))
 
         # invoke setSize() on the Solver， 没必要了
         # theSolvr = self.getSolver()
@@ -93,8 +93,8 @@ class FullGenLinSOE(LinearSOE):
         return result
 
     def getX(self):
-        return self.vectX
+        return self.X
 
     def setX(self, x):
         if len(x)==self.size:
-            self.vectX = x
+            self.X = x
