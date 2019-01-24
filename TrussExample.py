@@ -81,3 +81,6 @@ d2 = node2.getDisp()
 print(d2)
 d1 = node1.getDisp()
 print(d1)
+
+print(theSOE.getA())
+print(theSOE.getB())

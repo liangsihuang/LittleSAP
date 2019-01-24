@@ -6,7 +6,7 @@ class NodalLoad(Load):
         super().__init__(tag)
         self.myNodeTag = node                 # tag indicating associated Node objects tag
         self.myNode = None              # pointer to Node object on which load acts
-        self.load = theLoad                # a vector
+        self.load = theLoad                # a vector / list
         self.konstant = isLoadConstant     # true if load is load factor independent
     
     def setDomain(self, newDomain):

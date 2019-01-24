@@ -94,7 +94,12 @@ class FullGenLinSOE(LinearSOE):
 
     def getX(self):
         return self.X
+    def getB(self):
+        return self.B
+    def getA(self):
+        return self.A
 
     def setX(self, x):
         if len(x)==self.size:
             self.X = x
+

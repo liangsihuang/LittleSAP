@@ -1,4 +1,4 @@
-from analysis.Integrator import Integrator
+from analysis.integrator.Integrator import Integrator
 
 class IncrementalIntegrator(Integrator):
     CURRENT_TANGENT = 0

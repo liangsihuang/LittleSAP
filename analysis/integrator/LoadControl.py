@@ -1,4 +1,4 @@
-from analysis.StaticIntegrator import StaticIntegrator
+from analysis.integrator.StaticIntegrator import StaticIntegrator
 
 class LoadControl(StaticIntegrator):
     def __init__(self, dLambda, numIncr, minLambda, maxLambda):

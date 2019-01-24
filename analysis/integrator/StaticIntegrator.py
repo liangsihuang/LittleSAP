@@ -1,4 +1,4 @@
-from analysis.IncrementalIntegrator import IncrementalIntegrator
+from analysis.integrator.IncrementalIntegrator import IncrementalIntegrator
 
 class StaticIntegrator(IncrementalIntegrator):
     def __init__(self):
