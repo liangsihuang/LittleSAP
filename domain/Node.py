@@ -72,6 +72,22 @@ class Node(DomainComponent):
         return 0
 
     # public methods for adding and obtaining load information
+    def addUnbalancedLoad(self, add, fact=1.0):
+        # add: narray
+        # check vector arg is of correct size
+        if len(add) != self.numberDOF:
+            print('Node::addunbalLoad - load to add of incorrect size')
+            return -1
+        # if no load yet create it and assign
+        if self.unbalLoad is None:
+            self.unbalLoad = add
+            if fact != 1.0:
+                self.unbalLoad = self.unbalLoad * fact
+            return 0
+        # add fact*add to the unbalanced load
+        self.unbalLoad = add * fact
+        return 0
+
     def getUnbalancedLoad(self):
         # make sure it was created before we return it
         if self.unbalLoad is None:

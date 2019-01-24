@@ -43,10 +43,10 @@ class LoadPattern(DomainComponent):
         load.setLoadPatternTag(self.getTag())
         self.currentGeoTag += 1
         
-    def addElementalLoad(self, load):
-        pass
-    def addSP_Constraint(self, theSP):
-        pass
+    # def addElementalLoad(self, load):
+    #     pass
+    # def addSP_Constraint(self, theSP):
+    #     pass
     
     def getNodalLoads(self):
         return self.theNodalLoads
@@ -56,24 +56,40 @@ class LoadPattern(DomainComponent):
         return self.theSPs
 
     # methods to remove loads
-    def clearAll(self):
-        pass
-    def removeNodalLoad(self, tag):
-        pass
-    def removeElementalLoad(self, tag):
-        pass
-    def removeSP_Constraint(self, tag):
-        pass
+    # def clearAll(self):
+    #     pass
+    # def removeNodalLoad(self, tag):
+    #     pass
+    # def removeElementalLoad(self, tag):
+    #     pass
+    # def removeSP_Constraint(self, tag):
+    #     pass
 
     # methods to apply loads
     def applyLoad(self, pseudoTime=0.0):
-        pass
-    def setLoadConstant(self):
-        pass
-    def unsetLoadConstant(self):
-        pass
-    def getLoadFactor(self):
-        pass
+        # first determine the load factor
+        if self.theSeries is not None and self.isConstant != 0:
+            self.loadFactor = self.theSeries.getFactor(pseudoTime)
+            self.loadFactor *= self.scaleFactor
+
+        theNodalLoads = self.getNodalLoads()
+        for tag in theNodalLoads:
+            nodLoad = theNodalLoads[tag]
+
+        # eleLoad 略
+
+        theSPs = self.getSPs()
+        for tag in theSPs:
+            sp = theSPs[tag]
+            sp.applyConstraint(self.loadFactor)
+
+
+    # def setLoadConstant(self):
+    #     pass
+    # def unsetLoadConstant(self):
+    #     pass
+    # def getLoadFactor(self):
+    #     pass
 
     # methods for o/p
 

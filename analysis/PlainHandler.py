@@ -1,6 +1,6 @@
 from analysis.ConstraintHandler import  ConstraintHandler
-from analysis.DOF_Group import  DOF_Group
-from analysis.FE_Element import  FE_Element
+from analysis.model.DOF_Group import  DOF_Group
+from analysis.model.FE_Element import  FE_Element
 # Responsible for creating the DOF_Group and FE_Element objects, and adding them to the AnalysisModel.
 # Also responsible for assigning an initial mapping of dof to equation numbers.
 

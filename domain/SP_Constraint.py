@@ -37,8 +37,8 @@ class SP_Constraint(DomainComponent):
     # The constraint may be time-varying .. time varying constarints however 
     # must be implemented using subclasses.
     
-    def getValue(self):
-        pass
+    # def getValue(self):
+    #     pass
     
     def isHomogeneous(self):
         if self.valueR == 0.0:
@@ -46,11 +46,11 @@ class SP_Constraint(DomainComponent):
         else:
             return False
     
-    def setLoadPatternTag(self, loadPatternTag):
-        pass
-
-    def getLoadPatternTag(self):
-        pass
+    # def setLoadPatternTag(self, loadPatternTag):
+    #     pass
+    #
+    # def getLoadPatternTag(self):
+    #     pass
     
     # def sendSelf(self):
     #     pass

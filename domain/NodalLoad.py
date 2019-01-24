@@ -30,6 +30,5 @@ class NodalLoad(Load):
         else:
             self.myNode.addUnbalancedLoad(self.load, 1.0)
 
-    
      
     

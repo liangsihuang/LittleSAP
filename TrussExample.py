@@ -2,8 +2,8 @@ from analysis.Linear import Linear
 from analysis.StaticAnalysis import StaticAnalysis
 from analysis.PlainNumberer import PlainNumberer
 from analysis.PlainHandler import PlainHandler
-from analysis.LoadControl import LoadControl
-from analysis.AnalysisModel import AnalysisModel
+from analysis.integrator.LoadControl import LoadControl
+from analysis.model.AnalysisModel import AnalysisModel
 from domain.Domain import Domain
 from domain.LoadPattern import LoadPattern
 from domain.NodalLoad import NodalLoad
@@ -14,7 +14,7 @@ from element.Truss import Truss
 from material.ElasticMaterial import ElasticMaterial
 from analysis.system_of_eqn.FullGenLinSolver import FullGenLinSolver
 from analysis.system_of_eqn.FullGenLinSOE import FullGenLinSOE
-
+import numpy as np
 theDomain = Domain()
 
 node1 = Node(1, 2, 0.0, 0.0)
@@ -56,7 +56,7 @@ theLoadPattern = LoadPattern(1)
 theLoadPattern.setTimeSeries(theSeries)
 theDomain.addLoadPattern(theLoadPattern)
 
-theLoadValues = [100.0, -50.0]
+theLoadValues = np.array([100.0, -50.0])
 theLoad = NodalLoad(1, 4, theLoadValues)
 theDomain.addNodalLoad(theLoad, 1)
 

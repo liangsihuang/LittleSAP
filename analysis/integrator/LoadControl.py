@@ -18,7 +18,7 @@ class LoadControl(StaticIntegrator):
 
     def newStep(self):
         theModel = self.theAnalysisModel
-        if theModel == None:
+        if theModel is None:
             print('LoadControl::newStep() - no associated AnalysisModel.\n')
             return -1
         # determine delta lambda for this step based on dLambda and #iter of last step
@@ -41,7 +41,7 @@ class LoadControl(StaticIntegrator):
         # deltaU 是 Vector
         myModel = self.getAnalysisModel()
         theSOE = self.getLinearSOE() 
-        if myModel==None or theSOE==None:
+        if myModel is None or theSOE is None:
             print('WARNING LoadControl::update() - No AnalysisModel or LinearSOE has been set.\n')
             return -1
         
