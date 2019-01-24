@@ -75,6 +75,7 @@ class LoadPattern(DomainComponent):
         theNodalLoads = self.getNodalLoads()
         for tag in theNodalLoads:
             nodLoad = theNodalLoads[tag]
+            nodLoad.applyLoad(self.loadFactor)
 
         # eleLoad 略
 
