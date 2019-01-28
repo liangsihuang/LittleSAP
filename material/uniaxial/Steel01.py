@@ -14,6 +14,10 @@ class Steel01(UniaxialMaterial):
         self.fy = fy
         self.E0 = E0
         self.b  = b
+        self.a1 =a1
+        self.a2 = a2
+        self.a3 = a3
+        self.a4 = a4
         # Sets all history and state variables to initial values
         # History variables
         self.CminStrain = 0.0
@@ -36,3 +40,27 @@ class Steel01(UniaxialMaterial):
         self.Tstrain = 0.0
         self.Tstress = 0.0
         self.Ttangent = E0
+
+    def getCopy(self):
+        theCopy = Steel01(self.getTag(), self.fy, self.E0, self.b, self.a1, self.a2, self.a3, self.a4)
+        theCopy.CminStrain = self.CminStrain
+        theCopy.CmaxStrain = self.CmaxStrain
+        theCopy.CshiftP = self.CshiftP
+        theCopy.CshiftN = self.CshiftN
+        theCopy.Cloading = self.Cloading
+
+        theCopy.TminStrain = self.TminStrain
+        theCopy.TmaxStrain = self.TmaxStrain
+        theCopy.TshiftP = self.TshiftP
+        theCopy.TshiftN = self.TshiftN
+        theCopy.Tloading =self.Tloading
+
+        theCopy.Cstrain = self.Cstrain
+        theCopy.Cstress = self.Cstress
+        theCopy.Ctangent = self.Ctangent
+
+        theCopy.Tstrain = self.Tstrain
+        theCopy.Tstress = self.Tstress
+        theCopy.Ttangent = self.Ttangent
+
+        return theCopy

@@ -50,3 +50,13 @@ class Concrete01(UniaxialMaterial):
         self.Tstrain = self.Cstrain
         self.Tstress = self.Cstress
         self.Ttangent = self.Ctangent
+
+    def getCopy(self):
+        theCopy = Concrete01(self.getTag(), self.fpc, self.epsc0, self.fpcu, self.epscu)
+        theCopy.CminStrain = self.CminStrain
+        theCopy.CunloadSlope = self.CunloadSlope
+        theCopy.CendStrain = self.CendStrain
+        theCopy.Cstrain = self.Cstrain
+        theCopy.Cstress = self.Cstress
+        theCopy.Ctangent = self.Ctangent
+        return theCopy
