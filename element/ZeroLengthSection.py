@@ -40,4 +40,36 @@ class ZeroLengthSection(Element):
         self.connectedExternalNodes[0] = Nd1
         self.connectedExternalNodes[1] = Nd2
 
+        # check that vectors for orientation are correct size
+        if len(x)!=3 or len(yp)!= 3:
+            print('ZeroLengthSection::setUp -- incorrect dimension of orientation vectors\n')
+
+        # establish orientation of element for the tranformation matrix
+        # z = x cross yp
+        z = np.zeros(3)
+        z[0] = x[1]*yp[2] - x[2]*yp[1]
+        z[1] = x[2]*yp[0] - x[0]*yp[2]
+        z[2] = x[0]*yp[1] - x[1]*yp[0]
+        # y = z cross x
+        y = np.zeros(3)
+        y[0] = z[1]*x[2] - z[2]*x[1]
+        y[1] = z[2] * x[0] - z[0] * x[2]
+        y[2] = z[0] * x[1] - z[1] * x[0]
+
+        # compute length(norm) of vectors
+        xn = np.linalg.norm(x)
+        yn = np.linalg.norm(y)
+        zn = np.linalg.norm(z)
+
+        # check valid x and y vectors, i.e. not parallel and of zero length
+        if xn==0 or yn==0 or zn ==0:
+            print('ZeroLengthSection::setUp -- invalid vectors to constructor\n')
+
+        # create transformation matrix of direction cosines
+        for i in range(0,3):
+            self.transformation[0,i] = x[i] / xn
+            self.transformation[1,i] = y[i] / yn
+            self.transformation[2,i] = z[i] / zn
+
+
 

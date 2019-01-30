@@ -1,4 +1,4 @@
-from analysis.SolutionAlgorithm import SolutionAlgorithm
+from analysis.algorithm.SolutionAlgorithm import SolutionAlgorithm
 
 class EquiSolnAlgo(SolutionAlgorithm):
 

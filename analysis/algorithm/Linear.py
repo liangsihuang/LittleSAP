@@ -1,4 +1,4 @@
-from analysis.EquiSolnAlgo import EquiSolnAlgo
+from analysis.algorithm.EquiSolnAlgo import EquiSolnAlgo
 
 CURRENT_TANGENT = 0
 class Linear(EquiSolnAlgo):
@@ -39,7 +39,7 @@ class Linear(EquiSolnAlgo):
         
         return 0
         
-    def setConvergenceTest(self, theNewTest):
-        pass
+    # def setConvergenceTest(self, theNewTest):
+    #     pass
 
 
