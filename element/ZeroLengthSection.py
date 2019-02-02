@@ -19,7 +19,7 @@ class ZeroLengthSection(Element):
         self.dimension = dimension
         self.numDOF = 0
         self.transformation = np.zeros((3,3))
-        self.useRayleighDamping = doRayleighDamping # int
+        self.useRayleighDamping = doRayleighDamping # int， 0：not including rayleigh damping
 
         self.A = None # Transformation matrix ... e = A*(u2-u1)
         self.v = None # Section deformation vector, the element basic deformations
@@ -33,6 +33,9 @@ class ZeroLengthSection(Element):
         self.setUp(Nd1, Nd2, x, yprime)
 
     def setUp(self, Nd1, Nd2, x, yp):
+        # x: vector in global coordinates defining local x-axis
+        # yp: vector in global coordinates defining
+        # vector yp which lies in the local x-y plane for the element.
         # ensure the connectedExternalNode ID is of correct size & set values
         if len(self.connectedExternalNodes) != 2:
             print('ZeroLengthSection::setUp -- failed to create an ID of correct size\n')
@@ -71,5 +74,77 @@ class ZeroLengthSection(Element):
             self.transformation[1,i] = y[i] / yn
             self.transformation[2,i] = z[i] / zn
 
+    def getNumExternalNodes(self):
+        return 2
+
+    def getExternalNodes(self):
+        return self.connectedExternalNodes
+
+    def getNodes(self):
+        return self.theNodes
+
+    def getNumDOF(self):
+        return self.numDOF
+
+    def setDomain(self, theDomain):
+        if theDomain is None:
+            self.theNodes[0] = None
+            self.theNodes[1] = None
+            return
+        Nd1 = self.connectedExternalNodes[0]
+        Nd2 = self.connectedExternalNodes[1]
+        self.theNodes[0] = theDomain.getNode(Nd1)
+        self.theNodes[1] = theDomain.getNode(Nd2)
+        # check
+        if self.theNodes[0] is None or self.theNodes[1] is None:
+            if self.theNodes[0] is None:
+                print('ZeroLengthSection::setDomain() -- Nd1:' +str(Nd1)+
+                      ' does not exist in ')
+            else:
+                print('ZeroLengthSection::setDomain() -- Nd2:' +str(Nd2)+
+                      ' does not exist in ')
+            print('model for ZeroLengthSection with id '+str(self.getTag()))
+            return
+        # now determine the number of dof and the dimension
+        dofNd1 = self.theNodes[0].getNumberDOF()
+        dofNd2 = self.theNodes[1].getNumberDOF()
+        if dofNd1!=dofNd2:
+            print('ZeroLengthSection::setDomain() -- nodes '+str(Nd1)+' and '+str(Nd2)+
+                  'have differing dof at ends for ZeroLengthSection '+str(self.getTag()))
+            return
+        self.numDOF = 2 * dofNd1
+        if self.numDOF!=6 and self.numDOF!=12:
+            print('ZeroLengthSection::setDomain() -- element only works for 3 (2d) or 6 (3d) dof per node')
+
+        if self.numDOF==6:
+            self.P = ZeroLengthSection.P6
+            self.K = ZeroLengthSection.K6
+        else:
+            self.P = ZeroLengthSection.P12
+            self.K = ZeroLengthSection.K12
+
+        # Check that length is zero within tolerance
+        end1Crd = self.theNodes[0].getCrds()
+        end2Crd = self.theNodes[1].getCrds()
+        diff = end1Crd - end2Crd
+        L = np.linalg.norm(diff)
+        v1 = np.linalg.norm(end1Crd)
+        v2 = np.linalg.norm(end2Crd)
+
+        if v1<v2:
+            vm = v2
+        else:
+            vm = v1
+
+        LENTOL = 1.0e-6
+        if L > LENTOL*vm:
+            print('ZeroLengthSection::setDomain() -- Element '+str(self.getTag())
+                  + 'has L= '+ str(L)+', which is greater than the tolerance')
+        self.setDomain(theDomain)
+        # Set up the A matrix
+        self.setTransformation()
+
+    def setTransformation(self):
+        # Allocate transformation matrix
 
 
