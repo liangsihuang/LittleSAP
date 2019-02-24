@@ -7,7 +7,7 @@ class DisplacementControl(StaticIntegrator):
         super().__init__()
         self.theNode = node
         self.theDof = dof
-        self.theIncrement = increment
+        self.theIncrement = increment # first displacement increment
         self.theDomain = theDomain
         self.theDofID = -1
 
