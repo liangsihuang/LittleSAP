@@ -1,4 +1,3 @@
-from SRC.tagged.storage.MapOfTaggedObjects import MapOfTaggedObjects
 
 class Graph(object):
     START_VERTEX_NUM = 0

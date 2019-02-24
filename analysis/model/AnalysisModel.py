@@ -1,9 +1,9 @@
-
 from graph.Graph import Graph
 from graph.Vertex import Vertex
 
+
 # AnalysisModel: hold and provide access to the FE_Element and DOF_Group objects
-class AnalysisModel():
+class AnalysisModel:
     START_EQN_NUM = 0
     START_VERTEX_NUM = 0
 
@@ -15,7 +15,7 @@ class AnalysisModel():
         self.myDomain = None
         self.myHandler = None
 
-        self.myDOFGraph = None      # 两者有什么区别？？？？？？？？
+        self.myDOFGraph = None      # 两者有什么区别？？？？？？？？一个是优化，一个没优化
         self.myGroupGraph = None
 
         self.numFE_Ele = 0         # number of FE_Elements objects added

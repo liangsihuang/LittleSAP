@@ -1,4 +1,5 @@
-from domain.TimeSeries import TimeSeries
+from domain.timeSeries.TimeSeries import TimeSeries
+
 
 class LinearSeries(TimeSeries):
     

@@ -1,4 +1,4 @@
-from material.UniaxialMaterial import UniaxialMaterial
+from material.uniaxial.UniaxialMaterial import UniaxialMaterial
 
 class ElasticMaterial(UniaxialMaterial):
 

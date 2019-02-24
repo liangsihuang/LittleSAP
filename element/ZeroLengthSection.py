@@ -146,5 +146,6 @@ class ZeroLengthSection(Element):
 
     def setTransformation(self):
         # Allocate transformation matrix
+        pass
 
 

@@ -1,17 +1,18 @@
-from analysis.Linear import Linear
+from analysis.algorithm.Linear import Linear
 from analysis.StaticAnalysis import StaticAnalysis
 from analysis.PlainNumberer import PlainNumberer
 from analysis.PlainHandler import PlainHandler
 from analysis.integrator.LoadControl import LoadControl
+from analysis.integrator.DisplacementControl import DisplacementControl
 from analysis.model.AnalysisModel import AnalysisModel
 from domain.Domain import Domain
 from domain.LoadPattern import LoadPattern
 from domain.NodalLoad import NodalLoad
 from domain.Node import Node
 from domain.SP_Constraint import SP_Constraint
-from domain.LinearSeries import LinearSeries
+from domain.timeSeries.LinearSeries import LinearSeries
 from element.Truss import Truss
-from material.ElasticMaterial import ElasticMaterial
+from material.uniaxial.ElasticMaterial import ElasticMaterial
 from analysis.system_of_eqn.FullGenLinSolver import FullGenLinSolver
 from analysis.system_of_eqn.FullGenLinSOE import FullGenLinSOE
 import numpy as np
@@ -57,12 +58,14 @@ theLoadPattern.setTimeSeries(theSeries)
 theDomain.addLoadPattern(theLoadPattern)
 
 theLoadValues = np.array([100.0, -50.0])
+# theLoadValues = np.array([100.0, 0.0])
 theLoad = NodalLoad(1, 4, theLoadValues)
 theDomain.addNodalLoad(theLoad, 1)
 
 theModel = AnalysisModel()
 theSolnAlgo = Linear()
 theIntegrator = LoadControl(1.0, 1, 1.0, 1.0)
+# theIntegrator = DisplacementControl(4, 1, 1.0, theDomain, 1.0, 1.0, 1.0)
 theHandler = PlainHandler()
 theNumberer = PlainNumberer()
 theSolver = FullGenLinSolver()
