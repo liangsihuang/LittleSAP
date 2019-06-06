@@ -24,7 +24,7 @@ analyze()
 * 计算类并不用来存储，只是在计算的时候临时生成
 * 所有二阶对称矩阵（刚度，应力，应变）都采用一阶列表存储，节省空间
    * 原opensees生成的矩阵Matrix后，作为类的属性进行保留，而不是每个对象的属性，猜测是为了节省内存
-   * python直接使用numpy的一维或二维array存储和计算
+   * python直接使用numpy的一维或二维array存储和计算，矩阵直接作为对象的属性保留
 * 求解线性方程组：
    * 原：A.Solve(b,x), A为Matrix
    * 新：x = np.linalg.solve(A,b)
