@@ -34,4 +34,8 @@ analyze()
 * 矩阵乘法：
    * 原：A.addMatrixProduct(factor1, B, C, factor2)
    * 新: A = A x factor1 + B x C x factor2
+
+## 废弃的函数
+* 很多类都有getCopy()函数，不知道意义在哪。是怕被改变？
+    * 新：直接使用=号，试试看
    
