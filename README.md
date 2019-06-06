@@ -14,3 +14,23 @@ analyze()
     * soe
 * 提交，并保存中间数据
     * node, ele, material
+    
+## 命名规则
+* 类: AxxxBxxx
+* 变量和函数: axxx_bxxx
+* 原opensees函数: axxxBxxx，不要用这种camelcase，难看
+
+## 原Opensees定义的计算类 Matrix和Vector
+* 计算类并不用来存储，只是在计算的时候临时生成
+* 所有二阶对称矩阵（刚度，应力，应变）都采用一阶列表存储，节省空间
+   * python直接使用numpy的一维或二维array存储和计算
+* 求解线性方程组：
+   * 原：A.Solve(b,x), A为Matrix
+   * 新：x = np.linalg.solve(A,b)
+* 矩阵加法：
+   * 原：A.addMatrix(factor1, B, factor2)
+   * 新: A = A x factor1 + B x factor2
+* 矩阵乘法：
+   * 原：A.addMatrixProduct(factor1, B, C, factor2)
+   * 新: A = A x factor1 + B x C x factor2
+   
