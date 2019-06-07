@@ -4,13 +4,13 @@ class Load(DomainComponent):
 
     def __init__(self, tag):
         super().__init__(tag)
-        self.loadPatternTag = -1
+        self.loadpattern_tag = -1
 
-    def setLoadPatternTag(self, tag):
-        self.loadPatternTag = tag
+    def set_loadpattern_tag(self, tag):
+        self.loadpattern_tag = tag
     
-    def getLoadPatternTag(self):
-        return self.loadPatternTag
+    def get_loadpattern_tag(self):
+        return self.loadpattern_tag
     
 
     

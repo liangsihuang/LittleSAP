@@ -9,116 +9,116 @@ class AnalysisModel:
 
     def __init__(self):
 
-        self.theFEs = {}
-        self.theDOFs = {}
+        self.FEs = {}
+        self.DOFs = {}
         
-        self.myDomain = None
-        self.myHandler = None
+        self.domain = None
+        self.handler = None
 
-        self.myDOFGraph = None      # 两者有什么区别？？？？？？？？一个是优化，一个没优化
-        self.myGroupGraph = None
+        self.DOF_graph = None      # 两者有什么区别？？？？？？？？一个是优化，一个没优化
+        self.group_graph = None
 
-        self.numFE_Ele = 0         # number of FE_Elements objects added
-        self.numDOF_Grp = 0        # number of DOF_Group objects added
-        self.numEqn = 0            # numEqn set by the ConstraintHandler typically
+        self.num_FE_Ele = 0         # number of FE_Elements objects added
+        self.num_DOF_Grp = 0        # number of DOF_Group objects added
+        self.num_eqn = 0            # num_eqn set by the ConstraintHandler typically
 
     # methods to populate/depopulate the AnalysisModel
-    def addFE_Element(self, theFE_Ele):
+    def add_FE_element(self, FE_Ele):
         # check we don't add a null pointer or this is a subclass trying to use this method when it should'nt
-        if theFE_Ele is None or self.getFEs == {}:
+        if FE_Ele is None or self.get_FEs == {}:
             return False
         # check if an Element with a similar tag already exists in the Domain
-        tag = theFE_Ele.getTag()
-        other = self.theFEs.get(tag)
+        tag = FE_Ele.get_tag()
+        other = self.FEs.get(tag)
         if other is not None:
-            print('AnalysisModel::addFE_Element - fe_element with tag '+str(tag)+' already exists in model.\n')
+            print('AnalysisModel::add_FE_element - fe_element with tag '+str(tag)+' already exists in model.\n')
             return False
         # add 
-        self.theFEs[tag] = theFE_Ele
-        theFE_Ele.setAnalysisModel(self)
-        self.numFE_Ele += 1
+        self.FEs[tag] = FE_Ele
+        FE_Ele.set_analysis_model(self)
+        self.num_FE_Ele += 1
         return True
 
-    def addDOF_Group(self, theDOF_Grp):
+    def add_DOF_group(self, theDOF_Grp):
         # check we don't add a null pointer or this is a subclass trying to use a method it should'nt be using
         if theDOF_Grp is None:
             return False
         
         # check if a DOF_Group with a similar tag already exists in the Model
-        tag = theDOF_Grp.getTag()
-        other = self.theDOFs.get(tag)
+        tag = theDOF_Grp.get_tag()
+        other = self.DOFs.get(tag)
         if other is not None:
-            print('AnalysisModel::addDOF_Group - dof_group with tag '+str(tag)+' already exists in model.\n')
+            print('AnalysisModel::add_DOF_group - dof_group with tag '+str(tag)+' already exists in model.\n')
             return False
         # add
-        self.theDOFs[tag] = theDOF_Grp
-        self.numDOF_Grp += 1
+        self.DOFs[tag] = theDOF_Grp
+        self.num_DOF_Grp += 1
         return True
 
 
-    def clearAll(self):
-        self.theFEs = {}
-        self.theDOFs = {}
+    def clear_all(self):
+        self.FEs = {}
+        self.DOFs = {}
 
-        self.myDOFGraph = None
-        self.myGroupGraph = None
+        self.DOF_graph = None
+        self.group_graph = None
 
-        self.numFE_Ele = 0
-        self.numDOF_Grp = 0
-        self.numeqn = 0
+        self.num_FE_Ele = 0
+        self.num_DOF_Grp = 0
+        self.num_eqn = 0
     
-    def clearDOFGraph(self):
-        self.myDOFGraph = None
+    def clear_DOF_graph(self):
+        self.DOF_graph = None
 
     # def clearDOFGroupGraph(self):
-    #     self.myGroupGraph = None
+    #     self.group_graph = None
 
     # methods to access the FE_Elements and DOF_Groups and their numbers
-    def getNumDOF_Groups(self):
-        return self.numDOF_Grp
+    def get_num_DOF_groups(self):
+        return self.num_DOF_Grp
 
-    def getDOF_Group(self, tag):
-        return self.theDOFs.get(tag)
+    def get_DOF_group(self, tag):
+        return self.DOFs.get(tag)
 
-    def getFEs(self):
-        return self.theFEs
+    def get_FEs(self):
+        return self.FEs
         
-    def getDOFs(self):
-        return self.theDOFs
+    def get_DOFs(self):
+        return self.DOFs
     # methods to access the connectivity for SysOfEqn to size itself
-    def setNumEqn(self, theNumEqn):
-        self.numEqn = theNumEqn
+    def set_num_eqn(self, theNumEqn):
+        self.num_eqn = theNumEqn
 
-    def getNumEqn(self):
-        return self.numEqn
+    def get_num_eqn(self):
+        return self.num_eqn
 
-    def getDOFGraph(self):
-        if self.myDOFGraph is None:
-            numVertex = self.getNumDOF_Groups()
+    def get_DOF_graph(self):
+        if self.DOF_graph is None:
+            numVertex = self.get_num_DOF_groups()
             graphStorage = {}
-            self.myDOFGraph = Graph(graphStorage)
+            self.DOF_graph = Graph(graphStorage)
 
             # create a vertex for each dof
-            theDOFs = self.getDOFs()
-            for tag in theDOFs:
-                dof = theDOFs[tag]
-                id1= dof.getID()
+            DOFs = self.get_DOFs()
+            for tag in DOFs:
+                dof = DOFs[tag]
+                id1= dof.get_ID()
                 size = len(id1)
                 for i in range(0, size):
                     dofTag = id1[i]
                     if dofTag >= AnalysisModel.START_EQN_NUM:
-                        vertex = self.myDOFGraph.getVertex(dofTag)
+                        vertex = self.DOF_graph.get_vertex(dofTag)
                         if vertex is None:
                             vertex = Vertex(dofTag, dofTag)
-                            if self.myDOFGraph.addVertex(vertex, False) == False:
-                                print('WARNING AnalysisModel::getDOFGraph - error adding vertex.\n')
-                                return self.myDOFGraph
+                            if self.DOF_graph.add_vertex(vertex, False) == False:
+                                print('WARNING AnalysisModel::get_DOF_graph - error adding vertex.\n')
+                                return self.DOF_graph
             # now add the edges, by looping over the FE_elements, getting their IDs and adding edges between DOFs for equation numbers >= START_EQN_NUM
-            theFEs = self.getFEs()
+            FEs = self.get_FEs()
             cnt = 0
-            for tag in theFEs:
-                ele = theFEs[tag]
-                id1 = ele.getID()
+            for tag in FEs:
+                ele = FEs[tag]
+                id1 = ele.get_ID()
                 cnt += 1
                 size = len(id1)
                 for i in range(0, size):
@@ -128,35 +128,35 @@ class AnalysisModel:
                         for j in range(i+1, size):
                             eqn2 = id1[j]
                             if eqn2 >= AnalysisModel.START_EQN_NUM:
-                                self.myDOFGraph.addEdge(eqn1 - AnalysisModel.START_EQN_NUM + AnalysisModel.START_VERTEX_NUM,
+                                self.DOF_graph.add_edge(eqn1 - AnalysisModel.START_EQN_NUM + AnalysisModel.START_VERTEX_NUM,
                                 eqn2 - AnalysisModel.START_EQN_NUM + AnalysisModel.START_VERTEX_NUM)
-        return self.myDOFGraph
+        return self.DOF_graph
  
     # def getDOFGroupGraph(self):
-    #     # 和 getDOFGraph() 有什么区别？
+    #     # 和 get_DOF_graph() 有什么区别？
     #     # DOFGraph ：number后（去除约束后）的节点里面的自由度（DOF），变成Vertex
     #     # DOFGroupGraph：所有节点（DOFGroup），变成Vertex
-    #     if self.myGroupGraph is None:
-    #         numVertex = self.getNumDOF_Groups()
+    #     if self.group_graph is None:
+    #         numVertex = self.get_num_DOF_groups()
     #         if numVertex == 0:
     #             print('WARNING AnalysisMode::getDOFGroupGraph - 0 vertices, has the Domain been populated?\n')
     #             # exit(self, -1)
     #         graphStorage = {}
-    #         self.myGroupGraph = Graph(graphStorage) # 重点！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+    #         self.group_graph = Graph(graphStorage) # 重点！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
     #         # now create the vertices with a reference equal to the DOF_Group number.
     #         # and a tag which ranges from 0 through numVertex-1
-    #         theDOFs = self.getDOFs()
+    #         DOFs = self.get_DOFs()
     #         count = AnalysisModel.START_VERTEX_NUM
-    #         for dof in theDOFs:
-    #             DOF_GroupTag = dof.getTag()
+    #         for dof in DOFs:
+    #             DOF_GroupTag = dof.get_tag()
     #             DOF_GroupNodeTag = dof.getNodeTag()
     #             numDOF = dof.getNumFreeDOF()
     #             vertex = Vertex(DOF_GroupTag, DOF_GroupNodeTag, 0, numDOF)
-    #             self.myGroupGraph.addVertex(vertex)
+    #             self.group_graph.addVertex(vertex)
     #         # now add the edges, by looping over the Elements, getting their
     #         # IDs and adding edges between DOFs for equation numbers >= START_EQN_NUM
-    #         theFEs = self.getFEs()
-    #         for ele in theFEs:
+    #         FEs = self.get_FEs()
+    #         for ele in FEs:
     #             id1 = ele.getDOFtags()
     #             size = id1.Size()
     #             for i in range(0, size):
@@ -164,49 +164,49 @@ class AnalysisModel:
     #                 for j in range(0, size):
     #                     if i != j:
     #                         dof2 = id1[j]
-    #                         self.myGroupGraph.addEdge(dof1, dof2)
-    #     return self.myGroupGraph
+    #                         self.group_graph.addEdge(dof1, dof2)
+    #     return self.group_graph
     
     # methods to update the response quantities at the DOF_Groups,
     # which in turn set the new nodal trial response quantities
-    def setResponse(self, disp, vel, accel):
+    def set_response(self, disp, vel, accel):
         # all is Vector
-        theDOFGrps = self.getDOFs()
-        for dof in theDOFGrps:
-            dof.setNodeDisp(disp)
-            dof.setNodeVel(vel)
-            dof.setNodeAccel(accel)
+        DOFgrps = self.get_DOFs()
+        for dof in DOFgrps:
+            dof.set_node_disp(disp)
+            dof.set_node_vel(vel)
+            dof.set_node_accel(accel)
 
-    def setDisp(self, disp):
-        theDOFGrps = self.getDOFs()
-        for dof in theDOFGrps:
-            dof.setNodeDisp(disp)
+    def set_disp(self, disp):
+        DOFgrps = self.get_DOFs()
+        for dof in DOFgrps:
+            dof.set_node_disp(disp)
 
     # def setVel(self, vel):
-    #     theDOFGrps = self.getDOFs()
-    #     for dof in theDOFGrps:
+    #     DOFgrps = self.get_DOFs()
+    #     for dof in DOFgrps:
     #         dof.setNodeVel(vel)
     #
     # def setAccel(self, accel):
-    #     theDOFGrps = self.getDOFs()
-    #     for dof in theDOFGrps:
+    #     DOFgrps = self.get_DOFs()
+    #     for dof in DOFgrps:
     #         dof.setNodeAccel(accel)
 
-    def incrDisp(self, disp):
+    def incr_disp(self, disp):
         # disp 是 Vector
-        theDOFGrps = self.getDOFs()
-        for tag in theDOFGrps:
-            dof = theDOFGrps[tag]
-            dof.incrNodeDisp(disp)
+        DOFgrps = self.get_DOFs()
+        for tag in DOFgrps:
+            dof = DOFgrps[tag]
+            dof.incr_node_disp(disp)
 
     # def incrVel(self, vel):
-    #     theDOFGrps = self.getDOFs()
-    #     for dof in theDOFGrps:
+    #     DOFgrps = self.get_DOFs()
+    #     for dof in DOFgrps:
     #         dof.incrNodeVel(vel)
     #
     # def incrAccel(self, accel):
-    #     theDOFGrps = self.getDOFs()
-    #     for dof in theDOFGrps:
+    #     DOFgrps = self.get_DOFs()
+    #     for dof in DOFgrps:
     #         dof.incrNodeAccel(accel)
     
     # methods added to store the eigenvalues and vectors in the domain
@@ -224,82 +224,82 @@ class AnalysisModel:
     #     pass
     
     # methods which trigger operations in the Domain
-    def setLinks(self, theDomain, theHandler):
-        self.myDomain = theDomain
-        self.myHandler = theHandler
+    def set_links(self, theDomain, theHandler):
+        self.domain = theDomain
+        self.handler = theHandler
 
-    def applyLoadDomain(self, pseudoTime):
+    def apply_load_domain(self, pseudoTime):
         # check to see there is a Domain linked to the Model
-        if self.myDomain is None:
-            print('WARNING: AnalysisModel::applyLoadDomain - No Domain linked.\n')
+        if self.domain is None:
+            print('WARNING: AnalysisModel::apply_load_domain - No Domain linked.\n')
             return None
         
-        self.myDomain.applyLoad(pseudoTime)
-        self.myHandler.applyLoad()
+        self.domain.apply_load(pseudoTime)
+        self.handler.apply_load()
 
-    def updateDomain(self): # 有重载
+    def update_domain(self): # 有重载
         # check to see there is a Domain linked to the Model
-        if self.myDomain is None:
-            print('WARNING: AnalysisModel::updateDomain. No Domain linked.\n')
+        if self.domain is None:
+            print('WARNING: AnalysisModel::update_domain. No Domain linked.\n')
             return -1
         
-        res = self.myDomain.update()
+        res = self.domain.update()
         if res == 0:
-            return self.myHandler.update()
+            return self.handler.update()
         return res
 
-    # def updateDomain(self, newTime, dT):
+    # def update_domain(self, newTime, dT):
     #     pass
 
-    def analysisStep(self, dT=0.0):
+    def analysis_step(self, dT=0.0):
         # check to see there is a Domain linked to the Model
-        if self.myDomain is None:
+        if self.domain is None:
             print('WARNING: AnalysisModel::newStep. No domain linked.\n')
             return -1
         # invoke the method
-        return self.myDomain.analysisStep(dT)
+        return self.domain.analysis_step(dT)
 
     # def eigenAnalysis(self, numMode, generalized, findSmallest):
     #     pass
 
-    def commitDomain(self):
+    def commit_domain(self):
         # check to see there is a Domain linked to the Model
-        if self.myDomain is None:
-            print('WARNING: AnalysisModel::commitDomain. No Domain linked.\n')
+        if self.domain is None:
+            print('WARNING: AnalysisModel::commit_domain. No Domain linked.\n')
             return -1
         # invoke the method
-        if self.myDomain.commit() < 0:
-            print('WARNING: AnalysisModel::commitDomain - Domain::commit() failed.\n')
+        if self.domain.commit() < 0:
+            print('WARNING: AnalysisModel::commit_domain - Domain::commit() failed.\n')
             return -2
         return 0
 
-    def revertDomainToLastCommit(self):
-        if self.myDomain is None:
-            print('WARNING: AnalysisModel::revertDomainToLastCommit. No Domain linked.\n')
+    def revert_domain_to_last_commit(self):
+        if self.domain is None:
+            print('WARNING: AnalysisModel::revert_domain_to_last_commit. No Domain linked.\n')
             return -1
-        if self.myDomain.revertToLastCommit() < 0:
-            print('WARNING: AnalysisModel::revertDomainToLastCommit. Domain::revertToLastCommit() failed.\n')
+        if self.domain.revert_to_last_commit() < 0:
+            print('WARNING: AnalysisModel::revert_domain_to_last_commit. Domain::revertToLastCommit() failed.\n')
             return -2
         return 0
 
-    def getCurrentDomainTime(self):
+    def get_current_domain_time(self):
         # check to see there is a Domain linked to the Model
-        if self.myDomain is None:
-            print('WARNING: AnalysisModel::getCurrentDomainTime - No Domain linked.\n')
+        if self.domain is None:
+            print('WARNING: AnalysisModel::get_current_domain_time - No Domain linked.\n')
             return None
-        return self.myDomain.getCurrentTime()
+        return self.domain.get_current_time()
 
-    def setCurrentDomainTime(self, newTime):
-        if self.myDomain is None:
-            print('WARNING: AnalysisModel::getCurrentDomainTime. No Domain linked.\n')
+    def set_current_domain_time(self, newTime):
+        if self.domain is None:
+            print('WARNING: AnalysisModel::get_current_domain_time. No Domain linked.\n')
             return -1
-        return self.myDomain.getCurrentTime()
+        return self.domain.get_current_time()
 
-    def setRayleighDampingFactors(self, alphaM, betaK, betaKi, betaKc):
-        pass
+    # def setRayleighDampingFactors(self, alphaM, betaK, betaKi, betaKc):
+    #     pass
 
-    def getDomain(self):
-        return self.myDomain
+    def get_domain(self):
+        return self.domain
     
     
     

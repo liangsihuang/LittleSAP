@@ -3,71 +3,71 @@ from analysis.Analysis import Analysis
 class StaticAnalysis(Analysis):
     def __init__(self, theDomain, theHandler, theNumberer, theModel, theSolnAlgo, theLinSOE, theStaticIntegrator, theConvergenceTest=None):
         super().__init__(theDomain)
-        self.theConstraintHandler = theHandler
-        self.theDOF_Numberer = theNumberer
-        self.theAnalysisModel = theModel
-        self.theAlgorithm = theSolnAlgo
-        self.theSOE = theLinSOE
-        self.theEigenSOE = None
-        self.theIntegrator = theStaticIntegrator
-        self.theTest = theConvergenceTest
+        self.constraint_handler = theHandler
+        self.DOF_numberer = theNumberer
+        self.analysis_model = theModel
+        self.algorithm = theSolnAlgo
+        self.SOE = theLinSOE
+        self.eigen_SOE = None
+        self.integrator = theStaticIntegrator
+        self.test = theConvergenceTest
 
         self.domainStamp = 0
 
         # first we set up the links needed by the elements in the aggregation
-        self.theAnalysisModel.setLinks(theDomain, theHandler)
-        self.theConstraintHandler.setLinks(theDomain, theModel, theStaticIntegrator)
-        self.theDOF_Numberer.setLinks(theModel)
-        self.theIntegrator.setLinks(theModel, theLinSOE, theConvergenceTest)
-        self.theAlgorithm.setLinks(theModel, theStaticIntegrator, theLinSOE, theConvergenceTest)
+        self.analysis_model.set_links(theDomain, theHandler)
+        self.constraint_handler.set_links(theDomain, theModel, theStaticIntegrator)
+        self.DOF_numberer.set_links(theModel)
+        self.integrator.set_links(theModel, theLinSOE, theConvergenceTest)
+        self.algorithm.set_links(theModel, theStaticIntegrator, theLinSOE, theConvergenceTest)
 
         if theConvergenceTest is not None:
-            self.theAlgorithm.setConvergenceTest(theConvergenceTest)
+            self.algorithm.set_convergence_test(theConvergenceTest)
     
-    # def clearAll(self):
+    # def clear_all(self):
     #     pass
 
     def analyze(self, numSteps):
         result = 0
-        theDomain = self.getDomain()
+        theDomain = self.get_domain()
         for i in range(0,numSteps):
-            result = self.theAnalysisModel.analysisStep() # 有什么意义？
+            result = self.analysis_model.analysis_step() # 有什么意义？
             if result<0 :
                 print('StaticAnalysis::analyze() - the AnalysisModel failed at iteration: '+str(i))
-                print(' with domain at load factor '+str(theDomain.getCurrentTime())+'.\n')
-                theDomain.revertToLastCommit()
+                print(' with domain at load factor '+str(theDomain.get_current_time())+'.\n')
+                theDomain.revert_to_last_commit()
                 return -2
             
-            stamp = theDomain.hasDomainChanged()
+            stamp = theDomain.has_domain_changed()
             if self.domainStamp != stamp:
                 self.domainStamp = stamp
-                result = self.domainChanged()
+                result = self.domain_changed()
                 if result < 0:
-                    print('StaticAnalysis::analyze() - domainChanged failed at step '+str(i)+' of '+str(numSteps)+'.\n')
+                    print('StaticAnalysis::analyze() - domain_changed failed at step '+str(i)+' of '+str(numSteps)+'.\n')
                     return -1
 
-            result = self.theIntegrator.newStep()
+            result = self.integrator.new_step()
             if result < 0:
                 print('StaticAnalysis::analyze() - the Integrator failed at iteration: '+str(i))
-                print(' with domain at load factor '+str(theDomain.getCurrentTime())+'.\n')
-                theDomain.revertToLastCommit()
-                self.theIntegrator.revertToLastStep()
+                print(' with domain at load factor '+str(theDomain.get_current_time())+'.\n')
+                theDomain.revert_to_last_commit()
+                self.integrator.revert_to_last_step()
                 return -2
 
-            result = self.theAlgorithm.solveCurrentStep()
+            result = self.algorithm.solve_current_step()
             if result < 0:
                 print('StaticAnalysis::analyze() - the Algorithm failed at iteration: '+str(i))
-                print(' with domain at load factor '+str(theDomain.getCurrentTime())+'.\n')
-                theDomain.revertToLastCommit()
-                self.theIntegrator.revertToLastStep()   # LoadControl 并没有 revertToLastStep()
+                print(' with domain at load factor '+str(theDomain.get_current_time())+'.\n')
+                theDomain.revert_to_last_commit()
+                self.integrator.revert_to_last_step()   # LoadControl 并没有 revert_to_last_step()
                 return -3
             
-            result = self.theIntegrator.commit()
+            result = self.integrator.commit()
             if result < 0:
                 print('StaticAnalysis::analyze() - the Integrator failed at iteration: '+str(i))
-                print(' with domain at load factor '+str(theDomain.getCurrentTime())+'.\n')
-                theDomain.revertToLastCommit()
-                self.theIntegrator.revertToLastStep()
+                print(' with domain at load factor '+str(theDomain.get_current_time())+'.\n')
+                theDomain.revert_to_last_commit()
+                self.integrator.revert_to_last_step()
                 return -4
             
             return 0
@@ -82,51 +82,51 @@ class StaticAnalysis(Analysis):
     # def initialize(self):
     #     pass
 
-    def domainChanged(self):
+    def domain_changed(self):
         result = 0
-        theDomain = self.getDomain()
-        stamp = theDomain.hasDomainChanged()
+        theDomain = self.get_domain()
+        stamp = theDomain.has_domain_changed()
         self.domainStamp = stamp
 
-        self.theAnalysisModel.clearAll()
-        self.theConstraintHandler.clearAll()
+        self.analysis_model.clear_all()
+        self.constraint_handler.clear_all()
 
         # now we invoke handle() on the constraint handler which causes the creation of FE_Element
         # and DOF_Group objects and their addition to the AnalysisModel
-        result = self.theConstraintHandler.handle()
+        result = self.constraint_handler.handle()
         if result < 0:
-            print('StaticAnalysis::domainChanged() - ConstraintHandler::handle() failed')
+            print('StaticAnalysis::domain_changed() - ConstraintHandler::handle() failed')
             return -1
         
         # now we invoke number() on the numberer which causes equation numbers to be assigned to all the
         # DOFs in the AnalysisModel.
-        result = self.theDOF_Numberer.numberDOF()
+        result = self.DOF_numberer.number_DOF()
         if result < 0:
-            print('StaticAnalysis::domainChanged() - DOF_Numberer::numberDOF() failed.')
+            print('StaticAnalysis::domain_changed() - DOF_Numberer::number_DOF() failed.')
             return -2
         
-        result = self.theConstraintHandler.doneNumberingDOF()
+        result = self.constraint_handler.done_numbering_DOF()
         if result < 0:
-            print('StaticAnalysis::domainChanged() - ConstraintHandler::doneNumberingDOF() failed.')
+            print('StaticAnalysis::domain_changed() - ConstraintHandler::done_numbering_DOF() failed.')
             return -2
-        # we invoke setSize() on the LinearSOE which causes that object to determine its size
-        theGraph = self.theAnalysisModel.getDOFGraph()
-        result = self.theSOE.setSize(theGraph)
+        # we invoke set_size() on the LinearSOE which causes that object to determine its size
+        theGraph = self.analysis_model.get_DOF_graph()
+        result = self.SOE.set_size(theGraph)
         if result < 0:
-            print('StaticAnalysis::domainChanged() - LinearSOE::setSize() failed')
+            print('StaticAnalysis::domain_changed() - LinearSOE::set_size() failed')
             return -3
-        # if self.theEigenSOE is not None:
-        self.theAnalysisModel.clearDOFGraph()
+        # if self.eigen_SOE is not None:
+        self.analysis_model.clear_DOF_graph()
 
-        # finally we invoke domainChanged on the Integrator and Algorithm objects .. informing them that the model has changed
-        result = self.theIntegrator.domainChanged()
+        # finally we invoke domain_changed on the Integrator and Algorithm objects .. informing them that the model has changed
+        result = self.integrator.domain_changed()
         if result < 0:
-            print('StaticAnalysis::domainChanged() - Integrator::domainChanged() failed')
+            print('StaticAnalysis::domain_changed() - Integrator::domain_changed() failed')
             return -4
         
-        result = self.theAlgorithm.domainChanged()
+        result = self.algorithm.domain_changed()
         if result < 0:
-            print('StaticAnalysis::domainChanged() - Algorithm::domainChanged() failed')
+            print('StaticAnalysis::domain_changed() - Algorithm::domain_changed() failed')
             return -5
         
         return 0
@@ -134,15 +134,15 @@ class StaticAnalysis(Analysis):
 
     # def setNumberer(self, theNumberer):
     #     pass
-    # def setAlgorithm(self, theAlgorithm):
+    # def setAlgorithm(self, algorithm):
     #     pass
-    # def setIntegrator(self, theIntegrator):
+    # def setIntegrator(self, integrator):
     #     pass
-    # def setLinearSOE(self, theSOE):
+    # def setLinearSOE(self, SOE):
     #     pass
-    # def setConvergenceTest(self, theTest):
+    # def setConvergenceTest(self, test):
     #     pass
-    # def setEigenSOE(self, theSOE):
+    # def setEigenSOE(self, SOE):
     #     pass
     #
     # def getAlgorithm(self):

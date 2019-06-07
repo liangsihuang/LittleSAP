@@ -1,11 +1,11 @@
 
 class Analysis(object):
 
-    def __init__(self, theDom):
-        self.theDomain = theDom
+    def __init__(self, domain):
+        self.domain = domain
 
-    def getDomain(self):
-        return self.theDomain
+    def get_domain(self):
+        return self.domain
 
     
 

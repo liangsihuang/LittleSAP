@@ -9,37 +9,37 @@ class FE_Element(TaggedObject):
     errVector = None # vector
     theMatrices = None # array of pointers to 'class wide matrices'/ rank-2 narray
     theVectors = None # array of pointers to 'class wide vectors'/ narray
-    numFEs = 0  # number of objects
+    num_FEs = 0  # number of objects
 
     def __init__(self, tag, ele):
         super().__init__(tag)
-        self.myDOF_Groups = np.zeros(len(ele.getExternalNodes()), dtype=int)
-        self.myID = np.zeros(ele.getNumDOF(), dtype=int)
-        self.numDOF = ele.getNumDOF()
-        self.theModel = None
-        self.myEle = ele
-        self.theResidual = None # vector
-        self.theTangent = None # matrix
-        self.theIntegrator = None # needed for subdomain???
+        self.DOF_groups = np.zeros(len(ele.get_external_nodes()), dtype=int)
+        self.myID = np.zeros(ele.get_num_DOF(), dtype=int)
+        self.num_DOF = ele.get_num_DOF()
+        self.model = None
+        self.ele = ele
+        self.residual = None # vector
+        self.tangent = None # matrix
+        self.integrator = None # needed for subdomain???
 
-        if self.numDOF <= 0:
+        if self.num_DOF <= 0:
             print('FE_Element::FE_Element() - element must have 1 dof')
         
         # get element domain and check if it is valid
-        theDomain = ele.getDomain()
-        if theDomain is None:
+        domain = ele.get_domain()
+        if domain is None:
             print('FE_Element::FE_Element() - element has no domain')
         # keep a pointer to all DOF_Groups
-        numGroup = ele.getNumExternalNodes() # int
-        nodes = ele.getExternalNodes()  # int's list
-        for i in range(0, numGroup):
-            node = theDomain.getNode(nodes[i])
+        num_group = ele.get_num_external_nodes() # int
+        nodes = ele.get_external_nodes()  # int's list
+        for i in range(0, num_group):
+            node = domain.get_node(nodes[i])
             if node is None:
                 print('FATAL FE_Element::FE_Element() - Node: '+str(nodes[i]))
                 print('does not exist in the Domain\n')
-            dofGrp = node.getDOF_Group()
+            dofGrp = node.get_DOF_group()
             if dofGrp is not None:
-                self.myDOF_Groups[i] = dofGrp.getTag()
+                self.DOF_groups[i] = dofGrp.get_tag()
             else:
                 print('FATAL FE_Element::FE_Element() - Node: ')
                 print('has no DOF_Group associated with it\n')
@@ -47,7 +47,7 @@ class FE_Element(TaggedObject):
         # if this is the first FE_Element we now
         # create the arrays used to store pointers to class wide
         # matrix and vector objects used to return tangent and residual
-        if FE_Element.numFEs == 0:
+        if FE_Element.num_FEs == 0:
             FE_Element.theMatrices = []
             FE_Element.theVectors = []
         for i in range(0, MAX_NUM_DOF+1):
@@ -55,203 +55,203 @@ class FE_Element(TaggedObject):
             FE_Element.theVectors.append(None)
         # if Elements are not subdomains, set up pointers to
         # objects to return tangent Matrix and residual Vector.
-        if self.numDOF <= MAX_NUM_DOF:
+        if self.num_DOF <= MAX_NUM_DOF:
             # use class wide objects
-            if FE_Element.theVectors[self.numDOF] is None:
-                FE_Element.theVectors[self.numDOF] = np.zeros(self.numDOF)
-                FE_Element.theMatrices[self.numDOF] = np.zeros((self.numDOF,self.numDOF))
-                self.theResidual = FE_Element.theVectors[self.numDOF]
-                self.theTangent = FE_Element.theMatrices[self.numDOF]
+            if FE_Element.theVectors[self.num_DOF] is None:
+                FE_Element.theVectors[self.num_DOF] = np.zeros(self.num_DOF)
+                FE_Element.theMatrices[self.num_DOF] = np.zeros((self.num_DOF,self.num_DOF))
+                self.residual = FE_Element.theVectors[self.num_DOF]
+                self.tangent = FE_Element.theMatrices[self.num_DOF]
             else:
-                self.theResidual = FE_Element.theVectors[self.numDOF]
-                self.theTangent = FE_Element.theMatrices[self.numDOF]
+                self.residual = FE_Element.theVectors[self.num_DOF]
+                self.tangent = FE_Element.theMatrices[self.num_DOF]
         else:
             # create matrices and vectors for each object instance
-            self.theResidual = np.zeros(self.numDOF)
-            self.theTangent = np.zeros((self.numDOF, self.numDOF))
+            self.residual = np.zeros(self.num_DOF)
+            self.tangent = np.zeros((self.num_DOF, self.num_DOF))
 
-        FE_Element.numFEs += 1
+        FE_Element.num_FEs += 1
 
     # public methods for setting/obtaining mapping information
-    def getDOFtags(self):
-        return self.myDOF_Groups
+    def get_DOF_tags(self):
+        return self.DOF_groups
 
-    def getID(self):
+    def get_ID(self):
         return self.myID
 
-    def setAnalysisModel(self, theAnalysisModel):
-        self.theModel = theAnalysisModel
+    def set_analysis_model(self, theAnalysisModel):
+        self.model = theAnalysisModel
 
-    def setID(self):
+    def set_ID(self):
         current = 0
-        if self.theModel is None:
-            print('WARNING FE_Element::setID() - no AnalysisModel set.\n')
+        if self.model is None:
+            print('WARNING FE_Element::set_ID() - no AnalysisModel set.\n')
             return -1
-        numGrps = len(self.myDOF_Groups)
+        numGrps = len(self.DOF_groups)
         for i in range(0, numGrps):
-            tag = self.myDOF_Groups[i]
-            dof = self.theModel.getDOF_Group(tag)
+            tag = self.DOF_groups[i]
+            dof = self.model.get_DOF_group(tag)
             if dof is None:
-                print('WARNING FE_Element::setID: 0 DOF_Group Pointer.\n')
+                print('WARNING FE_Element::set_ID: 0 DOF_Group Pointer.\n')
                 return -2
-            theDOFid = dof.getID()
+            theDOFid = dof.get_ID()
             for j in range(0, len(theDOFid)):
-                if current < self.numDOF:
+                if current < self.num_DOF:
                     self.myID[current] = theDOFid[j]
                     current += 1
                 else:
-                    print('WARNING FE_Element::setID() - numDOF and number of dof at the DOF_Groups.\n')
+                    print('WARNING FE_Element::set_ID() - num_DOF and number of dof at the DOF_Groups.\n')
                     return -3
         return 0
     
     # methods to form and obtain the tangent and residual
-    def getTangent(self, theNewIntegrator):
-        self.theIntegrator = theNewIntegrator
-        if self.myEle is None:
-            print('FATAL FE_Element::getTangent() - no Element *given.\n')
+    def get_tangent(self, theNewIntegrator):
+        self.integrator = theNewIntegrator
+        if self.ele is None:
+            print('FATAL FE_Element::get_tangent() - no Element *given.\n')
 
         if theNewIntegrator is not None:
-            theNewIntegrator.formEleTangent(self)
-            return self.theTangent
+            theNewIntegrator.form_ele_tangent(self)
+            return self.tangent
 
 
-    def getResidual(self, theNewIntegrator):
-        self.theIntegrator = theNewIntegrator
-        if self.theIntegrator is None:
-            return self.theResidual
-        if self.myEle is None:
-            print('FATAL FE_Element::getTangent() - no Element *given.\n')
-        theNewIntegrator.formEleResidual(self)
-        return self.theResidual
+    def get_residual(self, theNewIntegrator):
+        self.integrator = theNewIntegrator
+        if self.integrator is None:
+            return self.residual
+        if self.ele is None:
+            print('FATAL FE_Element::get_tangent() - no Element *given.\n')
+        theNewIntegrator.form_ele_residual(self)
+        return self.residual
 
     
     # methods to allow integrator to build tangent
-    def zeroTangent(self):
-        if self.myEle is not None:
-            self.theTangent[:, :] = 0.0
+    def zero_tangent(self):
+        if self.ele is not None:
+            self.tangent[:, :] = 0.0
 
-    def addKtToTang(self, fact=1.0):
-        if self.myEle is not None:
+    def add_Kt_to_tang(self, fact=1.0):
+        if self.ele is not None:
             # check for a quick return	
             if fact == 0.0:
                 return 
             else:
-                self.theTangent += self.myEle.getTangentStiff() * fact
+                self.tangent += self.ele.get_tangent_stiff() * fact
 
-    def addKiToTang(self, fact=1.0):
-        if self.myEle is not None:
+    def add_Ki_to_tang(self, fact=1.0):
+        if self.ele is not None:
             # check for a quick return 
             if fact == 0.0:
                 return 
             else:
-                self.theTangent += self.myEle.getInitialStiff() * fact
+                self.tangent += self.ele.getInitialStiff() * fact
 
-    def addKgToTang(self, fact=1.0):
-        if self.myEle is not None:
+    def add_kg_to_tang(self, fact=1.0):
+        if self.ele is not None:
             # check for a quick return 
             if fact == 0.0:
                 return 
             else:
-                self.theTangent += self.myEle.getGeometricTangentStiff() * fact
+                self.tangent += self.ele.getGeometricTangentStiff() * fact
 
     # def addCtoTang(self, fact=1.0):
     #     pass
     # def addMtoTang(self, fact=1.0):
     #     pass
 
-    def addKpToTang(self, fact=1.0, numP=0):
-        if self.myEle is not None:
+    def add_Kp_to_tang(self, fact=1.0, numP=0):
+        if self.ele is not None:
             # check for a quick return 
             if fact == 0.0:
                 return 
             else:
-                thePrevMat = self.myEle.getPreviousK(numP)
+                thePrevMat = self.ele.getPreviousK(numP)
                 if thePrevMat is not None:
-                    self.theTangent += thePrevMat * fact
+                    self.tangent += thePrevMat * fact
 
-    def storePreviousK(self, numP):
+    def store_previous_K(self, numP):
         res = None
-        if self.myEle is not None:
-            res = self.myEle.storePreviousK(numP)
+        if self.ele is not None:
+            res = self.ele.store_previous_K(numP)
         return res
     
     # methods to allow integrator to build residual
-    def zeroResidual(self):
-        if self.myEle is not None:
-                self.theResidual[:] = 0.0
+    def zero_residual(self):
+        if self.ele is not None:
+                self.residual[:] = 0.0
         else:
-            print('FATAL FE_Element::zeroResidual() - no Element *given.\n')
+            print('FATAL FE_Element::zero_residual() - no Element *given.\n')
 
-    def addRtoResidual(self, fact=1.0):
-        if self.myEle is not None:
+    def add_R_to_residual(self, fact=1.0):
+        if self.ele is not None:
             # check for a quick return 
             if fact == 0.0:
                 return 
-            eleResisting = self.myEle.getResistingForce()
-            self.theResidual += (eleResisting * -1.0)
+            eleResisting = self.ele.get_resisting_force()
+            self.residual += (eleResisting * -1.0)
         else:
-            print('FATAL FE_Element::addRtoResidual() - no Element *given.\n')
+            print('FATAL FE_Element::add_R_to_residual() - no Element *given.\n')
 
 
     # def addRIncInertiaToResidual(self, fact=1.0):
     #     pass
     
     # methods for ele-by-ele strategies
-    def getTangForce(self, disp, fact=1.0):
-        if self.myEle is not None:
+    def get_tang_force(self, disp, fact=1.0):
+        if self.ele is not None:
             # zero out the force vector
-            self.theResidual[:] = 0.0
+            self.residual[:] = 0.0
             # check for a quick return
             if fact == 0.0:
-                return self.theResidual
+                return self.residual
             # get the component we need out of the vector and place in a temporary vector
-            tmp = np.zeros(self.numDOF)
-            for i in range(0, self.numDOF):
+            tmp = np.zeros(self.num_DOF)
+            for i in range(0, self.num_DOF):
                 dof = self.myID[i]
                 if dof >= 0:
                     tmp[i] = disp[dof]
                 else:
                     tmp[i] = 0.0
             # form the tangent again and then add the force
-            self.theIntegrator.formEleTangent(self)
-            self.theResidual += self.theTangent @ tmp * fact
-            return self.theResidual
+            self.integrator.formEleTangent(self)
+            self.residual += self.tangent @ tmp * fact
+            return self.residual
         else:
             print('WARNING FE_Element::addTangForce() - no Element *given.\n')
             return FE_Element.errVector
 
-    def getK_Force(self, disp, fact=1.0):
-        if self.myEle is not None:
-            self.theResidual[:] = 0.0
+    def get_K_force(self, disp, fact=1.0):
+        if self.ele is not None:
+            self.residual[:] = 0.0
             if fact == 0.0:
-                return self.theResidual
-            tmp = np.zeros(self.numDOF)
-            for i in range(0, self.numDOF):
+                return self.residual
+            tmp = np.zeros(self.num_DOF)
+            for i in range(0, self.num_DOF):
                 dof = self.myID[i]
                 if dof >= 0:
                     tmp[i] = disp[dof]
                 else:
                     tmp[i] = 0.0
-            self.theResidual += self.myEle.getTangentStiff() @ tmp * fact
-            return self.theResidual
+            self.residual += self.ele.get_tangent_stiff() @ tmp * fact
+            return self.residual
         else:
             print('WARNING FE_Element::getKForce() - no Element *given.\n')
             return FE_Element.errVector
 
-    def getKi_Force(self, disp, fact=1.0):
-        if self.myEle is not None:
-            self.theResidual[:] = 0.0
+    def get_Ki_force(self, disp, fact=1.0):
+        if self.ele is not None:
+            self.residual[:] = 0.0
             if fact == 0.0:
-                return self.theResidual
-            tmp = np.zeros(self.numDOF)
-            for i in range(0, self.numDOF):
+                return self.residual
+            tmp = np.zeros(self.num_DOF)
+            for i in range(0, self.num_DOF):
                 dof = self.myID[i]
                 if dof >= 0:
                     tmp[i] = disp[dof]
                 else:
                     tmp[i] = 0.0
-            self.theResidual += self.myEle.getInitialStiff() @ tmp * fact
-            return self.theResidual
+            self.residual += self.ele.getInitialStiff() @ tmp * fact
+            return self.residual
         else:
             print('WARNING FE_Element::getKForce() - no Element *given.\n')
             return FE_Element.errVector
@@ -268,60 +268,60 @@ class FE_Element(TaggedObject):
     # def addD_Force(self, vel, fact=1.0):
     #     pass
 
-    def addK_Force(self, disp, fact=1.0):
-        if self.myEle is not None:
+    def add_K_force(self, disp, fact=1.0):
+        if self.ele is not None:
             if fact == 0.0:
                 return
-            tmp = np.zeros(self.numDOF)
-            for i in range(0, self.numDOF):
+            tmp = np.zeros(self.num_DOF)
+            for i in range(0, self.num_DOF):
                 loc = self.myID[i]
                 if loc >= 0:
                     tmp[i] = disp[loc]
                 else:
                     tmp[i] = 0.0
-            self.theResidual += self.myEle.getTangentStiff() @ tmp * fact
+            self.residual += self.ele.get_tangent_stiff() @ tmp * fact
         else:
-            print('WARNING FE_Element::addK_Force() - no Element *given.\n')
+            print('WARNING FE_Element::add_K_force() - no Element *given.\n')
 
-    def addKg_Force(self, disp, fact=1.0):
-        if self.myEle is not None:
+    def add_Kg_force(self, disp, fact=1.0):
+        if self.ele is not None:
             if fact == 0.0:
                 return
-            tmp = np.zeros(self.numDOF)
-            for i in range(0, self.numDOF):
+            tmp = np.zeros(self.num_DOF)
+            for i in range(0, self.num_DOF):
                 loc = self.myID[i]
                 if loc >= 0:
                     tmp[i] = disp[loc]
                 else:
                     tmp[i] = 0.0
-            self.theResidual += self.myEle.getGeometricTangentStiff() @ tmp * fact
+            self.residual += self.ele.get_geometric_tangentStiff() @ tmp * fact # ???
         else:
-            print('WARNING FE_Element::addKg_Force() - no Element *given.\n')
+            print('WARNING FE_Element::add_Kg_force() - no Element *given.\n')
     
-    def updateElement(self):
-        if self.myEle is not None:
-            return self.myEle.update()
+    def update_element(self):
+        if self.ele is not None:
+            return self.ele.update()
         # else: =None 不用 print 吗？
         return 0
 
-    def getLastIntegrator(self):
-        return self.theIntegrator
+    def get_last_integrator(self):
+        return self.integrator
 
-    def getLastResponse(self):
-        if self.myEle is not None:
-            if self.theIntegrator is not None:
-                if self.theIntegrator.getLastResponse(self.theResidual, self.myID) < 0:
-                    print('WARNING FE_Element::getLastResponse(void) - the Integrator had problems with getLastResponse().\n')
+    def get_last_response(self):
+        if self.ele is not None:
+            if self.integrator is not None:
+                if self.integrator.get_last_response(self.residual, self.myID) < 0:
+                    print('WARNING FE_Element::get_last_response(void) - the Integrator had problems with get_last_response().\n')
             else:
-                self.theResidual[:] = 0.0
-                print('WARNING  FE_Element::getLastResponse() - No Integrator yet passed.\n')
-            return self.theResidual
+                self.residual[:] = 0.0
+                print('WARNING  FE_Element::get_last_response() - No Integrator yet passed.\n')
+            return self.residual
         else:
-            print('WARNING  FE_Element::getLastResponse() - No Element passed in constructor.\n')
+            print('WARNING  FE_Element::get_last_response() - No Element passed in constructor.\n')
             return FE_Element.errVector
 
-    def getElement(self):
-        return self.myEle
+    def get_element(self):
+        return self.ele
     
     # protected:
     # def addLocalM_Force(self, accel, fact=1.0):

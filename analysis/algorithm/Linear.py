@@ -5,36 +5,36 @@ class Linear(EquiSolnAlgo):
 
     def __init__(self, theTangent = CURRENT_TANGENT, fact = 0):
         super().__init__()
-        self.incrTangent = theTangent
-        self.factorOnce = fact
+        self.incr_tangent = theTangent
+        self.factor_once = fact
 
-    def solveCurrentStep(self):
-        theAnalysisModel = self.getAnalysisModel()
-        theSOE = self.getLinearSOE()
-        theIncIntegrator = self.getIncrementalIntegrator()
-        if theAnalysisModel is None or theIncIntegrator is None or theSOE is None:
-            print('WARNING Linear::solveCurrentStep() - setLinks() has not been called.\n')
+    def solve_current_step(self):
+        analysis_model = self.get_analysis_model()
+        SOE = self.get_linear_SOE()
+        inc_integrator = self.get_incremental_integrator()
+        if analysis_model is None or inc_integrator is None or SOE is None:
+            print('WARNING Linear::solve_current_step() - setLinks() has not been called.\n')
             return -5
         
-        if self.factorOnce != 2:
-            if theIncIntegrator.formTangent(self.incrTangent) < 0 :
-                print('WARNING Linear::solveCurrentStep() - the Integrator failed in formTangent().\n')
+        if self.factor_once != 2:
+            if inc_integrator.form_tangent(self.incr_tangent) < 0 :
+                print('WARNING Linear::solve_current_step() - the Integrator failed in formTangent().\n')
                 return -1
-            if self.factorOnce == 1:
-                self.factorOnce = 2
+            if self.factor_once == 1:
+                self.factor_once = 2
         
-        if theIncIntegrator.formUnbalance() < 0:
-            print('WARNING Linear::solveCurrentStep() - the Integrator failed in formUnbalance().\n')
+        if inc_integrator.form_unbalance() < 0:
+            print('WARNING Linear::solve_current_step() - the Integrator failed in formUnbalance().\n')
             return -2
         
-        if theSOE.solve() < 0:
-            print('WARNING Linear::solveCurrentStep() - theLinearSOE failed in solve().\n')
+        if SOE.solve() < 0:
+            print('WARNING Linear::solve_current_step() - theLinearSOE failed in solve().\n')
             return -3
         
-        deltaU = theSOE.getX()
+        deltaU = SOE.get_x()
 
-        if theIncIntegrator.update(deltaU) < 0:
-            print('WARNING Linear::solveCurrentStep() - the Integrator failed in update().\n')
+        if inc_integrator.update(deltaU) < 0:
+            print('WARNING Linear::solve_current_step() - the Integrator failed in update().\n')
             return -4
         
         return 0

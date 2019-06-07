@@ -6,46 +6,46 @@
 class DOF_Numberer():
 
     # def __init__(self, aGraphNumberer):
-    #     self.theGraphNumberer = aGraphNumberer
-    #     self.theAnalysisModel = None
+    #     self.graph_numberer = aGraphNumberer
+    #     self.analysis_model = None
 
     def __init__(self):
-        self.theGraphNumberer = None
-        self.theAnalysisModel = None
+        self.graph_numberer = None
+        self.analysis_model = None
 
-    def setLinks(self, theModel):
-        self.theAnalysisModel = theModel
+    def set_links(self, theModel):
+        self.analysis_model = theModel
     
     # def numberDOF(self, lastDOF_Group=-1): # 有重载怎么办？？？DOF_Numberer::numberDOF(ID &lastDOFs)
     #
     #     # check we have a model and a numberer
     #     theDomain = None
-    #     if(self.theAnalysisModel!=None):
-    #         theDomain = self.theAnalysisModel.getDomain()
-    #     if((self.theAnalysisModel==None) or(theDomain==None)):
+    #     if(self.analysis_model!=None):
+    #         theDomain = self.analysis_model.getDomain()
+    #     if((self.analysis_model==None) or(theDomain==None)):
     #         print('WAERNING DOF_Numberer::numberDOF - Pointers are not set.\n')
     #         return -1
-    #     if(self.theGraphNumberer==None):
+    #     if(self.graph_numberer==None):
     #         print('WARNING DOF_Numberer::numberDOF - subclasses must provide own implementation\n')
     #         return -2
     #     # check we cant do quick return
-    #     if(self.theAnalysisModel.getNumDOF_Groups()==None):
+    #     if(self.analysis_model.getNumDOF_Groups()==None):
     #         return 0
     #
     #     # we first number the dofs using the dof group graph
-    #     orderedRefs = self.theGraphNumberer.number(self.theAnalysisModel.getDOFGroupGraph(), lastDOF_Group)
-    #     self.theAnalysisModel.clearDOFGroupGraph()
+    #     orderedRefs = self.graph_numberer.number(self.analysis_model.getDOFGroupGraph(), lastDOF_Group)
+    #     self.analysis_model.clearDOFGroupGraph()
     #
     #     # we now iterate through the DOFs first time setting -2 values
     #     eqnNumber = 0
-    #     if orderedRefs.Size() != self.theAnalysisModel.getNumDOF_Groups():
+    #     if orderedRefs.Size() != self.analysis_model.getNumDOF_Groups():
     #         print('WARNING DOF_Numberer::numberDOF - Incompatable Sizes.\n')
     #         return -3
     #     result = 0
     #     size = orderedRefs.Size()
     #     for i in range(0, size):
     #         dofTag = orderedRefs[i]
-    #         dof = self.theAnalysisModel.getDOF_Group(dofTag)
+    #         dof = self.analysis_model.getDOF_Group(dofTag)
     #         if dof == None:
     #             print('WARNING DOF_Numberer::numberDOF - DOF_Group '+str(dofTag)+' not in AnalysisModel!.\n')
     #             result = -4
@@ -60,7 +60,7 @@ class DOF_Numberer():
     #     # iterate throgh  the DOFs second time setting -3 values
     #     for k in range(0, size):
     #         dofTag = orderedRefs[k]
-    #         dof = self.theAnalysisModel.getDOF_Group(dofTag)
+    #         dof = self.analysis_model.getDOF_Group(dofTag)
     #         if dof != None:
     #             theID = dof.getID()
     #             idSize = theID.Size()
@@ -70,7 +70,7 @@ class DOF_Numberer():
     #                     eqnNumber += 1
     #
     #     # iterate through the DOFs one last time setting any -4 values
-    #     tDOFs = self.theAnalysisModel.getDOFs()
+    #     tDOFs = self.analysis_model.getDOFs()
     #     for dof in tDOFs:
     #         theID = dof.getID()
     #         have4s = 0
@@ -102,12 +102,12 @@ class DOF_Numberer():
     #
     #     numEqn = eqnNumber
     #     # iterate through the FE_Element getting them to set their IDs
-    #     theEle = self.theAnalysisModel.getFEs()
+    #     theEle = self.analysis_model.getFEs()
     #     for ele in theEle:
     #         ele.setID()
     #
     #     # set the numOfEquation in the Model
-    #     self.theAnalysisModel.setNumEqn(numEqn)
+    #     self.analysis_model.setNumEqn(numEqn)
     #
     #     if result == 0:
     #         return numEqn
@@ -116,9 +116,9 @@ class DOF_Numberer():
                         
 
     
-    def getAnalysisModel(self):
-        return self.theAnalysisModel
+    def get_analysis_model(self):
+        return self.analysis_model
     
-    def getGraphNumberer(self):
-        return self.theGraphNumberer
+    def get_graph_numberer(self):
+        return self.graph_numberer
     

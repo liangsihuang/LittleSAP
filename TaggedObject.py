@@ -2,7 +2,7 @@
 class TaggedObject(object):
 
     def __init__(self, tag):
-        self.theTag = tag 
+        self.tag = tag
 
-    def getTag(self):
-        return self.theTag
+    def get_tag(self):
+        return self.tag

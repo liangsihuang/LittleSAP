@@ -4,31 +4,31 @@ class NodalLoad(Load):
 
     def __init__(self, tag, node, theLoad, isLoadConstant=False):
         super().__init__(tag)
-        self.myNodeTag = node                 # tag indicating associated Node objects tag
-        self.myNode = None              # pointer to Node object on which load acts
+        self.node_tag = node                 # tag indicating associated Node objects tag
+        self.node = None              # pointer to Node object on which load acts
         self.load = theLoad                # a vector / list
         self.konstant = isLoadConstant     # true if load is load factor independent
     
-    def setDomain(self, newDomain):
+    def set_domain(self, newDomain):
         if newDomain is None:
             return
-        super().setDomain(newDomain)
+        super().set_domain(newDomain)
     
-    def getNodeTag(self):
-        return self.myNodeTag
+    def get_node_tag(self):
+        return self.node_tag
 
-    def applyLoad(self, loadFactor):
-        if self.myNode is None:
-            theDomain = self.getDomain()
-            self.myNode = theDomain.getNode(self.myNodeTag)
-            if theDomain is None or self.myNode is None:
-                print('WARNING NodalLoad::applyLoad() - No associated Node node for NodalLoad')
+    def apply_load(self, loadFactor):
+        if self.node is None:
+            domain = self.get_domain()
+            self.node = domain.get_node(self.node_tag)
+            if domain is None or self.node is None:
+                print('WARNING NodalLoad::apply_load() - No associated Node node for NodalLoad')
                 return
         # add the load times the loadfactor to nodal unbalanced load
         if self.konstant == False:
-            self.myNode.addUnbalancedLoad(self.load, loadFactor)
+            self.node.add_unbalanced_load(self.load, loadFactor)
         else:
-            self.myNode.addUnbalancedLoad(self.load, 1.0)
+            self.node.add_unbalanced_load(self.load, 1.0)
 
      
     

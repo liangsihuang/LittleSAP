@@ -1,37 +1,38 @@
 from domain.DomainComponent import DomainComponent
 
 class SP_Constraint(DomainComponent):
-    numSPs = 0
-    nextTag = 0
+    # 为什么要统计数量和记录tag？
+    num_SPs = 0
+    next_tag = 0
 
     def __init__(self, node, ndof, value, ISconstant):
-        SP_Constraint.nextTag = SP_Constraint.nextTag + 1
-        super().__init__(SP_Constraint.nextTag)
-        self.nodeTag = node
-        self.dofNumber = ndof
+        SP_Constraint.next_tag = SP_Constraint.next_tag + 1
+        super().__init__(SP_Constraint.next_tag)
+        self.node_tag = node
+        self.DOF_number = ndof
         self.valueR = value
         self.valueC = value
-        self.isConstant = ISconstant
-        self.loadPatternTag = -1
-        
-        SP_Constraint.numSPs = SP_Constraint.numSPs + 1
+        self.is_constant = ISconstant
+        self.loadpattern_tag = -1
+
+        SP_Constraint.num_SPs = SP_Constraint.num_SPs + 1
 
     
     def __del__(self):
-        SP_Constraint.numSPs = SP_Constraint.numSPs - 1
-        if SP_Constraint.numSPs == 0 :
-            SP_Constraint.nextTag = 0
+        SP_Constraint.num_SPs = SP_Constraint.num_SPs - 1
+        if SP_Constraint.num_SPs == 0 :
+            SP_Constraint.next_tag = 0
 
-    def getNodeTag(self):
-        return self.nodeTag
+    def get_node_tag(self):
+        return self.node_tag
     
-    def getDOF_Number(self):
-        return self.dofNumber
+    def get_DOF_number(self):
+        return self.DOF_number
     
-    def applyConstraint(self, loadFactor):
+    def apply_constraint(self, loadFactor):
         # as SP_Constraint objects are time invariant nothing is done
-        if self.isConstant == False:
-            self.valueC = loadFactor*self.valueR
+        if self.is_constant == False:
+            self.valueC = loadFactor * self.valueR
         return 0
     # 还有：
     # The constraint may be time-varying .. time varying constarints however 
@@ -40,13 +41,13 @@ class SP_Constraint(DomainComponent):
     # def getValue(self):
     #     pass
     
-    def isHomogeneous(self):
+    def is_homogeneous(self):
         if self.valueR == 0.0:
             return  True
         else:
             return False
     
-    # def setLoadPatternTag(self, loadPatternTag):
+    # def setLoadPatternTag(self, loadpattern_tag):
     #     pass
     #
     # def getLoadPatternTag(self):

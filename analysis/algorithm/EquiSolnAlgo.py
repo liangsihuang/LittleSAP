@@ -4,37 +4,37 @@ class EquiSolnAlgo(SolutionAlgorithm):
 
     def __init__(self):
         super().__init__()
-        self.theModel = None
-        self.theIntegrator = None
-        self.theSysOfEqn = None
-        self.theTest = None
+        self.model = None
+        self.integrator = None
+        self.sys_of_eqn = None
+        self.test = None
     
-    def setLinks(self, theNewModel, theNewIntegrator, theSOE, theConvergenceTest):
-        self.theModel = theNewModel
-        self.theIntegrator = theNewIntegrator
-        self.theSysOfEqn = theSOE
-        self.theTest = theConvergenceTest
+    def set_links(self, theNewModel, theNewIntegrator, theSOE, theConvergenceTest):
+        self.model = theNewModel
+        self.integrator = theNewIntegrator
+        self.sys_of_eqn = theSOE
+        self.test = theConvergenceTest
 
-    def solveCurrentStep(self):
-        pass # 纯虚函数
+    # def solveCurrentStep(self):
+    #     pass # 纯虚函数
 
-    def setConvergenceTest(self, theConvergenceTest):
-        self.theTest = theConvergenceTest
+    def set_convergence_test(self, theConvergenceTest):
+        self.test = theConvergenceTest
     
-    def getConvergenceTest(self):
-        return self.theTest
+    def get_convergence_test(self):
+        return self.test
     
     # def Print(self):
     #     pass # 纯虚函数
 
-    def getAnalysisModel(self):
-        return self.theModel
+    def get_analysis_model(self):
+        return self.model
 
-    def getIncrementalIntegrator(self):
-        return self.theIntegrator
+    def get_incremental_integrator(self):
+        return self.integrator
 
-    def getLinearSOE(self):
-        return self.theSysOfEqn
+    def get_linear_SOE(self):
+        return self.sys_of_eqn
     
 
 

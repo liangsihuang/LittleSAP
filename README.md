@@ -17,7 +17,7 @@ analyze()
     
 ## 命名规则
 * 类: AxxxBxxx
-* 变量和函数: axxx_bxxx
+* 变量和函数: axxx_bxxx，一些常用缩写采用大写，如SOE,DOF,FE
 * 原opensees函数: axxxBxxx，不要用这种camelcase，难看
 
 ## 原Opensees定义的计算类 Matrix和Vector
@@ -34,8 +34,15 @@ analyze()
 * 矩阵乘法：
    * 原：A.addMatrixProduct(factor1, B, C, factor2)
    * 新: A = A x factor1 + B x C x factor2
+   * 注意：numpy直接用'*'号是元素相乘，矩阵乘法用dot
+   * 注意：1-d array 可以直接右乘 2-d array, 结果仍是1-d array
+   * 但是，如果是2-d array则必须是列向量才行，否则报错。结果也是2-d array
+   
+   
+## 函数迷思?
+* 很多类都有getCopy()函数，可以用copy.deepcopy实现
+    * 深拷贝是真的复制，浅拷贝只是复制个指针？
+    * 材料非线性的实现：每一个积分点赋予一个材料对象，所以传入一个材料要复制好多分。
 
-## 废弃的函数
-* 很多类都有getCopy()函数，不知道意义在哪。是怕被改变？
-    * 新：直接使用=号，试试看
+## 
    

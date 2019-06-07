@@ -4,16 +4,16 @@ class Element(DomainComponent):
 
     def __init__(self, tag):
         super().__init__(tag)
-        self.alphaM = 0.0
-        self.betaK = 0.0
-        self.betaK0 = 0.0
-        self.betaKc = 0.0
+        self.alpha_M = 0.0
+        self.beta_K = 0.0
+        self.beta_K0 = 0.0
+        self.beta_Kc = 0.0
         self.Kc = None         # pointer to hold last committed matrix if needed for rayleigh damping
-        self.previousK = None
-        self.numPreviousK = 0
+        self.previous_K = None
+        self.num_previous_K = 0
 
         self.index = -1
-        self.nodeIndex = -1
+        self.node_index = -1
 
     
     # methods dealing with nodes and number of external dof
@@ -48,7 +48,7 @@ class Element(DomainComponent):
     # def addLoad(self, theLoad, loadFactors):
     # def addInertiaLoadToUnbalance(self, accel):
     #     pass
-    # def setRayleighDampingFactors(self, alphaM, betaK, betaK0, betaKc):
+    # def setRayleighDampingFactors(self, alpha_M, beta_K, beta_K0, beta_Kc):
     #     pass
 
     # methods for obtaining resisting force (force includes elemental loads)

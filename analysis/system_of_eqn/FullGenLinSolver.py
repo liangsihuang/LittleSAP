@@ -3,18 +3,18 @@ from scipy.linalg import solve
 class FullGenLinSolver:
 
     def __init__(self):
-        self.theSOE = None
+        self.SOE = None
     
-    def setLinearSOE(self, theFullGenSOE):
-        self.theSOE = theFullGenSOE
+    def set_linear_SOE(self, theFullGenSOE):
+        self.SOE = theFullGenSOE
 
     def solve(self):
-        if self.theSOE is None:
+        if self.SOE is None:
             print('WARNING FullGenLinSolver::solve() - No LinearSOE object has been set.\n')
             return -1
-        A = self.theSOE.A
-        B = self.theSOE.B
-        self.theSOE.X = solve(A, B)
+        A = self.SOE.A
+        b = self.SOE.b
+        self.SOE.x = solve(A, b)
         return 0
 
 

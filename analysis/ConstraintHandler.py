@@ -5,42 +5,44 @@
 class ConstraintHandler():
 
     def __init__(self):
-        self.theDomain = None
-        self.theAnalysisModel = None
-        self.theIntegrator = None
+        self.domain = None
+        self.analysis_model = None
+        self.integrator = None
 
-    def setLinks(self, theDomain, theModel, theIntegrator):
-        self.theDomain = theDomain
-        self.theAnalysisModel = theModel
-        self.theIntegrator = theIntegrator
+    def set_links(self, domain, theModel, integrator):
+        self.domain = domain
+        self.analysis_model = theModel
+        self.integrator = integrator
     
-    def doneNumberingDOF(self):
+    def done_numbering_DOF(self):
         # iterate through the FE_Element getting them to set their IDs
-        theEles = self.theAnalysisModel.getFEs()
-        for tag in theEles:
-            ele = theEles[tag]
-            ele.setID()
+        eles = self.analysis_model.get_FEs()
+        for tag in eles:
+            ele = eles[tag]
+            ele.set_ID()
         return 0
     
-    def getDomain(self):
-        return self.theDomain
-    def getAnalysisModel(self):
-        return self.theAnalysisModel
-    def getIntegrator(self):
-        return self.theIntegrator
+    def get_domain(self):
+        return self.domain
+
+    def get_analysis_model(self):
+        return self.analysis_model
+
+    def get_integrator(self):
+        return self.integrator
     
-    def clearAll(self):
+    def clear_all(self):
         # for the nodes reset the DOF_Group pointers to 0
-        theDomain = self.getDomain()
-        if theDomain is None:
+        domain = self.get_domain()
+        if domain is None:
             return
-        theNodes = theDomain.getNodes()
-        for tag in theNodes:
-            theNod = theNodes[tag]
-            theNod.setDOF_Group(None)
+        nodes = domain.get_nodes()
+        for tag in nodes:
+            theNod = nodes[tag]
+            theNod.set_DOF_group(None)
 
     # 以下方法：有需要的子类会重写，但并不是所有子类都有，为了程序的通用性
-    def applyLoad(self):
+    def apply_load(self):
         return 0
 
     def update(self):

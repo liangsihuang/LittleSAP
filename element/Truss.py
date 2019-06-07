@@ -13,144 +13,147 @@ class Truss(Element):
     trussV6 = np.zeros(6)
     trussV12 = np.zeros(12)
 
-    def __init__(self, tag, dim, nd1, nd2, theMaterial, A, r=0.0, damp=0, cm=0):
+    def __init__(self, tag, dim, nd1, nd2, material, A, r=0.0, damp=0, cm=0):
         super().__init__(tag)
-        self.theMaterial = theMaterial
+        self.material = material
         
-        self.connectedExternalNodes = []  # 存储节点号
-        self.connectedExternalNodes.append(nd1)
-        self.connectedExternalNodes.append(nd2)
+        self.connected_external_nodes = []  # 存储节点号
+        self.connected_external_nodes.append(nd1)
+        self.connected_external_nodes.append(nd2)
 
         self.dimension = dim   # truss in 2 or 3d domain
-        self.numDOF = 0        # number of dof for truss ??
+        self.num_DOF = 0        # number of dof for truss ??
 
-        self.theLoad = None    # pointer to the load vector P
-        self.theMatrix = None  # pointer to objects matrix (a class wide Matrix)
-        self.theVector = None  # pointer to objects vector (a class wide Vector)
+        self.load = None    # pointer to the load vector P
+        self.matrix = None  # pointer to objects matrix (a class wide Matrix)
+        self.vector = None  # pointer to objects vector (a class wide Vector)
 
         self.L = 0.0       # length of truss based on undeformed configuration
         self.A = A         # area of truss
         self.rho = r       # rho: mass density per unit length
 
-        self.doRayleighDamping = damp  # flag to include Rayleigh damping
+        self.do_rayleigh_damping = damp  # flag to include Rayleigh damping
         self.cMass = cm                # consistent mass flag
 
         self.cosX = [0, 0, 0]      # direction cosines
-        self.theNodes = [None, None] # 存储节点本身
-        self.initialDisp = None     # narray
+        self.nodes = [None, None] # 存储节点本身
+        self.initial_disp = None     # narray
     
     # public methods to obtain information about dof and connectivity
-    def getNumExternalNodes(self):
+    def get_num_external_nodes(self):
         return 2
-    def getExternalNodes(self):
-        return self.connectedExternalNodes
-    def getNode(self):
-        return self.theNodes
-    def getNumDOF(self):
-        return self.numDOF
+
+    def get_external_nodes(self):
+        return self.connected_external_nodes
+
+    def get_nodes(self):
+        return self.nodes
+
+    def get_num_DOF(self):
+        return self.num_DOF
         
-    def setDomain(self, theDomain):
+    def set_domain(self, theDomain):
         # check Domain is not null - invoked when object removed from the a domain
         if theDomain is None:
-            self.theNodes = [None, None]
+            self.nodes = [None, None]
             self.L = 0
             return
         # first set the node pointers
-        nd1 = self.connectedExternalNodes[0]
-        nd2 = self.connectedExternalNodes[1]
-        self.theNodes[0] = theDomain.getNode(nd1)
-        self.theNodes[1] = theDomain.getNode(nd2)
+        nd1 = self.connected_external_nodes[0]
+        nd2 = self.connected_external_nodes[1]
+        self.nodes[0] = theDomain.get_node(nd1)
+        self.nodes[1] = theDomain.get_node(nd2)
         # if can't find both - send a warning message
-        if self.theNodes[0] is None or self.theNodes[1] is None:
-            if self.theNodes[0] is None:
-                print('Truss::setDomain() - truss '+ str(self.getTag())+' node '+str(nd1)+' does not exist in the model.\n')
+        if self.nodes[0] is None or self.nodes[1] is None:
+            if self.nodes[0] is None:
+                print('Truss::setDomain() - truss '+ str(self.get_tag())+' node '+str(nd1)+' does not exist in the model.\n')
             else:
-                print('Truss::setDomain() - truss '+ str(self.getTag())+' node '+str(nd2)+' does not exist in the model.\n')
+                print('Truss::setDomain() - truss '+ str(self.get_tag())+' node '+str(nd2)+' does not exist in the model.\n')
                 # fill this in so don't segment fault later
-                self.numDOF = 2
-                self.theMatrix = Truss.trussM2 # ????
-                self.theVector = Truss.trussV2
+                self.num_DOF = 2
+                self.matrix = Truss.trussM2 # ????
+                self.vector = Truss.trussV2
                 return
         # now determine the number of dof and the dimension
-        dofNd1 = self.theNodes[0].getNumberDOF()
-        dofNd2 = self.theNodes[1].getNumberDOF()
+        dofNd1 = self.nodes[0].get_number_DOF()
+        dofNd2 = self.nodes[1].get_number_DOF()
         # if differing dof at the ends - print a warning message
         if dofNd1 != dofNd2:
-            print('WARNING Truss::setDomain(): nodes '+str(nd1)+' and '+str(nd2)+'have differing dof at ends for truss '+str(self.getTag())+'.\n')
+            print('WARNING Truss::setDomain(): nodes '+str(nd1)+' and '+str(nd2)+'have differing dof at ends for truss '+str(self.get_tag())+'.\n')
             # fill this in so don't segment fault later
-            self.numDOF = 2
-            self.theMatrix = Truss.trussM2
-            self.theVector = Truss.trussV2
+            self.num_DOF = 2
+            self.matrix = Truss.trussM2
+            self.vector = Truss.trussV2
             return
         # call the base class method
-        super().setDomain(theDomain)
+        super().set_domain(theDomain)
         # now set the number of dof for element and set matrix and vector pointer
         if self.dimension == 1 and dofNd1 == 1:
-            self.numDOF = 2
-            self.theMatrix = Truss.trussM2 # ????
-            self.theVector = Truss.trussV2
+            self.num_DOF = 2
+            self.matrix = Truss.trussM2 # ????
+            self.vector = Truss.trussV2
         elif self.dimension == 2 and dofNd1 == 2:
-            self.numDOF = 4
-            self.theMatrix = Truss.trussM4 # ????
-            self.theVector = Truss.trussV4
+            self.num_DOF = 4
+            self.matrix = Truss.trussM4 # ????
+            self.vector = Truss.trussV4
         elif self.dimension == 2 and dofNd1 == 3:
-            self.numDOF = 6
-            self.theMatrix = Truss.trussM6 # ????
-            self.theVector = Truss.trussV6
+            self.num_DOF = 6
+            self.matrix = Truss.trussM6 # ????
+            self.vector = Truss.trussV6
         elif self.dimension == 3 and dofNd1 == 3:
-            self.numDOF = 6
-            self.theMatrix = Truss.trussM6 # ????
-            self.theVector = Truss.trussV6
+            self.num_DOF = 6
+            self.matrix = Truss.trussM6 # ????
+            self.vector = Truss.trussV6
         elif self.dimension == 3 and dofNd1 == 6:
-            self.numDOF = 12
-            self.theMatrix = Truss.trussM12 # ????
-            self.theVector = Truss.trussV12
+            self.num_DOF = 12
+            self.matrix = Truss.trussM12 # ????
+            self.vector = Truss.trussV12
         else:
             print('WARNING Truss::setDomain cannot handle '+str(self.dimension)+' dofs at nodes in '+str(dofNd1)+' problem.\n')
-            self.numDOF = 2
-            self.theMatrix = Truss.trussM2 # ????
-            self.theVector = Truss.trussV2
+            self.num_DOF = 2
+            self.matrix = Truss.trussM2 # ????
+            self.vector = Truss.trussV2
             return
         # create the load vector
-        if self.theLoad is None:
-            self.theLoad = np.zeros(self.numDOF)
-        elif len(self.theLoad) != self.numDOF:
-            self.theLoad = np.zeros(self.numDOF)
+        if self.load is None:
+            self.load = np.zeros(self.num_DOF)
+        elif len(self.load) != self.num_DOF:
+            self.load = np.zeros(self.num_DOF)
         # now determine the length, cosines and fill in the transformation
         # Note: t = -t(every one else uses for residual calc)
-        end1Crd = self.theNodes[0].getCrds() # 都是Vector
-        end2Crd = self.theNodes[1].getCrds()
-        end1Disp = self.theNodes[0].getDisp()
-        end2Disp = self.theNodes[1].getDisp()
+        end1Crd = self.nodes[0].get_crds() # 都是Vector
+        end2Crd = self.nodes[1].get_crds()
+        end1Disp = self.nodes[0].get_disp()
+        end2Disp = self.nodes[1].get_disp()
 
         if self.dimension == 1:
             dx = end2Crd[0] - end1Crd[0]
-            if self.initialDisp is None:
+            if self.initial_disp is None:
                 iDisp = end2Disp[0] - end1Disp[0]
                 if iDisp != 0:
-                    self.initialDisp = np.zeros(1)
-                    self.initialDisp[0] = iDisp
+                    self.initial_disp = np.zeros(1)
+                    self.initial_disp[0] = iDisp
                     dx += iDisp
             self.L = sqrt(dx*dx)
             if self.L == 0.0:
-                print('WARNING Truss::setDomain() - truss '+str(self.getTag())+' has zero length.\n')
+                print('WARNING Truss::setDomain() - truss '+str(self.get_tag())+' has zero length.\n')
                 return
             self.cosX[0] = 1.0
         elif self.dimension == 2:
             dx = end2Crd[0] - end1Crd[0]
             dy = end2Crd[1] - end1Crd[1]
-            if self.initialDisp is None:
+            if self.initial_disp is None:
                 iDispX = end2Disp[0] - end1Disp[0]
                 iDispY = end2Disp[1] - end1Disp[1]
                 if iDispX!=0 or iDispY!=0:
-                    self.initialDisp = np.zeros(2)
-                    self.initialDisp[0] = iDispX
-                    self.initialDisp[1] = iDispY
+                    self.initial_disp = np.zeros(2)
+                    self.initial_disp[0] = iDispX
+                    self.initial_disp[1] = iDispY
                     dx += iDispX
                     dy += iDispY
             self.L = sqrt(dx*dx+dy*dy)
             if self.L == 0.0:
-                print('WARNING Truss::setDomain() - truss '+str(self.getTag())+' has zero length.\n')
+                print('WARNING Truss::setDomain() - truss '+str(self.get_tag())+' has zero length.\n')
                 return
             self.cosX[0] = dx/self.L
             self.cosX[1] = dy/self.L
@@ -158,21 +161,21 @@ class Truss(Element):
             dx = end2Crd[0] - end1Crd[0]
             dy = end2Crd[1] - end1Crd[1]
             dz = end2Crd[2] - end1Crd[2]
-            if self.initialDisp is None:
+            if self.initial_disp is None:
                 iDispX = end2Disp[0] - end1Disp[0]
                 iDispY = end2Disp[1] - end1Disp[1]
                 iDispZ = end2Disp[2] - end1Disp[2]
                 if iDispX!=0 or iDispY!=0 or iDispZ!=0:
-                    self.initialDisp = np.zeros(3)
-                    self.initialDisp[0] = iDispX
-                    self.initialDisp[1] = iDispY
-                    self.initialDisp[2] = iDispZ
+                    self.initial_disp = np.zeros(3)
+                    self.initial_disp[0] = iDispX
+                    self.initial_disp[1] = iDispY
+                    self.initial_disp[2] = iDispZ
                     dx += iDispX
                     dy += iDispY
                     dz += iDispZ
             self.L = sqrt(dx*dx+dy*dy+dz*dz)
             if self.L == 0.0:
-                print('WARNING Truss::setDomain() - truss '+str(self.getTag())+' has zero length.\n')
+                print('WARNING Truss::setDomain() - truss '+str(self.get_tag())+' has zero length.\n')
                 return
             self.cosX[0] = dx/self.L
             self.cosX[1] = dy/self.L
@@ -181,35 +184,36 @@ class Truss(Element):
         
     
     # public methods to set the state of the element
-    def commitState(self):
+    def commit_state(self):
         if self. Kc is not None:
-            self.Kc = self.getTangentStiff()
-        retVal = self.theMaterial.commitState()
+            self.Kc = self.get_tangent_stiff()
+        retVal = self.material.commit_state()
         return retVal
     
     # def revertToLastCommit(self):
-    #     return self.theMaterial.revertToLastCommit()
+    #     return self.material.revertToLastCommit()
     # def revertToStart(self):
     #     pass
     def update(self):
         # determine the current strain given trial displacements at nodes
-        strain = self.computeCurrentStrain()
+        strain = self.compute_current_strain()
         # rate = self.computeCurrentStrainRate()
-        # return self.theMaterial.setTrialStrain(strain, rate)
-        return self.theMaterial.setTrialStrain(strain)
+        # return self.material.setTrialStrain(strain, rate)
+        return self.material.set_trial_strain(strain)
 
     # public methods to obtain stiffness, mass, damping and residual information
     # def getKi(self):
     #     pass
 
-    def getTangentStiff(self):
+    def get_tangent_stiff(self):
         if self.L == 0.0: # - problem in setDomain() no further warnings
-            self.theMatrix.Zero()
-            return self.theMatrix
-        E = self.theMaterial.getTangent()
+            for i in self.matrix:
+                i = 0.0
+            return self.matrix
+        E = self.material.get_tangent()
         # come back later and redo this if too slow
-        stiff = self.theMatrix
-        numDOF2 = int(self.numDOF / 2)
+        stiff = self.matrix
+        numDOF2 = int(self.num_DOF / 2)
         EAoverL = E * self.A / self.L
         for i in range(0, self.dimension):
             for j in range(0, self.dimension):
@@ -220,14 +224,15 @@ class Truss(Element):
                 stiff[i+numDOF2, j+numDOF2] = temp
         return stiff
 
-    def getInitialStiff(self):
+    def get_initial_stiff(self):
         if self.L == 0.0: # - problem in setDomain() no further warnings
-            self.theMatrix.Zero()
-            return self.theMatrix
-        E = self.theMaterial.getInitialTangent()  
+            for i in self.matrix:
+                i = 0.0
+            return self.matrix
+        E = self.material.get_initial_tangent()
         # come back later and redo this if too slow
-        stiff = self.theMatrix
-        numDOF2 = self.numDOF / 2
+        stiff = self.matrix
+        numDOF2 = self.num_DOF / 2
         EAoverL = E * self.A / self.L
         for i in range(0, self.dimension):
             for j in range(0, self.dimension):
@@ -243,30 +248,30 @@ class Truss(Element):
     # def getMass(self):
     #     pass
     
-    def zeroLoad(self):
-        self.theLoad[:] = 0.0
+    def zero_load(self):
+        self.load[:] = 0.0
 
-    def addLoad(self, theLoad, loadFactor): # Truss 单元没有分布力
-        print('Truss::addLoad - load type unknown for truss with tag: '+str(self.getTag())+'.\n')
+    def add_load(self, load, loadFactor): # Truss 单元没有分布力
+        print('Truss::add_load - load type unknown for truss with tag: '+str(self.get_tag())+'.\n')
         return -1
 
     # def addInertiaLoadToUnbalance(self, accel):
     #     pass
 
-    def getResistingForce(self):
+    def get_resisting_force(self):
         if self.L == 0.0: # - problem in setDomain() no further warnings
-            self.theVector = None
-            return self.theVector
+            self.vector = None
+            return self.vector
         
         # R = Ku - Pext
         # Ku = F * transformation
-        force = self.A * self.theMaterial.getStress()
-        numDOF2 = int(self.numDOF / 2)
+        force = self.A * self.material.get_stress()
+        numDOF2 = int(self.num_DOF / 2)
         for i in range(0, self.dimension):
             temp = self.cosX[i] * force
-            self.theVector[i] = -temp
-            self.theVector[i+numDOF2] = temp
-        return self.theVector 
+            self.vector[i] = -temp
+            self.vector[i+numDOF2] = temp
+        return self.vector
         
 
     # def getResistingForceIncInertia(self):
@@ -275,18 +280,18 @@ class Truss(Element):
 
     # public methods for element output
     # private
-    def computeCurrentStrain(self):
+    def compute_current_strain(self):
         # Note: method will not be called if L == 0
         # determine the strain
-        disp1 = self.theNodes[0].getTrialDisp() # Vector
-        disp2 = self.theNodes[1].getTrialDisp()
+        disp1 = self.nodes[0].get_trial_disp() # Vector
+        disp2 = self.nodes[1].get_trial_disp()
         dLength = 0.0
-        if self.initialDisp is None:
+        if self.initial_disp is None:
             for i in range(0, self.dimension):
                 dLength += (disp2[i] - disp1[i]) * self.cosX[i]
         else:
             for i in range(0, self.dimension):
-                dLength += (disp2[i] - disp1[i] - self.initialDisp[i]) * self.cosX[i]
+                dLength += (disp2[i] - disp1[i] - self.initial_disp[i]) * self.cosX[i]
 
         # this method should never be called with L == 0
         return dLength/self.L
@@ -295,8 +300,8 @@ class Truss(Element):
     # def computeCurrentStrainRate(self):
     #     # Note: method will not be called if L == 0
     #     # determine the strain
-    #     vel1 = self.theNodes[0].getTrialVel()
-    #     vel2 = self.theNodes[1].getTrialVel()
+    #     vel1 = self.nodes[0].getTrialVel()
+    #     vel2 = self.nodes[1].getTrialVel()
     #     dLength = 0.0
     #     for i in range(0, self.dimension):
     #         dLength += (vel2[i] - vel1[i]) * self.cosX[i]

@@ -3,51 +3,51 @@ from TaggedObject import TaggedObject
 class Vertex(TaggedObject):
     def __init__(self, tag, ref, weight=0, color=0):
         super().__init__(tag)
-        self.myRef = ref
+        self.ref = ref
         # reference: 1. 如果是DOFGraph，则 ref = tag = dof tag
         # 2. 如果是DOFGroupGraph，则 ref = DOF_Group相关的Node的tag
-        self.myWeight = weight
-        self.myColor = color
+        self.weight = weight
+        self.color = color
 
-        self.myDegree = 0  # degree of node i is number of edges meeting at node i or number of vertices adjacent to it
-        self.myTmp = 0
-        self.myAdjacency = []  # two nodes are said to be adjacent if they are connected by an edge
+        self.degree = 0  # degree of node i is number of edges meeting at node i or number of vertices adjacent to it
+        self.tmp = 0
+        self.adjacency = []  # two nodes are said to be adjacent if they are connected by an edge
 
     # set method
-    def setWeight(self, newWeight):
-        self.myWeight = newWeight
+    def set_weight(self, newWeight):
+        self.weight = newWeight
     
-    def setColor(self, newColor):
-        self.myColor = newColor
+    def set_color(self, newColor):
+        self.color = newColor
     
-    def setTmp(self, newTmp):
-        self.myTmp = newTmp
+    def set_tmp(self, newTmp):
+        self.tmp = newTmp
     
     # get method
-    def getRef(self):
-        return self.myRef
-    def getWeight(self):
-        return self.myWeight
-    def getColor(self):
-        return self.myColor
-    def getTmp(self):
-        return self.myTmp
-    def getDegree(self):
-        return self.myDegree
-    def getAdjacency(self):
-        return self.myAdjacency
+    def get_ref(self):
+        return self.ref
+    def get_weight(self):
+        return self.weight
+    def get_color(self):
+        return self.color
+    def get_tmp(self):
+        return self.tmp
+    def get_degree(self):
+        return self.degree
+    def get_adjacency(self):
+        return self.adjacency
     
     # add method
-    def addEdge(self, otherTag):
+    def add_edge(self, otherTag):
         # don't allow itself to be added
-        if otherTag==self.getTag():
+        if otherTag==self.get_tag():
             return 0
         # check the otherVertex has not already been added
-        for i in range(0, len(self.myAdjacency)):
-            if self.myAdjacency[i] == otherTag:
+        for i in range(0, len(self.adjacency)):
+            if self.adjacency[i] == otherTag:
                 print('Vertex.addEdge(): already exists. return!')
                 return 0
-        self.myAdjacency.append(otherTag)
+        self.adjacency.append(otherTag)
         return 0
 
 

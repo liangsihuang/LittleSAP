@@ -4,132 +4,134 @@ import numpy as np
 
 class Node(DomainComponent):
 
-    def __init__(self, tag, ndof, *Crd):
+    def __init__(self, tag, ndof, *crd):
         super().__init__(tag)
-        self.numberDOF = ndof          # number of dof at Node
-        self.theDOF_Group = None    # pointer to associated DOF_Group
+        self.number_DOF = ndof          # number of dof at Node
+        self.DOF_group = None    # pointer to associated DOF_Group
 
-        self.Crd = []
+        self.crd = []
         # Crd是可变参数，接收到的是一个 tuple
-        for i in range(0,len(Crd)):
-            self.Crd.append(Crd[i])
+        for i in range(0,len(crd)):
+            self.crd.append(crd[i])
         
-        self.commitDisp = None
-        self.trialDisp = None
+        self.commit_disp = None
+        self.trial_disp = None
 
-        self.unbalLoad = None       # unbalanced load
-        self.incrDisp = None
-        self.incrDeltaDisp = None
+        self.unbal_load = None       # unbalanced load
+        self.incr_disp = None
+        self.incr_delta_disp = None
         # double arrays holding the disp, vel and accel value
         # 对应 np.narray
         self.disp = None
 
     # public methods dealing with the DOF at the node
-    def getNumberDOF(self):
-        return self.numberDOF
-    def setDOF_Group(self, theDOF_Grp):
-        self.theDOF_Group = theDOF_Grp
-    def getDOF_Group(self):
-        return self.theDOF_Group
+    def get_number_DOF(self):
+        return self.number_DOF
+
+    def set_DOF_group(self, dof_grp):
+        self.DOF_group = dof_grp
+
+    def get_DOF_group(self):
+        return self.DOF_group
 
     # public methods for obtaining the nodal coordinates
-    def getCrds(self):
-        return self.Crd
+    def get_crds(self):
+        return self.crd
 
     # public methods for obtaining committed and trial response quantities of the node
-    def getDisp(self):
-        if self.commitDisp is None:
-            self.createDisp()
-        return self.commitDisp
+    def get_disp(self):
+        if self.commit_disp is None:
+            self.create_disp()
+        return self.commit_disp
     
-    def getTrialDisp(self):
-        if self.trialDisp is None:
-            self.createDisp()
-        return self.trialDisp
+    def get_trial_disp(self):
+        if self.trial_disp is None:
+            self.create_disp()
+        return self.trial_disp
 
     # public methods for updating the trial response quantities
-    def incrTrialDisp(self, incrDispl):
+    def incr_trial_disp(self, incrDispl):
         # incrDispl 是 Vector
         # check vector arg is of correct size
-        if len(incrDispl) != self.numberDOF:
-            print('WARNING Node::incrTrialDisp() - incompatable sizes.\n')
+        if len(incrDispl) != self.number_DOF:
+            print('WARNING Node::incr_trial_disp() - incompatable sizes.\n')
             return -2
         # create a copy if no trial exists andd add committed
-        if self.trialDisp is None:
-            self.createDisp()
-            for i in range(0, self.numberDOF):
+        if self.trial_disp is None:
+            self.create_disp()
+            for i in range(0, self.number_DOF):
                 incrDispI = incrDispl[i]
                 self.disp[i] = incrDispI
-                self.disp[i+2*self.numberDOF] = incrDispI
-                self.disp[i+3*self.numberDOF] = incrDispI
+                self.disp[i+2*self.number_DOF] = incrDispI
+                self.disp[i+3*self.number_DOF] = incrDispI
             return 0
         # otherwise set trial = incr + trial
-        for i in range(0, self.numberDOF):
+        for i in range(0, self.number_DOF):
             incrDispI = incrDispl[i]
             self.disp[i] += incrDispI
-            self.disp[i+2*self.numberDOF] += incrDispI
-            self.disp[i+3*self.numberDOF] = incrDispI
+            self.disp[i+2*self.number_DOF] += incrDispI
+            self.disp[i+3*self.number_DOF] = incrDispI
         return 0
 
     # public methods for adding and obtaining load information
-    def addUnbalancedLoad(self, add, fact=1.0):
+    def add_unbalanced_load(self, add, fact=1.0):
         # add: narray
         # check vector arg is of correct size
-        if len(add) != self.numberDOF:
-            print('Node::addunbalLoad - load to add of incorrect size')
+        if len(add) != self.number_DOF:
+            print('Node::add_unbal_Load - load to add of incorrect size')
             return -1
         # if no load yet create it and assign
-        if self.unbalLoad is None:
-            self.unbalLoad = add
+        if self.unbal_load is None:
+            self.unbal_load = add
             if fact != 1.0:
-                self.unbalLoad = self.unbalLoad * fact
+                self.unbal_load = self.unbal_load * fact
             return 0
         # add fact*add to the unbalanced load
-        self.unbalLoad = add * fact
+        self.unbal_load = add * fact
         return 0
 
-    def getUnbalancedLoad(self):
+    def get_unbalanced_load(self):
         # make sure it was created before we return it
-        if self.unbalLoad is None:
-            self.unbalLoad = np.zeros(self.numberDOF)
-        return self.unbalLoad
+        if self.unbal_load is None:
+            self.unbal_load = np.zeros(self.number_DOF)
+        return self.unbal_load
 
-    def zeroUnbalancedLoad(self):
-        if self.unbalLoad is not None:
-            self.unbalLoad[:] = 0.0
+    def zero_unbalanced_load(self):
+        if self.unbal_load is not None:
+            self.unbal_load[:] = 0.0
 
     # public methods dealing with the commited state of the node
-    def commitState(self):
+    def commit_state(self):
         # check disp exists, if does set commit = trial, incr = 0.0
-        if self.trialDisp is not None:
-            for i in range(0, self.numberDOF):
-                self.disp[i+self.numberDOF] = self.disp[i]
-                self.disp[i+2*self.numberDOF] = 0.0
-                self.disp[i+3*self.numberDOF] = 0.0
+        if self.trial_disp is not None:
+            for i in range(0, self.number_DOF):
+                self.disp[i+self.number_DOF] = self.disp[i]
+                self.disp[i+2*self.number_DOF] = 0.0
+                self.disp[i+3*self.number_DOF] = 0.0
         # check vel exists, if does set commit = trial 
         # check accel exists, if does set commit = trial 
         return 0
 
-    def revertToLastCommit(self):
-        # check disp exists, if does set trial = last commit, incr = 0
-        if self.disp!=[]:
-            for i in range(0,self.numberDOF):
-                self.disp[i] = self.disp[i+self.numberDOF]
-                self.disp[i+2*self.numberDOF] = 0.0
-                self.disp[i+3*self.numberDOF] = 0.0
+    # def revertToLastCommit(self):
+    #     # check disp exists, if does set trial = last commit, incr = 0
+    #     if self.disp!=[]:
+    #         for i in range(0,self.number_DOF):
+    #             self.disp[i] = self.disp[i+self.number_DOF]
+    #             self.disp[i+2*self.number_DOF] = 0.0
+    #             self.disp[i+3*self.number_DOF] = 0.0
         # check vel exists, if does set trial = last commit
         # check accel exists, if does set trial = last commit
 
     # def revertToStart(self):
     #     # check disp exists, if does set all to zero
     #     if self.disp != None:
-    #         for i in range(0, 4*self.numberDOF):
+    #         for i in range(0, 4*self.number_DOF):
     #             self.disp[i] = 0.0
     #     # check vel exists, if does set all to zero
     #     # check accel exists, if does set all to zero
 
-    #     if self.unbalLoad != None:
-    #         for i in self.unbalLoad:
+    #     if self.unbal_load != None:
+    #         for i in self.unbal_load:
     #             i = 0.0
         
     #     return 0
@@ -143,14 +145,14 @@ class Node(DomainComponent):
 
     # private methods used to create the Vector objects 
     # for the committed and trial response quantities.
-    def createDisp(self):
+    def create_disp(self):
         # trial , committed, incr = (committed-trial)
-        self.disp = np.zeros(4*self.numberDOF)
+        self.disp = np.zeros(4*self.number_DOF)
         # 按照储存顺序
-        self.trialDisp = self.disp[0:self.numberDOF]
-        self.commitDisp = self.disp[self.numberDOF:2*self.numberDOF]
-        self.incrDisp = self.disp[2*self.numberDOF:3*self.numberDOF]
-        self.incrDeltaDisp = self.disp[3*self.numberDOF:-1]
+        self.trial_disp = self.disp[0:self.number_DOF]
+        self.commit_disp = self.disp[self.number_DOF:2*self.number_DOF]
+        self.incr_disp = self.disp[2*self.number_DOF:3*self.number_DOF]
+        self.incr_delta_disp = self.disp[3*self.number_DOF:-1]
 
 
 

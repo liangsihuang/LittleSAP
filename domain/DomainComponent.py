@@ -1,15 +1,16 @@
 from TaggedObject import TaggedObject
+
 class DomainComponent(TaggedObject):
     
     def __init__(self, tag):
         super().__init__(tag)
-        self.theDomain = None
+        self.domain = None
     
-    def setDomain(self, model):
-        self.theDomain = model
+    def set_domain(self, model):
+        self.domain = model
     
-    def getDomain(self):
-        return self.theDomain
+    def get_domain(self):
+        return self.domain
 
 
 
