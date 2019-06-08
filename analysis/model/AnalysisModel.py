@@ -251,13 +251,13 @@ class AnalysisModel:
     # def update_domain(self, newTime, dT):
     #     pass
 
-    def analysis_step(self, dT=0.0):
-        # check to see there is a Domain linked to the Model
-        if self.domain is None:
-            print('WARNING: AnalysisModel::newStep. No domain linked.\n')
-            return -1
-        # invoke the method
-        return self.domain.analysis_step(dT)
+    # def analysis_step(self, dT=0.0):
+    #     # check to see there is a Domain linked to the Model
+    #     if self.domain is None:
+    #         print('WARNING: AnalysisModel::newStep. No domain linked.\n')
+    #         return -1
+    #     # invoke the method
+    #     return self.domain.analysis_step(dT)
 
     # def eigenAnalysis(self, numMode, generalized, findSmallest):
     #     pass

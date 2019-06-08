@@ -16,6 +16,7 @@ class ConstraintHandler():
     
     def done_numbering_DOF(self):
         # iterate through the FE_Element getting them to set their IDs
+        # 好像在PlainHandler.number_DOF()里已经设置过了，重复了
         eles = self.analysis_model.get_FEs()
         for tag in eles:
             ele = eles[tag]

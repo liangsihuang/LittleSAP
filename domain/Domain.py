@@ -112,7 +112,7 @@ class Domain(object):
             spDof = sp.get_DOF_number()
             if (nodeTag == spNodeTag & dof == spDof):
                 found = True
-        if found == True:
+        if found is True:
             print('Domain::add_SP_constraint - cannot add as node already constrained in that dof by existing SP_Constraint.\n')
             
         # check that no other object with similar tag exists in model
@@ -327,8 +327,8 @@ class Domain(object):
         return ok
     
     #
-    def analysis_step(self, dT): # ???
-        return 0
+    # def analysis_step(self, dT): # ???
+    #     return 0
     #
     # def eigenAnalysis(self, numMode, generalized, findSmallest):
     #     pass
@@ -338,8 +338,7 @@ class Domain(object):
     def has_domain_changed(self):
         # if the flag, indicating the domain has changed since the last call to this method, has changed
         # increment the integer and reset the flag
-        result = self.has_domain_changed_flag
-        if result == True:
+        if self.has_domain_changed_flag is True:
             self.current_Geo_tag += 1
             self.node_graph_built_flag = False
             self.ele_graph_built_flag = False

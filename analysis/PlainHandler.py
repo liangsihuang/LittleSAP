@@ -24,14 +24,14 @@ class PlainHandler(ConstraintHandler):
 
         # initialise the DOF_Groups and add them to the AnalysisModel.
         # must of course set the initial IDs
-        theNod = domain.get_nodes()
-        numDOF = 0
+        nodes = domain.get_nodes()
+        numDOFgroup = 0
         count3 = 0
         countDOF = 0
-        for tag in theNod:
-            node = theNod[tag]
-            numDOF += 1
-            dof_group = DOF_Group(numDOF, node)
+        for tag in nodes:
+            node = nodes[tag]
+            numDOFgroup += 1
+            dof_group = DOF_Group(numDOFgroup, node)
             # initially set all the ID value to -2
             id1 = dof_group.get_ID()
             for j in range(0, len(id1)):

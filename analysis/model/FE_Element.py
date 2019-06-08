@@ -94,10 +94,10 @@ class FE_Element(TaggedObject):
             if dof is None:
                 print('WARNING FE_Element::set_ID: 0 DOF_Group Pointer.\n')
                 return -2
-            theDOFid = dof.get_ID()
-            for j in range(0, len(theDOFid)):
+            DOFid = dof.get_ID()
+            for j in range(0, len(DOFid)):
                 if current < self.num_DOF:
-                    self.myID[current] = theDOFid[j]
+                    self.myID[current] = DOFid[j]
                     current += 1
                 else:
                     print('WARNING FE_Element::set_ID() - num_DOF and number of dof at the DOF_Groups.\n')

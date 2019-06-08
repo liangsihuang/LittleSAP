@@ -34,12 +34,14 @@ class PlainNumberer(DOF_Numberer):
         numEqn = eqnNumber + 1
 
         # iterate through the FE_Element getting them to set their IDs
+        # 后面ConstraintHandler.done_numbering_DOF()又重复了一次！干啥呢？
         eles = model.get_FEs()
         for tag in eles:
             ele = eles[tag]
             ele.set_ID()
 
-        # set the numOfEquation in the Model
+        # set the numOfEquation in the Model，好像重复设置了，在Handler.handle()已经设置了
         model.set_num_eqn(numEqn)
+
         return numEqn
         

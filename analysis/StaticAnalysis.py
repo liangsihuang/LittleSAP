@@ -1,8 +1,8 @@
 from analysis.Analysis import Analysis
 
 class StaticAnalysis(Analysis):
-    def __init__(self, theDomain, theHandler, theNumberer, theModel, theSolnAlgo, theLinSOE, theStaticIntegrator, theConvergenceTest=None):
-        super().__init__(theDomain)
+    def __init__(self, domain, theHandler, theNumberer, theModel, theSolnAlgo, theLinSOE, theStaticIntegrator, theConvergenceTest=None):
+        super().__init__(domain)
         self.constraint_handler = theHandler
         self.DOF_numberer = theNumberer
         self.analysis_model = theModel
@@ -12,11 +12,11 @@ class StaticAnalysis(Analysis):
         self.integrator = theStaticIntegrator
         self.test = theConvergenceTest
 
-        self.domainStamp = 0
+        self.domain_stamp = 0
 
         # first we set up the links needed by the elements in the aggregation
-        self.analysis_model.set_links(theDomain, theHandler)
-        self.constraint_handler.set_links(theDomain, theModel, theStaticIntegrator)
+        self.analysis_model.set_links(domain, theHandler)
+        self.constraint_handler.set_links(domain, theModel, theStaticIntegrator)
         self.DOF_numberer.set_links(theModel)
         self.integrator.set_links(theModel, theLinSOE, theConvergenceTest)
         self.algorithm.set_links(theModel, theStaticIntegrator, theLinSOE, theConvergenceTest)
@@ -29,18 +29,18 @@ class StaticAnalysis(Analysis):
 
     def analyze(self, numSteps):
         result = 0
-        theDomain = self.get_domain()
-        for i in range(0,numSteps):
-            result = self.analysis_model.analysis_step() # 有什么意义？
-            if result<0 :
-                print('StaticAnalysis::analyze() - the AnalysisModel failed at iteration: '+str(i))
-                print(' with domain at load factor '+str(theDomain.get_current_time())+'.\n')
-                theDomain.revert_to_last_commit()
-                return -2
+        domain = self.get_domain()
+        for i in range(0, numSteps):
+            # result = self.analysis_model.analysis_step() # 有什么意义？
+            # if result<0 :
+            #     print('StaticAnalysis::analyze() - the AnalysisModel failed at iteration: '+str(i))
+            #     print(' with domain at load factor '+str(domain.get_current_time())+'.\n')
+            #     domain.revert_to_last_commit()
+            #     return -2
             
-            stamp = theDomain.has_domain_changed()
-            if self.domainStamp != stamp:
-                self.domainStamp = stamp
+            stamp = domain.has_domain_changed()
+            if self.domain_stamp != stamp:
+                self.domain_stamp = stamp
                 result = self.domain_changed()
                 if result < 0:
                     print('StaticAnalysis::analyze() - domain_changed failed at step '+str(i)+' of '+str(numSteps)+'.\n')
@@ -49,24 +49,24 @@ class StaticAnalysis(Analysis):
             result = self.integrator.new_step()
             if result < 0:
                 print('StaticAnalysis::analyze() - the Integrator failed at iteration: '+str(i))
-                print(' with domain at load factor '+str(theDomain.get_current_time())+'.\n')
-                theDomain.revert_to_last_commit()
+                print(' with domain at load factor '+str(domain.get_current_time())+'.\n')
+                domain.revert_to_last_commit()
                 self.integrator.revert_to_last_step()
                 return -2
 
             result = self.algorithm.solve_current_step()
             if result < 0:
                 print('StaticAnalysis::analyze() - the Algorithm failed at iteration: '+str(i))
-                print(' with domain at load factor '+str(theDomain.get_current_time())+'.\n')
-                theDomain.revert_to_last_commit()
+                print(' with domain at load factor '+str(domain.get_current_time())+'.\n')
+                domain.revert_to_last_commit()
                 self.integrator.revert_to_last_step()   # LoadControl 并没有 revert_to_last_step()
                 return -3
             
             result = self.integrator.commit()
             if result < 0:
                 print('StaticAnalysis::analyze() - the Integrator failed at iteration: '+str(i))
-                print(' with domain at load factor '+str(theDomain.get_current_time())+'.\n')
-                theDomain.revert_to_last_commit()
+                print(' with domain at load factor '+str(domain.get_current_time())+'.\n')
+                domain.revert_to_last_commit()
                 self.integrator.revert_to_last_step()
                 return -4
             
@@ -83,10 +83,10 @@ class StaticAnalysis(Analysis):
     #     pass
 
     def domain_changed(self):
-        result = 0
-        theDomain = self.get_domain()
-        stamp = theDomain.has_domain_changed()
-        self.domainStamp = stamp
+        # result = 0
+        domain = self.get_domain()
+        stamp = domain.has_domain_changed()
+        self.domain_stamp = stamp
 
         self.analysis_model.clear_all()
         self.constraint_handler.clear_all()

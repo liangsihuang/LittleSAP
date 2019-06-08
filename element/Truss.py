@@ -187,8 +187,8 @@ class Truss(Element):
     def commit_state(self):
         if self. Kc is not None:
             self.Kc = self.get_tangent_stiff()
-        retVal = self.material.commit_state()
-        return retVal
+        value = self.material.commit_state()
+        return value
     
     # def revertToLastCommit(self):
     #     return self.material.revertToLastCommit()
