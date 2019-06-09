@@ -11,9 +11,10 @@ from domain.NodalLoad import NodalLoad
 from domain.Node import Node
 from domain.SP_Constraint import SP_Constraint
 from domain.timeSeries.LinearSeries import LinearSeries
-from element.Truss import Truss
+
 from element.FourNodeQuad import FourNodeQuad
-from material.uniaxial.ElasticMaterial import ElasticMaterial
+from material.nD.PlaneStressMaterial import PlaneStressMaterial
+from material.elasticIsotropic.ElasticIsotropicThreeDimensional import ElasticIsotropicThreeDimensional
 from analysis.system_of_eqn.FullGenLinSolver import FullGenLinSolver
 from analysis.system_of_eqn.FullGenLinSOE import FullGenLinSOE
 import numpy as np
@@ -29,9 +30,11 @@ theDomain.add_node(node2)
 theDomain.add_node(node3)
 theDomain.add_node(node4)
 
-theMaterial = ElasticMaterial(1, 3000.0)
 
-quad1 = FourNodeQuad(1, 2, 1, 4, theMaterial, 10.0)
+theMaterial1 = ElasticIsotropicThreeDimensional(1, 200000.0, 0.3)
+material = PlaneStressMaterial(2, theMaterial1)
+
+quad1 = FourNodeQuad(1, 1, 2, 3, 4, material, 'PlainStress', 1.0)
 
 theDomain.add_element(quad1)
 

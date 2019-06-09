@@ -5,7 +5,7 @@ from copy import deepcopy
 
 class FourNodeQuad(Element):
 
-    def __init__(self, tag, nd1, nd2, nd3, nd4, m, type, t, pressure=0.0, rho=0.0, b1=0.0, b2=0.0):
+    def __init__(self, tag, nd1, nd2, nd3, nd4, material, type, t, pressure=0.0, rho=0.0, b1=0.0, b2=0.0):
         super().__init__(tag)
 
         self.pts = [[-0.5773502691896258, -0.5773502691896258],
@@ -29,7 +29,7 @@ class FourNodeQuad(Element):
         # Get copies of the material model for each integration point
         self.material = [None, None, None, None]
         for i in range(0,4):
-            self.material[i] = deepcopy(m)
+            self.material[i] = deepcopy(material)
 
         self.connected_external_nodes = [nd1, nd2, nd3, nd4]
         self.nodes = [None, None, None, None]
@@ -158,20 +158,20 @@ class FourNodeQuad(Element):
         J[0, 0] = x1 * N1_xi + x2 * N2_xi + x3 * N3_xi + x4 * N4_xi
         J[0, 1] = y1 * N1_xi + y2 * N2_xi + y3 * N3_xi + y4 * N4_xi
         J[1, 0] = x1 * N1_eta + x2 * N2_eta + x3 * N3_eta + x4 * N4_eta
-        J[1, 1] = x1 * N1_eta + x2 * N2_eta + x3 * N3_eta + x4 * N4_eta
+        J[1, 1] = y1 * N1_eta + y2 * N2_eta + y3 * N3_eta + y4 * N4_eta
 
         Jinv = np.linalg.inv(J)
 
-        temp = Jinv * np.array([N1_xi, N1_eta])
+        temp = np.dot(Jinv, np.array([N1_xi, N1_eta]))
         N1_x = temp[0]
         N1_y = temp[1]
-        temp = Jinv * np.array([N2_xi, N2_eta])
+        temp = np.dot(Jinv, np.array([N2_xi, N2_eta]))
         N2_x = temp[0]
         N2_y = temp[1]
-        temp = Jinv * np.array([N3_xi, N3_eta])
+        temp = np.dot(Jinv, np.array([N3_xi, N3_eta]))
         N3_x = temp[0]
         N3_y = temp[1]
-        temp = Jinv * np.array([N4_xi, N4_eta])
+        temp = np.dot(Jinv, np.array([N4_xi, N4_eta]))
         N4_x = temp[0]
         N4_y = temp[1]
         # 形函数对原坐标（x,y）的导数，用来后续计算B矩阵

@@ -1,13 +1,14 @@
 from material.nD.NDMaterial import NDMaterial
 import numpy as np
 from scipy.linalg import solve
+import copy
 
 class PlaneStressMaterial(NDMaterial):
 
     def __init__(self, tag, threed_material):
-        super.__init__(tag)
+        super().__init__(tag)
 
-        self.material = threed_material
+        self.material = copy.deepcopy(threed_material)
 
         # out of plane strains .. trial and committed
         self.t_strain22 = 0.0
@@ -19,16 +20,6 @@ class PlaneStressMaterial(NDMaterial):
 
         self.strain = np.zeros(3)
 
-    def get_copy(self):
-        clone = PlaneStressMaterial(self.getTag())
-        clone.t_strain22 = self.t_strain22
-        clone.t_gamma02 = self.t_gamma02
-        clone.t_gamma12 = self.t_gamma12
-        clone.c_strain22 = self.c_strain22
-        clone.c_gamma02 = self.c_gamma02
-        clone.c_gamma12 = self.c_gamma12
-
-        return clone
 
     def set_trial_strain(self,strain_from_element):
         tolerance = 1.0e-8
@@ -157,7 +148,7 @@ class PlaneStressMaterial(NDMaterial):
         dd22[1, 2] = threed_tangent[4, 5]
         dd22[2, 2] = threed_tangent[5, 5]
 
-        # condesation?
+        # condesation = 自由度凝聚: dd11 = dd11 - dd12 * dd22^(-1) * dd21
         dd22inv_dd21 = solve(dd22, dd21)
 
         dd11 -= dd12 * dd22inv_dd21

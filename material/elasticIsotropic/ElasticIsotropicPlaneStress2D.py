@@ -1,9 +1,9 @@
-from material.ElasticIsotropicMaterial import ElasticIsotropicMaterial
+from material.elasticIsotropic.ElasticIsotropicMaterial import ElasticIsotropicMaterial
 import numpy as np
 
 class ElasticIsotropicPlaneStress2D(ElasticIsotropicMaterial):
     
-    def __init__(self, tag, e, nu, r):
+    def __init__(self, tag, e, nu, r=0.0):
 
         super().__init__(tag, e, nu, r)
         self.sigma = np.zeros(3)
@@ -22,7 +22,7 @@ class ElasticIsotropicPlaneStress2D(ElasticIsotropicMaterial):
         return self.D
 
     def get_stress(self):
-        self.sigma = self.D * self.epsilon
+        self.sigma = np.dot(self.D, self.epsilon)
         return self.sigma
 
     def commit_state(self):
