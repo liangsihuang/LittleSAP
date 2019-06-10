@@ -20,7 +20,7 @@ class ElasticIsotropicThreeDimensional(ElasticIsotropicMaterial):
 
         self.D[0, 0] = G2 + lam
         self.D[1, 1] = G2 + lam
-        self.D[2, 1] = G2 + lam
+        self.D[2, 2] = G2 + lam
 
         self.D[0, 1] = lam
         self.D[1, 0] = lam

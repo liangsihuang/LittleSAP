@@ -1,5 +1,4 @@
 from element.Element import Element
-from math import sqrt
 import numpy as np
 from copy import deepcopy
 
@@ -22,8 +21,17 @@ class FourNodeQuad(Element):
         if type!='PlaneStrain' and type!='PlaneStress':
             print('FourNodeQuad::FourNodeQuad -- material type must be PlainStrain or PlainStress.\n')
 
-        # body force
-        self.b = [b1, b2]
+
+        self.Q = np.zeros(8)  # Applied nodal loads
+        self.b = [b1, b2] # body force
+        self.applied_b = [0.0, 0.0] # Body forces applied with load pattern (别人后加的)
+        self.apply_load = 0 # flag for body force in load (别人后加的)
+
+        self.K = np.zeros((8, 8)) # Element stiffness, damping, and mass Matrix
+        self.P = np.zeros(8)    # Element resisting force vector
+        self.Ki = None # 初始刚度矩阵
+
+
 
         # Allocate arrays of pointers to NDMaterials
         # Get copies of the material model for each integration point
@@ -33,11 +41,16 @@ class FourNodeQuad(Element):
 
         self.connected_external_nodes = [nd1, nd2, nd3, nd4]
         self.nodes = [None, None, None, None]
-        self.q = [] # Applied nodal loads
+
         self.thickness = t
         self.pressure = pressure
         self.rho = rho
 
+    def zero_load(self):
+        self.Q[:] = 0.0
+        self.apply_load = 0
+        self.applied_b[0] = 0.0
+        self.applied_b[1] = 0.0
 
     def get_num_external_nodes(self):
         return 4
@@ -48,7 +61,7 @@ class FourNodeQuad(Element):
     def get_nodes(self):
         return self.nodes
 
-    def get_num_dof(self):
+    def get_num_DOF(self):
         return 8
 
     def set_domain(self, domain):
@@ -190,4 +203,70 @@ class FourNodeQuad(Element):
         return detJ
 
 
+    def get_tangent_stiff(self):
+        self.K[:,:] = 0.0
+        # Loop over the integration points
+        for k in range(0, 4):
+            # Determine Jacobian for this integration point
+            # shape_function 返回的就是雅可比矩阵的行列式
+            detJ = self.shape_function(self.pts[k][0], self.pts[k][1])
+            temp = detJ * self.thickness * self.wts[k]
+            # Get the material tangent
+            D = self.material[k].get_tangent()
+            # Perform numerical integration
+            # K = K + (B^T * D * B) * intWt(i)*intWt(j) * detJ;
+            for i in range(0, 4):
+                for j in range(0, 4):
+                    Bi = np.zeros((3,2))
+                    Bi[0, 0] = self.shp[0, i]
+                    Bi[1, 1] = self.shp[1, i]
+                    Bi[2, 0] = Bi[1, 1]
+                    Bi[2, 1] = Bi[0, 0]
+                    Bj = np.zeros((3,2))
+                    Bj[0, 0] = self.shp[0, j]
+                    Bj[1, 1] = self.shp[1, j]
+                    Bj[2, 0] = Bj[1, 1]
+                    Bj[2, 1] = Bj[0, 0]
+                    temp1 = np.dot(np.transpose(Bi), D)
+                    kij = np.dot(temp1, Bj) * temp
+                    self.K[2*i, 2*j] += kij[0, 0]
+                    self.K[2*i, 2*j+1] += kij[0, 1]
+                    self.K[2*i+1, 2*j] += kij[1, 0]
+                    self.K[2*i+1, 2*j+1] += kij[1, 1]
+        return self.K
 
+    def get_initial_stiff(self):
+        if self.Ki is not None:
+            return self.Ki
+        self.Ki = deepcopy(self.K)
+        self.Ki[:,:] = 0.0
+        # 以下和get_tangent_stiff一样
+        # Loop over the integration points
+        for k in range(0, 4):
+            # Determine Jacobian for this integration point
+            # shape_function 返回的就是雅可比矩阵的行列式
+            detJ = self.shape_function(self.pts[k][0], self.pts[k][1])
+            temp = detJ * self.thickness * self.wts[k]
+            # Get the material tangent
+            D = self.material[k].get_tangent()
+            # Perform numerical integration
+            # K = K + (B^T * D * B) * intWt(i)*intWt(j) * detJ;
+            for i in range(0, 4):
+                for j in range(0, 4):
+                    Bi = np.zeros((3,2))
+                    Bi[0, 0] = self.shp[0, i]
+                    Bi[1, 1] = self.shp[1, i]
+                    Bi[2, 0] = Bi[1, 1]
+                    Bi[2, 1] = Bi[0, 0]
+                    Bj = np.zeros((3,2))
+                    Bj[0, 0] = self.shp[0, j]
+                    Bj[1, 1] = self.shp[1, j]
+                    Bj[2, 0] = Bj[1, 1]
+                    Bj[2, 1] = Bj[0, 0]
+                    temp1 = np.dot(np.transpose(Bi), D)
+                    kij = np.dot(temp1, Bj) * temp
+                    self.Ki[2*i, 2*j] += kij[0, 0]
+                    self.Ki[2*i, 2*j+1] += kij[0, 1]
+                    self.Ki[2*i+1, 2*j] += kij[1, 0]
+                    self.Ki[2*i+1, 2*j+1] += kij[1, 1]
+        return self.Ki

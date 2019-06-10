@@ -3,6 +3,7 @@ import numpy as np
 from scipy.linalg import solve
 import copy
 
+# 这个平面应力材料是由三维的材料缩聚而来的！
 class PlaneStressMaterial(NDMaterial):
 
     def __init__(self, tag, threed_material):
@@ -11,6 +12,7 @@ class PlaneStressMaterial(NDMaterial):
         self.material = copy.deepcopy(threed_material)
 
         # out of plane strains .. trial and committed
+        # 平面应力单元也有平面外的应变
         self.t_strain22 = 0.0
         self.t_gamma02 = 0.0
         self.t_gamma12 = 0.0
@@ -18,6 +20,7 @@ class PlaneStressMaterial(NDMaterial):
         self.c_gamma02 = 0.0
         self.c_gamma12 = 0.0
 
+        # 这个才是平面内应变
         self.strain = np.zeros(3)
 
 
@@ -47,10 +50,10 @@ class PlaneStressMaterial(NDMaterial):
             threed_strain[5] = self.t_gamma02
 
             # three dimensional stress
-            threed_stress = self.get_stress()
+            threed_stress = self.material.get_stress()
 
             # three dimensional tangent
-            threed_tangent = self.get_tangent()
+            threed_tangent = self.material.get_tangent()
 
             # NDmaterial strain order          = 11, 22, 33, 12, 23, 31
             # PlaneStressMaterial strain order = 11, 22, 12, 33, 23, 31
@@ -84,6 +87,7 @@ class PlaneStressMaterial(NDMaterial):
             self.t_gamma02 -= strain_increment[2]
 
             count += 1
+        return 0
 
     def get_stress(self):
         threed_stress = self.material.get_stress()
@@ -149,9 +153,8 @@ class PlaneStressMaterial(NDMaterial):
         dd22[2, 2] = threed_tangent[5, 5]
 
         # condesation = 自由度凝聚: dd11 = dd11 - dd12 * dd22^(-1) * dd21
-        dd22inv_dd21 = solve(dd22, dd21)
 
-        dd11 -= dd12 * dd22inv_dd21
+        dd11 -= dd12 * np.linalg.inv(dd22)* dd21
 
         return dd11
 
