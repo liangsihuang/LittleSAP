@@ -19,7 +19,7 @@ class FourNodeQuad(Element):
 
 
         if type!='PlaneStrain' and type!='PlaneStress':
-            print('FourNodeQuad::FourNodeQuad -- material type must be PlainStrain or PlainStress.\n')
+            print('FourNodeQuad::FourNodeQuad -- material type must be PlaneStrain or PlaneStress.\n')
 
 
         self.Q = np.zeros(8)  # Applied nodal loads，外力-节点力
@@ -305,11 +305,13 @@ class FourNodeQuad(Element):
                     self.P[2*i] -= Ni * self.applied_b[0] * temp
                     self.P[2*i+1] -= Ni * self.applied_b[1] * temp
 
-            # Subtract pressure loading from resisting force
-            if self.pressure != 0.0:
-                self.P -= self.pressure_load
+        # Subtract pressure loading from resisting force
+        if self.pressure != 0.0:
+            self.P -= self.pressure_load
 
-            # Subtract external nodal loads
-            self.P -= self.Q
+        # Subtract external nodal loads
+        self.P -= self.Q
+
+        return self.P
 
 

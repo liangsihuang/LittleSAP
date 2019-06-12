@@ -34,7 +34,7 @@ theDomain.add_node(node4)
 theMaterial1 = ElasticIsotropicThreeDimensional(1, 200000.0, 0.3)
 material = PlaneStressMaterial(2, theMaterial1)
 
-quad1 = FourNodeQuad(1, 1, 2, 3, 4, material, 'PlainStress', 1.0)
+quad1 = FourNodeQuad(1, 1, 2, 3, 4, material, 'PlaneStress', 0.1)
 
 theDomain.add_element(quad1)
 
@@ -82,3 +82,5 @@ print(d1)
 
 print(theSOE.get_A())
 print(theSOE.get_b())
+
+print(quad1.get_tangent_stiff())

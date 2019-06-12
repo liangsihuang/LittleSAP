@@ -153,8 +153,11 @@ class PlaneStressMaterial(NDMaterial):
         dd22[2, 2] = threed_tangent[5, 5]
 
         # condesation = 自由度凝聚: dd11 = dd11 - dd12 * dd22^(-1) * dd21
+        temp = np.dot(dd12, np.linalg.inv(dd22))
 
-        dd11 -= dd12 * np.linalg.inv(dd22)* dd21
+        dd11 -= np.dot(temp, dd21)
 
         return dd11
 
+    def commit_state(self):
+        return self.material.commit_state()
