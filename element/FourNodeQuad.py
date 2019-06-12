@@ -22,10 +22,16 @@ class FourNodeQuad(Element):
             print('FourNodeQuad::FourNodeQuad -- material type must be PlainStrain or PlainStress.\n')
 
 
-        self.Q = np.zeros(8)  # Applied nodal loads
-        self.b = [b1, b2] # body force
-        self.applied_b = [0.0, 0.0] # Body forces applied with load pattern (别人后加的)
+        self.Q = np.zeros(8)  # Applied nodal loads，外力-节点力
+        self.b = np.zeros(2) # body force， 外力-体力
+        self.b[0] = b1
+        self.b[1] = b2
+        self.applied_b = np.zeros(2) # Body forces applied with load pattern (别人后加的)
         self.apply_load = 0 # flag for body force in load (别人后加的)
+        # flag = 0, 说明没有另外特别指定的体力，使用原来的b
+        # flag = 1，用 applied_b 代替 b 计算
+        self.pressure = pressure  # 这不是一个flag吗？为什么用double，而不是int
+        self.pressure_load = np.zeros(8)  # 外力-面力
 
         self.K = np.zeros((8, 8)) # Element stiffness, damping, and mass Matrix
         self.P = np.zeros(8)    # Element resisting force vector
@@ -43,7 +49,6 @@ class FourNodeQuad(Element):
         self.nodes = [None, None, None, None]
 
         self.thickness = t
-        self.pressure = pressure
         self.rho = rho
 
     def zero_load(self):
@@ -270,3 +275,41 @@ class FourNodeQuad(Element):
                     self.Ki[2*i+1, 2*j] += kij[1, 0]
                     self.Ki[2*i+1, 2*j+1] += kij[1, 1]
         return self.Ki
+
+    def get_resisting_force(self):
+        self.P[:] = 0.0
+
+        for k in range(0, 4):
+            temp = self.shape_function(self.pts[k][0], self.pts[k][1])
+            temp *= self.thickness * self.wts[k]
+
+            sigma = self.material[k].get_stress()
+            # P = P + (B^T * sigma) * intWt(i)*intWt(j) * detJ;
+            for i in range(0, 4):
+                Bi = np.zeros((3, 2))
+                Bi[0, 0] = self.shp[0, i]
+                Bi[1, 1] = self.shp[1, i]
+                Bi[2, 0] = Bi[1, 1]
+                Bi[2, 1] = Bi[0, 0]
+                fi = np.dot(np.transpose(Bi), sigma)
+                self.P[2*i] += fi[0] * temp
+                self.P[2*i+1] += fi[1] *temp
+
+                # Subtract equiv. body forces from the nodes
+                # P = P - (N^T * b) * intWt(i)*intWt(j) * detJ;
+                Ni = self.shp[2, i]
+                if self.apply_load == 0:
+                    self.P[2*i] -= Ni * self.b[0] * temp
+                    self.P[2*i+1] -= Ni * self.b[1] * temp
+                else:
+                    self.P[2*i] -= Ni * self.applied_b[0] * temp
+                    self.P[2*i+1] -= Ni * self.applied_b[1] * temp
+
+            # Subtract pressure loading from resisting force
+            if self.pressure != 0.0:
+                self.P -= self.pressure_load
+
+            # Subtract external nodal loads
+            self.P -= self.Q
+
+

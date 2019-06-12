@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8c569cbd-2799-4cfb-857d-003ddf2be142" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/element/FourNodeQuad.py" beforeDir="false" afterPath="$PROJECT_DIR$/element/FourNodeQuad.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/material/elasticIsotropic/ElasticIsotropicThreeDimensional.py" beforeDir="false" afterPath="$PROJECT_DIR$/material/elasticIsotropic/ElasticIsotropicThreeDimensional.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/material/nD/PlaneStressMaterial.py" beforeDir="false" afterPath="$PROJECT_DIR$/material/nD/PlaneStressMaterial.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,11 +16,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PlaneStressQuadExample.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="22">
-              <caret line="63" column="27" lean-forward="true" selection-start-line="63" selection-start-column="27" selection-end-line="63" selection-end-column="27" />
+            <state relative-caret-position="639">
+              <caret line="83" column="21" selection-start-line="83" selection-start-column="21" selection-end-line="83" selection-end-column="21" />
               <folding>
                 <element signature="e#0#44#0" expanded="true" />
               </folding>
@@ -30,22 +29,9 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/analysis/model/FE_Element.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="189" selection-start-line="189" selection-end-line="189" />
-              <folding>
-                <element signature="e#0#37#0" expanded="true" />
-                <element signature="e#472#3217#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/domain/Domain.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="166">
+            <state relative-caret-position="3258">
               <caret line="256" selection-start-line="256" selection-end-line="256" />
               <folding>
                 <element signature="e#987#2018#0" />
@@ -57,16 +43,18 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/element/FourNodeQuad.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1044">
-              <caret line="2" column="25" lean-forward="true" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
+            <state relative-caret-position="220">
+              <caret line="308" column="28" lean-forward="true" selection-start-line="308" selection-start-column="28" selection-end-line="308" selection-end-column="28" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
-                <element signature="e#1675#2431#0" />
-                <element signature="e#2469#2656#0" />
-                <element signature="e#2688#3562#0" />
+                <element signature="e#2128#2884#0" />
+                <element signature="e#3141#4015#0" />
+                <element signature="e#4069#6355#0" />
+                <element signature="e#6399#7748#0" />
+                <element signature="e#7791#9273#0" />
               </folding>
             </state>
           </provider>
@@ -88,7 +76,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/material/elasticIsotropic/ElasticIsotropicThreeDimensional.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
+            <state relative-caret-position="378">
               <caret line="22" column="19" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
               <folding>
                 <element signature="e#0#87#0" expanded="true" />
@@ -100,8 +88,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/material/nD/PlaneStressMaterial.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="88" column="22" lean-forward="true" selection-start-line="88" selection-start-column="22" selection-end-line="88" selection-end-column="22" />
+            <state relative-caret-position="1530">
+              <caret line="88" column="22" selection-start-line="88" selection-start-column="22" selection-end-line="88" selection-end-column="22" />
               <folding>
                 <element signature="e#0#45#0" expanded="true" />
               </folding>
@@ -354,8 +342,8 @@
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7193606" visible="true" weight="0.21842733" />
-      <window_info id="Structure" order="1" sideWeight="0.28063944" side_tool="true" visible="true" weight="0.21842733" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.71580815" visible="true" weight="0.21842733" />
+      <window_info id="Structure" order="1" sideWeight="0.28419182" side_tool="true" visible="true" weight="0.21842733" />
       <window_info id="Favorites" order="2" sideWeight="0.27531084" side_tool="true" weight="0.21842733" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.124333926" />
@@ -717,6 +705,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/analysis/model/FE_Element.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2334">
+          <caret line="189" selection-start-line="189" selection-end-line="189" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+            <element signature="e#472#3217#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/domain/Domain.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3258">
+          <caret line="256" selection-start-line="256" selection-end-line="256" />
+          <folding>
+            <element signature="e#987#2018#0" />
+            <element signature="e#3391#4912#0" />
+            <element signature="e#4968#5474#0" />
+            <element signature="e#9733#10277#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/element/Truss.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2358">
@@ -724,6 +736,26 @@
           <folding>
             <element signature="e#0#35#0" expanded="true" />
             <element signature="e#1814#7570#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/material/elasticIsotropic/ElasticIsotropicThreeDimensional.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="22" column="19" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#87#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/material/nD/PlaneStressMaterial.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1530">
+          <caret line="88" column="22" selection-start-line="88" selection-start-column="22" selection-end-line="88" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -738,69 +770,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/material/elasticIsotropic/ElasticIsotropicThreeDimensional.py">
+    <entry file="file://$PROJECT_DIR$/element/FourNodeQuad.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="22" column="19" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
+        <state relative-caret-position="220">
+          <caret line="308" column="28" lean-forward="true" selection-start-line="308" selection-start-column="28" selection-end-line="308" selection-end-column="28" />
           <folding>
-            <element signature="e#0#87#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/material/nD/PlaneStressMaterial.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="88" column="22" lean-forward="true" selection-start-line="88" selection-start-column="22" selection-end-line="88" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/domain/Domain.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="256" selection-start-line="256" selection-end-line="256" />
-          <folding>
-            <element signature="e#987#2018#0" />
-            <element signature="e#3391#4912#0" />
-            <element signature="e#4968#5474#0" />
-            <element signature="e#9733#10277#0" />
+            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#2128#2884#0" />
+            <element signature="e#3141#4015#0" />
+            <element signature="e#4069#6355#0" />
+            <element signature="e#6399#7748#0" />
+            <element signature="e#7791#9273#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/PlaneStressQuadExample.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="63" column="27" lean-forward="true" selection-start-line="63" selection-start-column="27" selection-end-line="63" selection-end-column="27" />
+        <state relative-caret-position="639">
+          <caret line="83" column="21" selection-start-line="83" selection-start-column="21" selection-end-line="83" selection-end-column="21" />
           <folding>
             <element signature="e#0#44#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/analysis/model/FE_Element.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="189" selection-start-line="189" selection-end-line="189" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#472#3217#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/element/FourNodeQuad.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1044">
-          <caret line="2" column="25" lean-forward="true" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#1675#2431#0" />
-            <element signature="e#2469#2656#0" />
-            <element signature="e#2688#3562#0" />
           </folding>
         </state>
       </provider>
