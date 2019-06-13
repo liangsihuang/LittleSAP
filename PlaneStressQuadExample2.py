@@ -12,9 +12,8 @@ from domain.SP_Constraint import SP_Constraint
 from domain.timeSeries.LinearSeries import LinearSeries
 from element.FourNodeQuad import FourNodeQuad
 
-# 使用3维的材料降维
-from material.nD.PlaneStressMaterial import PlaneStressMaterial
-from material.nD.elasticIsotropic.ElasticIsotropicThreeDimensional import ElasticIsotropicThreeDimensional
+# 直接使用2维的材料，而不是从三维的材料降维
+from material.nD.elasticIsotropic.ElasticIsotropicPlaneStress2D import ElasticIsotropicPlaneStress2D
 
 from analysis.system_of_eqn.FullGenLinSolver import FullGenLinSolver
 from analysis.system_of_eqn.FullGenLinSOE import FullGenLinSOE
@@ -32,8 +31,8 @@ theDomain.add_node(node3)
 theDomain.add_node(node4)
 
 
-theMaterial1 = ElasticIsotropicThreeDimensional(1, 200000.0, 0.3)
-material = PlaneStressMaterial(2, theMaterial1)
+material = ElasticIsotropicPlaneStress2D(1, 200000.0, 0.3)
+
 
 quad1 = FourNodeQuad(1, 1, 2, 3, 4, material, 'PlaneStress', 0.1)
 

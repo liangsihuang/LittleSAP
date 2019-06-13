@@ -128,11 +128,6 @@ class FourNodeQuad(Element):
             value += self.material[i].set_trial_strain(eps)
         return value
 
-
-
-
-
-
     def shape_function(self, xi, eta):
         nd1_crds = self.nodes[0].get_crds()
         nd2_crds = self.nodes[1].get_crds()
@@ -206,7 +201,6 @@ class FourNodeQuad(Element):
 
         detJ = np.linalg.det(J)
         return detJ
-
 
     def get_tangent_stiff(self):
         self.K[:,:] = 0.0

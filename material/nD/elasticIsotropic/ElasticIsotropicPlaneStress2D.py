@@ -1,5 +1,6 @@
-from material.elasticIsotropic.ElasticIsotropicMaterial import ElasticIsotropicMaterial
+from material.nD.elasticIsotropic.ElasticIsotropicMaterial import ElasticIsotropicMaterial
 import numpy as np
+
 
 class ElasticIsotropicPlaneStress2D(ElasticIsotropicMaterial):
     
