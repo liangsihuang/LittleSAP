@@ -1,6 +1,11 @@
+from opensees import OPS_Globals
 
 class Domain(object):
+
     def __init__(self):
+
+        OPS_Globals.ops_dt = 0.0
+
         self.elements = {}
         self.nodes    = {}
         self.SPs      = {}

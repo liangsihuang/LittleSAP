@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8c569cbd-2799-4cfb-857d-003ddf2be142" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/material/nD/PlaneStressMaterial.py" beforeDir="false" afterPath="$PROJECT_DIR$/material/nD/PlaneStressMaterial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/Domain.py" beforeDir="false" afterPath="$PROJECT_DIR$/domain/Domain.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/material/nD/j2Plasticity/J2Plasticity.py" beforeDir="false" afterPath="$PROJECT_DIR$/material/nD/j2Plasticity/J2Plasticity.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,7 +20,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/element/FourNodeQuad.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-288">
+            <state relative-caret-position="18">
               <caret line="5" selection-start-line="5" selection-end-line="5" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
@@ -31,8 +32,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/material/nD/PlaneStressMaterial.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+            <state relative-caret-position="270">
+              <caret line="36" column="30" lean-forward="true" selection-start-line="36" selection-start-column="30" selection-end-line="36" selection-end-column="30" />
               <folding>
                 <element signature="e#0#45#0" expanded="true" />
               </folding>
@@ -43,8 +44,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/material/nD/elasticIsotropic/ElasticIsotropicThreeDimensional.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-189">
-              <caret line="15" column="24" lean-forward="true" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
+            <state relative-caret-position="252">
+              <caret line="15" column="24" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -52,8 +53,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/material/nD/j2Plasticity/J2Plasticity.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1197">
-              <caret line="96" selection-start-line="96" selection-end-line="96" />
+            <state relative-caret-position="189">
+              <caret line="178" column="23" lean-forward="true" selection-start-line="178" selection-start-column="23" selection-end-line="178" selection-end-column="23" />
               <folding>
                 <element signature="e#0#45#0" expanded="true" />
               </folding>
@@ -64,10 +65,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/domain/Domain.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="411">
-              <caret line="266" column="41" lean-forward="true" selection-start-line="266" selection-start-column="41" selection-end-line="266" selection-end-column="41" />
+            <state relative-caret-position="144">
+              <caret line="8" column="26" lean-forward="true" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
               <folding>
                 <element signature="e#987#2018#0" />
+                <element signature="e#2065#3332#0" />
                 <element signature="e#3391#4912#0" />
                 <element signature="e#4968#5474#0" />
                 <element signature="e#9733#10277#0" />
@@ -77,10 +79,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/material/nD/NDMaterial.py">
+        <entry file="file://$PROJECT_DIR$/opensees/OPS_Globals.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="6" selection-start-line="6" selection-end-line="6" />
+            <state relative-caret-position="36">
+              <caret line="2" column="13" lean-forward="true" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -115,7 +117,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/analysis/integrator/DisplacementControl.py" />
         <option value="$PROJECT_DIR$/material/ElasticIsotropicMaterial.py" />
         <option value="$PROJECT_DIR$/TaggedObject.py" />
         <option value="$PROJECT_DIR$/domain/DomainComponent.py" />
@@ -150,7 +151,6 @@
         <option value="$PROJECT_DIR$/analysis/model/AnalysisModel.py" />
         <option value="$PROJECT_DIR$/element/Truss.py" />
         <option value="$PROJECT_DIR$/analysis/StaticAnalysis.py" />
-        <option value="$PROJECT_DIR$/domain/Domain.py" />
         <option value="$PROJECT_DIR$/analysis/PlainHandler.py" />
         <option value="$PROJECT_DIR$/analysis/model/FE_Element.py" />
         <option value="$PROJECT_DIR$/analysis/ConstraintHandler.py" />
@@ -165,6 +165,8 @@
         <option value="$PROJECT_DIR$/PlaneStressQuadExample.py" />
         <option value="$PROJECT_DIR$/PlaneStressQuadExample2.py" />
         <option value="$PROJECT_DIR$/material/nD/PlaneStressMaterial.py" />
+        <option value="$PROJECT_DIR$/opensees/OPS_Globals.py" />
+        <option value="$PROJECT_DIR$/domain/Domain.py" />
         <option value="$PROJECT_DIR$/material/nD/j2Plasticity/J2Plasticity.py" />
       </list>
     </option>
@@ -194,25 +196,7 @@
             <path>
               <item name="LittleSAP" type="b2602c69:ProjectViewProjectNode" />
               <item name="LittleSAP" type="462c0819:PsiDirectoryNode" />
-              <item name="domain" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="LittleSAP" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LittleSAP" type="462c0819:PsiDirectoryNode" />
-              <item name="material" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="LittleSAP" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LittleSAP" type="462c0819:PsiDirectoryNode" />
-              <item name="material" type="462c0819:PsiDirectoryNode" />
-              <item name="nD" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="LittleSAP" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LittleSAP" type="462c0819:PsiDirectoryNode" />
-              <item name="material" type="462c0819:PsiDirectoryNode" />
-              <item name="nD" type="462c0819:PsiDirectoryNode" />
-              <item name="elasticIsotropic" type="462c0819:PsiDirectoryNode" />
+              <item name="opensees" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -328,8 +312,8 @@
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.7087034" visible="true" weight="0.21842733" />
-      <window_info id="Structure" order="1" sideWeight="0.29129663" side_tool="true" visible="true" weight="0.21842733" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.7069272" visible="true" weight="0.21842733" />
+      <window_info id="Structure" order="1" sideWeight="0.29307282" side_tool="true" visible="true" weight="0.21842733" />
       <window_info id="Favorites" order="2" sideWeight="0.27531084" side_tool="true" weight="0.21842733" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.124333926" />
@@ -373,13 +357,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/analysis/algorithm/NewtonRaphson.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1062">
-          <caret line="59" column="11" selection-start-line="59" selection-start-column="11" selection-end-line="59" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/analysis/convergence/ConvergenceTest.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
@@ -694,39 +671,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/material/nD/elasticIsotropic/ElasticIsotropicThreeDimensional.py">
+    <entry file="file://$PROJECT_DIR$/opensees/OPS_Globals.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-189">
-          <caret line="15" column="24" lean-forward="true" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/material/nD/PlaneStressMaterial.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
-          <folding>
-            <element signature="e#0#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/element/FourNodeQuad.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-288">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="36">
+          <caret line="2" column="13" lean-forward="true" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/domain/Domain.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="411">
-          <caret line="266" column="41" lean-forward="true" selection-start-line="266" selection-start-column="41" selection-end-line="266" selection-end-column="41" />
+        <state relative-caret-position="144">
+          <caret line="8" column="26" lean-forward="true" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
           <folding>
             <element signature="e#987#2018#0" />
+            <element signature="e#2065#3332#0" />
             <element signature="e#3391#4912#0" />
             <element signature="e#4968#5474#0" />
             <element signature="e#9733#10277#0" />
@@ -734,10 +692,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/element/FourNodeQuad.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/material/nD/elasticIsotropic/ElasticIsotropicThreeDimensional.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="15" column="24" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/material/nD/PlaneStressMaterial.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="36" column="30" lean-forward="true" selection-start-line="36" selection-start-column="30" selection-end-line="36" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/material/nD/j2Plasticity/J2Plasticity.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1197">
-          <caret line="96" selection-start-line="96" selection-end-line="96" />
+        <state relative-caret-position="189">
+          <caret line="178" column="23" lean-forward="true" selection-start-line="178" selection-start-column="23" selection-end-line="178" selection-end-column="23" />
           <folding>
             <element signature="e#0#45#0" expanded="true" />
           </folding>

@@ -1,6 +1,7 @@
 from material.nD.NDMaterial import NDMaterial
 import numpy as np
-
+from opensees import OPS_Globals
+from math import sqrt, exp, fabs
 # J2 isotropic hardening material class
 
 # Elastic Model
@@ -93,9 +94,117 @@ class J2Plasticity(NDMaterial):
     # plastic_integration routine
     def plastic_integrator(self):
         tolerance = 1.0e-8 * self.sigma_0
-        dt = ops_dt
+        dt = OPS_Globals.ops_dt # time step
+        dev_strain = np.zeros((3, 3))       # deviatoric strain
+        dev_stress = np.zeros((3, 3))       # deviatoric stress
+        normal = np.zeros((3, 3))           # normal to yield surface
+
+        norm_tau = 0.0      # norm of deviatoric stress
+        inv_norm_tau = 0.0
+        phi = 0.0           # trial value of yield function
+        trace = 0.0         # trace of strain
+        gamma = 0.0         # consistency parameter
+
+        resid = 1.0
+        tang = 0.0
+        theta = 0.0
+        theta_inv = 0.0
+        c1 = 0.0
+        c2 = 0.0
+        c3 = 0.0
+
+        max_iterations = 25
+
+        # compute the deviatoric strains
+        trace = self.strain[0, 0] + self.strain[1, 1] + self.strain[2, 2]
+        dev_strain = self.strain
+
+        for i in range(0, 3):
+            dev_strain[i, i] -= 1/3 * trace
+
+        # compute the trial deviatoric stresses
+        dev_stress = 2.0 * self.shear * (dev_strain - self.epsilon_p_n)
+
+        # compute norm of deviatoric stress
+        for i in range(0, 3):
+            for j in range(0, 3):
+                norm_tau += dev_stress[i, j] * dev_stress[i, j]
+        norm_tau = sqrt(norm_tau)
+
+        if norm_tau > tolerance:
+            inv_norm_tau = 1.0 / norm_tau
+            normal = inv_norm_tau * dev_stress
+        else:
+            normal[:, :] = 0.0
+            inv_norm_tau = 0.0
+
+        # compute trial value of yield function
+        phi = norm_tau - sqrt(2.0/3.0) * self.q(self.xi_n)
+        # check if phi > 0
+        if phi > 0:
+            # plastic
+            # solve for gamma
+            gamma = 0.0
+            resid = 1.0
+            iteration_counter = 0
+            while fabs(resid) > tolerance:
+                r = sqrt(2.0/3.0)
+                resid = norm_tau - (2.0*self.shear) * gamma - \
+                        r * self.q(self.xi_n + r*gamma) - self.eta / dt * gamma
+                tang = -(2.0*self.shear) - 2.0/3.0 * self.qprime(self.xi_n + r * gamma) - self.eta / dt
+                gamma -= resid / tang
+                iteration_counter += 1
+                if iteration_counter > max_iterations:
+                    print('More than ' + str(max_iterations) + ' iterations in constituive subroutine J2-plasticity \n')
+                    break
+            gamma *= 1.0 * 1e-8
+
+            # update plastic internal variables
+            self.epsilon_p_nplus1 = self.epsilon_p_n + gamma * normal
+            self.xi_nplus1 = self.xi_n + sqrt(2.0/3.0) * gamma
+
+            # recompute deviatoric stresses
+            dev_stress = 2.0 * self.shear * (dev_strain - self.epsilon_p_nplus1)
+
+            # compute the terms for plastic part of tangent
+            theta = 2.0 * self.shear + 2.0/3.0 * self.qprime(self.xi_nplus1) + self.eta / dt
+            theta_inv = 1.0 / theta
+        else:
+            # elastic
+            # update history variables -- they remain unchanged
+            self.epsilon_p_nplus1 = self.epsilon_p_n
+            self.xi_nplus1 = self.xi_n
+            # no extra tangent terms to compute
+            gamma = 0.0
+            theta = 0.0
+            theta_inv = 0.0
+
+        # add on bulk part of stress
+        self.stress = dev_stress
+        for i in range(0, 3):
+            self.stress[i, i] += self.bulk * trace
+
+        # compute the tangent
+        c1 = -4.0 * shear * shear
+        c2 = c1 * theta_inv
+        c3 = c1 * gamma * inv_norm_tau
+
+        for
+
 
 
 
     def do_initial_tangent(self):
         pass
+
+    # hardening function
+    def q(self, xi):
+        temp = self.sigma_infty + \
+               (self.sigma_0 - self.sigma_infty) * exp(-self.delta * xi) + self.hard * xi
+        return temp
+
+    # hardening function derivative
+    def qprime(self, xi):
+        temp = (self.sigma_0 - self.sigma_infty) * (-self.delta) * exp(-self.delta * xi) + self.hard
+        return temp
+
