@@ -25,6 +25,8 @@ from math import sqrt, exp, fabs
 
 # set eta := 0 for rate independent case
 
+# 这是一个基类！！
+
 class J2Plasticity(NDMaterial):
 
     def __init__(self, tag, K, G, yield0, yield_infty, d, H, viscosity=0, rho=0.0):
@@ -40,7 +42,7 @@ class J2Plasticity(NDMaterial):
         self.eta = viscosity    # viscosity
         self.rho = rho
 
-        # internal variables
+        # internal variables = 塑性内变量，一个矩阵一个标量
         self.epsilon_p_n = np.zeros((3, 3))         # plastic strain time n
         self.epsilon_p_nplus1 = np.zeros((3, 3))    # plastic strain time n+1
         self.xi_n = 0.0         # xi time n
@@ -95,30 +97,13 @@ class J2Plasticity(NDMaterial):
     def plastic_integrator(self):
         tolerance = 1.0e-8 * self.sigma_0
         dt = OPS_Globals.ops_dt # time step
-        dev_strain = np.zeros((3, 3))       # deviatoric strain
-        dev_stress = np.zeros((3, 3))       # deviatoric stress
         normal = np.zeros((3, 3))           # normal to yield surface
-
         norm_tau = 0.0      # norm of deviatoric stress
-        inv_norm_tau = 0.0
-        phi = 0.0           # trial value of yield function
-        trace = 0.0         # trace of strain
-        gamma = 0.0         # consistency parameter
-
-        resid = 1.0
-        tang = 0.0
-        theta = 0.0
-        theta_inv = 0.0
-        c1 = 0.0
-        c2 = 0.0
-        c3 = 0.0
-
         max_iterations = 25
 
         # compute the deviatoric strains
         trace = self.strain[0, 0] + self.strain[1, 1] + self.strain[2, 2]
         dev_strain = self.strain
-
         for i in range(0, 3):
             dev_strain[i, i] -= 1/3 * trace
 
@@ -157,7 +142,7 @@ class J2Plasticity(NDMaterial):
                 if iteration_counter > max_iterations:
                     print('More than ' + str(max_iterations) + ' iterations in constituive subroutine J2-plasticity \n')
                     break
-            gamma *= 1.0 * 1e-8
+            gamma *= (1.0 - 1e-8)
 
             # update plastic internal variables
             self.epsilon_p_nplus1 = self.epsilon_p_n + gamma * normal
@@ -185,17 +170,37 @@ class J2Plasticity(NDMaterial):
             self.stress[i, i] += self.bulk * trace
 
         # compute the tangent
-        c1 = -4.0 * shear * shear
+        c1 = -4.0 * self.shear * self.shear
         c2 = c1 * theta_inv
         c3 = c1 * gamma * inv_norm_tau
+        for ii in range(0, 6):
+            for jj in range(0, 6):
+                tuple = self.index_map(ii)
+                i = tuple[0]
+                j = tuple[1]
+                tuple = self.index_map(jj)
+                k = tuple[0]
+                l = tuple[1]
+                NbunN = normal[i, j] * normal[k, l]
+                # elastic terms
+                self.tangent[i, j, k, l] = self.bulk * self.IbunI[i, j, k, l]
+                self.tangent[i, j, k, l] += 2.0 * self.shear * self.IIdev[i, j, k, l]
+                # plastic terms
+                self.tangent[i, j, k, l] += c2 * NbunN
+                self.tangent[i, j, k, l] += c3 * (self.IIdev[i, j, k, l] - NbunN)
+                # minor symmetries
+                self.tangent[j, i, k, l] = self.tangent[i, j, k, l]
+                self.tangent[i, j, l, k] = self.tangent[i, j, k, l]
+                self.tangent[j, i, l, k] = self.tangent[i, j, k, l]
+        return
 
-        for
 
 
 
 
-    def do_initial_tangent(self):
-        pass
+
+    # def do_initial_tangent(self):
+    #     pass
 
     # hardening function
     def q(self, xi):
@@ -207,4 +212,38 @@ class J2Plasticity(NDMaterial):
     def qprime(self, xi):
         temp = (self.sigma_0 - self.sigma_infty) * (-self.delta) * exp(-self.delta * xi) + self.hard
         return temp
+
+    # matrix index to tensor indices i, j
+    def index_map(self, matrix_index):
+        temp = matrix_index + 1 # add 1 for standard tensor indices
+        i = 1
+        j = 1
+        if temp == 1:
+            i = 1
+            j = 1
+        elif temp == 2:
+            i = 2
+            j = 2
+        elif temp == 3:
+            i = 3
+            j = 3
+        elif temp == 4:
+            i = 1
+            j = 2
+        elif temp == 5:
+            i = 2
+            j = 3
+        elif temp == 6:
+            i = 3
+            j = 1
+        # subtract 1 for C-indexing
+        i -= 1
+        j -= 1
+        return i, j
+
+
+    def commit_state(self):
+        self.epsilon_p_n = self.epsilon_p_nplus1
+        self.xi_n = self.xi_nplus1
+        return 0
 
