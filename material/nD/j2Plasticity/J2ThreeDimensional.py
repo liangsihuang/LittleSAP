@@ -1,7 +1,6 @@
 from material.nD.j2Plasticity.J2Plasticity import J2Plasticity
 import numpy as np
-from opensees import OPS_Globals
-from math import sqrt, exp, fabs
+
 # J2 isotropic hardening material class
 
 # Elastic Model
@@ -62,7 +61,7 @@ class J2ThreeDimensional(J2Plasticity):
         self.plastic_integrator()
         return 0
 
-    def getStress(self):
+    def get_stress(self):
         stress_vec = np.zeros(6)
         stress_vec[0] = self.stress[0, 0]
         stress_vec[1] = self.stress[1, 1]

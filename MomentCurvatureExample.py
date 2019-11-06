@@ -1,6 +1,8 @@
 from domain.Node import Node
 from domain.SP_Constraint import SP_Constraint
 from element.ZeroLengthSection import ZeroLengthSection
+from material.uniaxial.Concrete01 import Concrete01
+from material.uniaxial.Steel01 import Steel01
 from domain.timeSeries.ConstantSeries import ConstantSeries
 from domain.LoadPattern import LoadPattern
 from domain.Domain import Domain
@@ -16,6 +18,24 @@ from analysis.system_of_eqn.FullGenLinSolver import FullGenLinSolver
 from analysis.StaticAnalysis import StaticAnalysis
 from domain.timeSeries.LinearSeries import LinearSeries
 from analysis.integrator.DisplacementControl import DisplacementControl
+
+domain = Domain()
+
+# core concrete (confined)
+m1 = Concrete01(1, -6.0, -0.004, -5.0, -0.014)
+# cover concrete (unconfined)
+m2 = Concrete01(2, -5.0, -0.002, 0.0, -0.006)
+# steel
+m3 = Steel01(3, 60.0, 30000.0, 0.01)
+
+colWidth = 15
+colDepth = 24
+cover = 1.5
+As = 0.60 # area of no.7 bars
+y1 = colDepth / 2.0
+z1 = colWidth / 2.0
+
+
 
 def MomentCurvature(secTag, axialLoad, maxK, numIncr=100):
     theDomain = Domain()

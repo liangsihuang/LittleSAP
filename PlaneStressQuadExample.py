@@ -35,7 +35,7 @@ theDomain.add_node(node4)
 theMaterial1 = ElasticIsotropicThreeDimensional(1, 200000.0, 0.3)
 material = PlaneStressMaterial(2, theMaterial1)
 
-quad1 = FourNodeQuad(1, 1, 2, 3, 4, material, 'PlaneStress', 0.1)
+quad1 = FourNodeQuad(1, 1, 2, 3, 4, material, 'PlaneStress', 1.0)
 
 theDomain.add_element(quad1)
 
@@ -55,7 +55,7 @@ theLoadPattern.set_time_series(theSeries)
 theDomain.add_load_pattern(theLoadPattern)
 
 # theLoadValues = np.array([100.0, -50.0])
-theLoadValues = np.array([-1.0, 0.0])
+theLoadValues = np.array([-1.0e5, 0.0])
 theLoad = NodalLoad(1, 4, theLoadValues)
 theDomain.add_nodal_load(theLoad, 1)
 

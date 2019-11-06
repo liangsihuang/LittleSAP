@@ -1,7 +1,10 @@
 
 from TaggedObject import TaggedObject
 
+# 单条纤维
+
 class Fiber(TaggedObject):
+
     def __init__(self, tag):
         super().__init__(tag)
         self.sDefault = None # Vector  干嘛的？

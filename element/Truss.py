@@ -4,6 +4,7 @@ import numpy as np
 
 class Truss(Element):
 
+    # 类共有变量
     trussM2 = np.zeros((2, 2))
     trussM4 = np.zeros((4, 4))
     trussM6 = np.zeros((6, 6))

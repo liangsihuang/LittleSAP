@@ -12,8 +12,14 @@ class ZeroLengthSection(Element):
     P6 = np.zeros(6)
     P12 = np.zeros(12)
 
-    def __init__(self, tag, dimension, Nd1, Nd2, x, yprime, theSection, doRayleighDamping=0):
+    def __init__(self, tag, dimension, Nd1, Nd2, theSection, x=None, yprime=None, doRayleighDamping=0):
         super().__init__(tag)
+        # 默认局部坐标和整体坐标相同
+        if x is None:
+            x = [1.0, 0.0, 0.0]
+        if yprime is None:
+            yprime = [0.0, 1.0, 0.0]
+
         self.connectedExternalNodes = np.zeros(2, dtype=int)
         self.theNodes = []
         self.dimension = dimension
@@ -54,8 +60,9 @@ class ZeroLengthSection(Element):
         z[1] = x[2]*yp[0] - x[0]*yp[2]
         z[2] = x[0]*yp[1] - x[1]*yp[0]
         # y = z cross x
+        # y 不是等于 y'吗？为什么要区分？要再算一次？
         y = np.zeros(3)
-        y[0] = z[1]*x[2] - z[2]*x[1]
+        y[0] = z[1] * x[2] - z[2] * x[1]
         y[1] = z[2] * x[0] - z[0] * x[2]
         y[2] = z[0] * x[1] - z[1] * x[0]
 
@@ -145,7 +152,12 @@ class ZeroLengthSection(Element):
         self.setTransformation()
 
     def setTransformation(self):
-        # Allocate transformation matrix
-        pass
+        # transformation matrix
+        self.A = np.zeros((self.order, self.numDOF))
+        # section deformation vector
+        self.v = np.zeros(self.order)
+        # Get the section code
+        code = self.theSection.get_type()
+
 
 

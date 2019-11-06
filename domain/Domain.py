@@ -270,6 +270,8 @@ class Domain(object):
         for tag in self.SPs:
             sp = self.SPs[tag]
             sp.apply_constraint(timeStep)
+        OPS_Globals.ops_dt = self.dT
+
     
     # def setLoadConstant(self):
     #     pass

@@ -1,5 +1,7 @@
+from material.section.Fiber.Fiber import Fiber
+from copy import deepcopy
 
-from material.section.Fiber import Fiber
+# 2d 是层纤维，只有一个y方向的位置参数
 
 class UniaxialFiber2d(Fiber):
 
@@ -7,7 +9,7 @@ class UniaxialFiber2d(Fiber):
         super().__init__(tag)
         self.area = area # double
         self.y = -position # double
-        self.theMaterial = theMat.getCopy() # UniaxialMaterial
+        self.theMaterial = deepcopy(theMat) # UniaxialMaterial
 
 
     def getMaterial(self):
