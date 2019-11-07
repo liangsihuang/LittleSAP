@@ -18,6 +18,8 @@ from analysis.system_of_eqn.FullGenLinSolver import FullGenLinSolver
 from analysis.StaticAnalysis import StaticAnalysis
 from domain.timeSeries.LinearSeries import LinearSeries
 from analysis.integrator.DisplacementControl import DisplacementControl
+from material.section.Fiber.UniaxialFiber3d import UniaxialFiber3d
+from material.section.FiberSection3d import FiberSection3d
 
 domain = Domain()
 
@@ -35,9 +37,58 @@ As = 0.60 # area of no.7 bars
 y1 = colDepth / 2.0
 z1 = colWidth / 2.0
 
+# core concrete (confined)
+fibers =[]
+fibers.append(UniaxialFiber3d(1, m1, 25.2, [9.45, 0]))
+fibers.append(UniaxialFiber3d(2, m1, 25.2, [7.35, 0]))
+fibers.append(UniaxialFiber3d(3, m1, 25.2, [5.25, 0]))
+fibers.append(UniaxialFiber3d(4, m1, 25.2, [3.15, 0]))
+fibers.append(UniaxialFiber3d(5, m1, 25.2, [1.05, 0]))
+fibers.append(UniaxialFiber3d(6, m1, 25.2, [-1.05, 0]))
+fibers.append(UniaxialFiber3d(7, m1, 25.2, [-3.15, 0]))
+fibers.append(UniaxialFiber3d(8, m1, 25.2, [-5.25, 0]))
+fibers.append(UniaxialFiber3d(9, m1, 25.2, [-7.35, 0]))
+fibers.append(UniaxialFiber3d(10, m1, 25.2, [-9.45, 0]))
+# cover concrete (unconfined)
+fibers.append(UniaxialFiber3d(11, m2, 3.6, [10.8, 6.75]))
+fibers.append(UniaxialFiber3d(12, m2, 3.6, [8.4, 6.75]))
+fibers.append(UniaxialFiber3d(13, m2, 3.6, [6.0, 6.75]))
+fibers.append(UniaxialFiber3d(14, m2, 3.6, [3.6, 6.75]))
+fibers.append(UniaxialFiber3d(15, m2, 3.6, [1.2, 6.75]))
+fibers.append(UniaxialFiber3d(16, m2, 3.6, [-1.2, 6.75]))
+fibers.append(UniaxialFiber3d(17, m2, 3.6, [-3.6, 6.75]))
+fibers.append(UniaxialFiber3d(18, m2, 3.6, [-6.0, 6.75]))
+fibers.append(UniaxialFiber3d(19, m2, 3.6, [-8.4, 6.75]))
+fibers.append(UniaxialFiber3d(20, m2, 3.6, [-10.8, 6.75]))
 
+fibers.append(UniaxialFiber3d(21, m2, 3.6, [10.8, -6.75]))
+fibers.append(UniaxialFiber3d(22, m2, 3.6, [8.4, -6.75]))
+fibers.append(UniaxialFiber3d(23, m2, 3.6, [6.0, -6.75]))
+fibers.append(UniaxialFiber3d(24, m2, 3.6, [3.6, -6.75]))
+fibers.append(UniaxialFiber3d(25, m2, 3.6, [1.2, -6.75]))
+fibers.append(UniaxialFiber3d(26, m2, 3.6, [-1.2, -6.75]))
+fibers.append(UniaxialFiber3d(27, m2, 3.6, [-3.6, -6.75]))
+fibers.append(UniaxialFiber3d(28, m2, 3.6, [-6.0, -6.75]))
+fibers.append(UniaxialFiber3d(29, m2, 3.6, [-8.4, -6.75]))
+fibers.append(UniaxialFiber3d(30, m2, 3.6, [-10.8, -6.75]))
 
-def MomentCurvature(secTag, axialLoad, maxK, numIncr=100):
+fibers.append(UniaxialFiber3d(31, m2, 9, [11.625, 0.0]))
+fibers.append(UniaxialFiber3d(32, m2, 9, [10.875, 0.0]))
+fibers.append(UniaxialFiber3d(33, m2, 9, [-10.875, 0.0]))
+fibers.append(UniaxialFiber3d(34, m2, 9, [-11.625, 0.0]))
+# steel
+fibers.append(UniaxialFiber3d(35, m3, 0.6, [10.5, -6.0]))
+fibers.append(UniaxialFiber3d(36, m3, 0.6, [10.5, 0.0]))
+fibers.append(UniaxialFiber3d(37, m3, 0.6, [10.5, 6.0]))
+fibers.append(UniaxialFiber3d(38, m3, 0.6, [0.0, -6.0]))
+fibers.append(UniaxialFiber3d(39, m3, 0.6, [0.0, 6.0]))
+fibers.append(UniaxialFiber3d(40, m3, 0.6, [-10.5, -6.0]))
+fibers.append(UniaxialFiber3d(41, m3, 0.6, [-10.5, 0.0]))
+fibers.append(UniaxialFiber3d(42, m3, 0.6, [-10.5, 6.0]))
+
+s1 = FiberSection3d(1, 42, fibers)
+
+def MomentCurvature(s1, axialLoad, maxK, numIncr=100):
     theDomain = Domain()
     # define two nodes at (0,0)
     node1 = Node(1, 3, 0.0, 0.0)
@@ -50,16 +101,17 @@ def MomentCurvature(secTag, axialLoad, maxK, numIncr=100):
     sp4 = SP_Constraint(2, 2, 0.0, True)
 
     # define element
-    zerolengthsection1 = ZeroLengthSection(1, 1, 2, secTag)
+    zerolengthsection1 = ZeroLengthSection(1, 2, 1, 2, s1)
+    theDomain.add_element(zerolengthsection1)
 
     # Define constant axial load
     theSeries1 = ConstantSeries(1)
     theLoadPattern1 = LoadPattern(1)
-    theLoadPattern1.setTimeSeries(theSeries1)
-    theDomain.addLoadPattern(theLoadPattern1)
+    theLoadPattern1.set_time_series(theSeries1)
+    theDomain.add_load_pattern(theLoadPattern1)
     theLoadValues = np.array([axialLoad, 0.0, 0.0])
     theLoad1 = NodalLoad(1, 2, theLoadValues)
-    theDomain.addNodalLoad(theLoad1, 1)
+    theDomain.add_nodal_load(theLoad1, 1)
 
     # define analysis parameters
     theModel = AnalysisModel()
@@ -78,11 +130,11 @@ def MomentCurvature(secTag, axialLoad, maxK, numIncr=100):
     # Define reference moment
     theSeries2 = LinearSeries(2)
     theLoadPattern2 = LoadPattern(2)
-    theLoadPattern2.setTimeSeries(theSeries2)
-    theDomain.addLoadPattern(theLoadPattern2)
+    theLoadPattern2.set_time_series(theSeries2)
+    theDomain.add_load_pattern(theLoadPattern2)
     theLoadValues = np.array([0.0, 0.0, 1.0])
     theLoad2 = NodalLoad(2, 2, theLoadValues)
-    theDomain.addNodalLoad(theLoad2, 2)
+    theDomain.add_nodal_load(theLoad2, 2)
 
     # Compute curvature increment
     dK = maxK/numIncr

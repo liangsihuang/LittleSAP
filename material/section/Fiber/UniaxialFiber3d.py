@@ -15,7 +15,7 @@ class UniaxialFiber3d(Fiber):
     def __init__(self, tag, theMat, area, position):
         super().__init__(tag)
         self.area = area # double
-        self.yz = [-position[0], position[1]]
+        self.yz = [-position[0], position[1]] # opensees里变量名是as，但as是python关键字
         self.material = deepcopy(theMat) # UniaxialMaterial
         if UniaxialFiber3d.code[0] != SECTION_RESPONSE_P:
             UniaxialFiber3d.code[0] = SECTION_RESPONSE_P

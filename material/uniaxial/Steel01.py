@@ -151,9 +151,9 @@ class Steel01(UniaxialMaterial):
         self.c_shift_N = self.t_shift_N
         self.c_loading = self.t_loading
         # state variables
-        self.t_strain = self.c_strain
-        self.t_stress = self.c_stress
-        self.t_tangent = self.c_tangent
+        self.c_strain = self.t_strain
+        self.c_stress = self.t_stress
+        self.c_tangent = self.t_tangent
 
     def revert_to_last_commit(self):
         pass

@@ -50,6 +50,18 @@ class Concrete01(UniaxialMaterial):
         self.t_strain = self.c_strain
         self.t_stress = self.c_stress
         self.t_tangent = self.c_tangent
+    def revert_to_start(self):
+        pass
+
+    def commit_state(self):
+        # history variables
+        self.c_min_strain = self.t_min_strain
+        self.c_end_strain = self.t_end_strain
+        self.c_unload_slope = self.t_unload_slope
+        # state variables
+        self.c_strain = self.t_strain
+        self.c_stress = self.t_stress
+        self.c_tangent = self.t_tangent
 
     # def getCopy(self):
     #     theCopy = Concrete01(self.getTag(), self.fpc, self.epsc0, self.fpcu, self.epscu)
@@ -155,6 +167,16 @@ class Concrete01(UniaxialMaterial):
         else:
             self.t_end_strain = self.t_min_strain - temp2
             self.t_unload_slope = Ec0
+
+    def get_strain(self):
+        return self.t_strain
+
+    def get_stress(self):
+        return self.t_stress
+
+    def get_tangent(self):
+        return self.t_tangent
+
 
 
 
